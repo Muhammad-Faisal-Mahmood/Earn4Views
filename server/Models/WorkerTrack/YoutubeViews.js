@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const TransactionSchema = new Schema({
+const YoutubeViewSchema = new Schema({
     User_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -16,5 +16,5 @@ const TransactionSchema = new Schema({
     }
 })
 
-const Transaction = mongoose.model("Transaction", TransactionSchema)
-module.exports = Transaction
+const YoutubeView = mongoose.model("YoutubeView", YoutubeViewSchema)
+module.exports = YoutubeView
