@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    FirstName: {
-        type: String,
-    },
-    LastName: {
+    Name: {
         type: String,
     },
     Email: {
@@ -16,7 +13,7 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    role: {
+    Role: {
         type: String,
         enum: ['Worker', 'Buyer']
     },

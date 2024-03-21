@@ -1,0 +1,26 @@
+// Here you can add other styles
+.bgForm{
+    background-color: #f9fafa !important;
+    padding: 10px 20px;
+}
+
+.GridView{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    grid-gap: 15px;
+}
+
+.HeadText{
+    display: flex;
+    justify-content: space-between;
+}
+
+.TextPrice{
+    color: black;
+    font-weight: 700;
+}
+.LightText{
+    font-weight: 400;
+    color: rgb(63, 63, 63);
+}

@@ -12,8 +12,8 @@ const port = 5000
 app.use(cors())
 app.use(express.json())
 
-// app.use('/api/adminAuth', require('./Routes/Admin'));
-// app.use('/api/userAuth', require('./Routes/User'));
+app.use('/api/adminAuth', require('./Routes/Admin'));
+app.use('/api/userAuth', require('./Routes/User'));
 // app.use('/api/beauticianAuth', require('./Routes/Beautician'));
 
 app.listen(port, () => {

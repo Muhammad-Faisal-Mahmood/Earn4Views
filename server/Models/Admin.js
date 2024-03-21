@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const AdminSchema = new Schema({
-    FirstName: {
-        type: String,
-    },
-    LastName: {
+    Name: {
         type: String,
     },
     Email: {
@@ -17,7 +14,7 @@ const AdminSchema = new Schema({
     },
     Password: {
         type: String
-    },
+    }
 })
 
 const Admin = mongoose.model("Admin", AdminSchema)
