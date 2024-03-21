@@ -14,7 +14,8 @@ const WithdrawSchema = new Schema({
         type: Number
     },
     Status: {
-        type: String
+        type: String,
+        enum: ["Pending", "Approved", "Declined"]
     },
     Approved_Date: {
         type: Date

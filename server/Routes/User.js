@@ -9,6 +9,8 @@ const multer = require('multer');
 
 const User = require("../Models/User");
 const OTP = require("../Models/EmailOtp");
+const Plan = require("../Models/Services");
+const Earning = require("../Models/EarningPrice");
 
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -620,6 +622,36 @@ router.put("/forgetPasswordemail", async (req, res) => {
     }
 });
 
+
+
+//Get plans
+router.get("/getPlans", async (req, res) => {
+    try {
+        const plan = await Plan.find();
+        if (!plan) {
+            return res.status(404).json({ success: false, message: 'Plan not found' });
+        }
+        res.json({ success: true, plan });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+
+//Get Earning Pricing
+router.get("/getEarnings", async (req, res) => {
+    try {
+        const earning = await Earning.find();
+        if (!earning) {
+            return res.status(404).json({ success: false, message: 'Earning not found' });
+        }
+        res.json({ success: true, earning });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
 
 
 module.exports = router
