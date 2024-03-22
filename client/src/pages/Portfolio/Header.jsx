@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <div className="gradient-background-horizontal flex justify-between px-8 py-2 items-center">
+    <div className="gradient-background-horizontal flex justify-between px-8 py-2 items-center fixed w-full">
       <div>
         <img src={logo} className="size-16" />
       </div>
@@ -15,9 +15,7 @@ const Header = () => {
       </div>
       <div>
         <button className="px-3 py-2 rounded-md bg-white font-bold flex gap-2 items-center">
-          <div>
-            <FaUserCircle size={24} />
-          </div>
+          <FaUserCircle size={24} />
           Login/Signup
         </button>
       </div>

@@ -1,11 +1,9 @@
-import { Outlet } from "react-router-dom";
-import Header from "../Header";
+import GenericStructure from "../GenericStructure";
 
 function Login() {
   return (
     <>
-      <Header />
-      <Outlet />
+      <GenericStructure />
     </>
   );
 }

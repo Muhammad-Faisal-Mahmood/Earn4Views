@@ -1,5 +1,11 @@
+import HomeHero from "./HomeHero";
+
 const HomeBody = () => {
-  return <div>This is the home body</div>;
+  return (
+    <>
+      <HomeHero />
+    </>
+  );
 };
 
 export default HomeBody;
