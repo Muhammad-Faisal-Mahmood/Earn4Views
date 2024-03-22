@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div>
       <div className="flex gradient-background-horizontal text-white p-12 pb-20 justify-between">
-        <div className="w-[30%] flex flex-col gap-4">
+        <div className="w-[25%] flex flex-col gap-4">
           <div className="flex items-center">
             <div className="size-16">
               <img src={Logo} />
@@ -20,7 +20,7 @@ const Footer = () => {
             likes on your social accounts.
           </div>
         </div>
-        <div className="flex flex-col gap-2  w-[15%]">
+        <div className="flex flex-col gap-2  w-[20%]">
           <h1 className="text-2xl font-bold uppercase">Services</h1>
           <div>
             <h1 className="text-lg">Youtube Followers & Likes</h1>
