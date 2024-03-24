@@ -10,7 +10,7 @@ const HomeHero = () => {
             Grow beyond yourself professionally by increasing followers and
             likes on your social accounts.
           </h1>
-          <button className="gradient-background-horizontal py-3 px-6 text-white rounded-md w-fit font-bold">
+          <button className="button-gradient-background py-3 px-6 text-white rounded-md w-fit font-bold">
             Start working
           </button>
         </div>

@@ -1,15 +1,9 @@
-import React from "react";
 import UserAvatar from "../../../../../assets/svg/HomeWorkerAvatar.svg";
 import YoutubeIcon from "../../../../../assets/svg/YoutubePlatformImg.svg";
 
 const HomeWorkerEarningCard = () => {
   return (
-    <div
-      className="rounded-md flex  justify-between px-10  py-2"
-      style={{
-        boxShadow: "1px 0px 14.899999618530273px 1px rgba(0, 0, 0, 0.25)",
-      }}
-    >
+    <div className="rounded-md flex  justify-between px-10  py-2 shadow-basic">
       <div className="flex gap-x-2 items-center">
         <img src={UserAvatar} />
         <h1 className="font-bold">Alex Adamatz</h1>
