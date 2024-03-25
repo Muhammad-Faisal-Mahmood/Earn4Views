@@ -6,7 +6,7 @@ import HomeBuyPlans from "../../Home/HomeBody/HomeBuyPlans";
 const BuyersBody = () => {
   return (
     <>
-      <HeroSection />
+      <HeroSection Heading={"Get the subscribers you need quickly and easily."}/>
       <FamousConnections />
       <HomeBuyPlans />
     </>

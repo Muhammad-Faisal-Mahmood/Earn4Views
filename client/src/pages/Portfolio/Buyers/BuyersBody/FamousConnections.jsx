@@ -12,7 +12,7 @@ const FamousConnections = () => {
         </p>
       </div>
       <div className="grid grid-cols-3 gap-y-10 gap-x-16">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((keys, index) => (
+        {[1, 2, 3, 4, 5, 6,].map((keys, index) => (
           <ConnectionsCard
             key={index}
             ConnectionName={"Alex Adamatz"}

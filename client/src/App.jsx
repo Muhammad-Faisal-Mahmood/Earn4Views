@@ -3,6 +3,7 @@ import Home from "./pages/Portfolio/Home";
 import HomeBody from "./pages/Portfolio/Home/HomeBody";
 import LoginBody from "./pages/Portfolio/Login/LoginBody";
 import BuyersBody from "./pages/Portfolio/Buyers/BuyersBody/BuyersBody";
+import WorkersBody from "./pages/Portfolio/Workers/WorkersBody/WorkersBody";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route index element={<HomeBody />} />
           <Route path="login" element={<LoginBody />} />
           <Route path="buyers" element={<BuyersBody/>}/>
+          <Route path="workers" element={<WorkersBody/>}/>
         </Route>
         <Route
           path="/worker"
