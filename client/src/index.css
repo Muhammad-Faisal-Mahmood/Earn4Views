@@ -7,6 +7,9 @@
   scrollbar-width: none; /* Firefox */
 }
 
+.purple-text{
+  color: #5a2867;
+}
 .gradient-background-horizontal {
   background: linear-gradient(90deg, #522182 0%, #904db6 47.12%, #4f1c54 100%);
 }
@@ -53,7 +56,7 @@ button:focus {
   outline: none;
 }
 
-form {
+.form {
   background-color: #ffffff;
   display: flex;
   align-items: center;
@@ -91,7 +94,6 @@ input {
 
 .sign-in-container {
   left: 0;
-  width: 50%;
   z-index: 2;
 }
 
@@ -101,7 +103,6 @@ input {
 
 .sign-up-container {
   left: 0;
-  width: 50%;
   opacity: 0;
   z-index: 1;
 }
@@ -113,11 +114,11 @@ input {
   animation: show 0.6s;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 768px) {
   .container2.right-panel-active .sign-up-container {
     transform: translateX(0%);
   }
-  form {
+  .form {
     padding: 0 10px;
   }
 }

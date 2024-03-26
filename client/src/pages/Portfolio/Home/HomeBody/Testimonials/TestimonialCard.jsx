@@ -3,7 +3,7 @@ import { IoStar } from "react-icons/io5";
 
 const TestimonialCard = () => {
   return (
-    <div className="rounded-lg p-4 shadow-small md:w-[30%]">
+    <div className="rounded-lg p-4 shadow-small lg:w-[30%]">
       <div className="flex gap-2">
         <div className="size-10">
           <img src={avatar} alt="" />

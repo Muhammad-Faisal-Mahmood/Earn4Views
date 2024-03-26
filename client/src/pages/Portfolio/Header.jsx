@@ -10,14 +10,16 @@ const Header = () => {
       </div>
       <div className="flex gap-12 font-bold text-white text-lg">
         <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/contact">Contact</Link>
+        <Link to="/workers">Workers</Link>
+        <Link to="/buyers">Buyers</Link>
       </div>
       <div>
-        <button className="px-3 py-2 rounded-md bg-white font-bold flex gap-2 items-center">
-          <FaUserCircle size={24} />
-          Login/Signup
-        </button>
+        <Link to="/login">
+          <button className="px-3 py-2 rounded-md bg-white font-bold flex gap-2 items-center">
+            <FaUserCircle size={24} />
+            Login/Signup
+          </button>
+        </Link>
       </div>
     </div>
   );

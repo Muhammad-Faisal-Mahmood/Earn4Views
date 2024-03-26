@@ -3,18 +3,18 @@ import YoutubeIcon from "../../../../../assets/svg/YoutubePlatformImg.svg";
 
 const HomeWorkerEarningCard = () => {
   return (
-    <div className="rounded-md flex  justify-between px-10  py-2 shadow-basic">
-      <div className="flex gap-x-2 items-center">
+    <div className="rounded-md flex justify-between px-5 py-2 shadow-basic lg:px-10">
+      <div className="flex gap-x-2  items-center">
         <img src={UserAvatar} />
-        <h1 className="font-bold">Alex Adamatz</h1>
+        <h1 className="font-bold text-[10px] md:text-lg">Alex Adamatz</h1>
       </div>
-      <div className="flex  items-center">
-        <img className="w-12" src={YoutubeIcon} />
-        <h1>Youtube</h1>
+      <div className="flex gap-x-2  items-center">
+        <img className="w-10 lg:w-12" src={YoutubeIcon} />
+        <h1 className="text-[10px] md:text-md md:text-lg">Youtube</h1>
       </div>
-      <div className="flex gap-x-2 items-center">
-        <p className="font-bold">
-          Earnings: <span className="ml-2 font-normal">$200k</span>
+      <div className="flex gap-x-2 items-center ml-10 sm:ml-0">
+        <p className="font-bold text-[10px]  md:text-lg">
+          Earnings: <span className=" ml-1 font-normal lg:ml-2">$200k</span>
         </p>
       </div>
     </div>

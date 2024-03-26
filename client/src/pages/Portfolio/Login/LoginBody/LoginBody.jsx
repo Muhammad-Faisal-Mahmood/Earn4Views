@@ -1,13 +1,32 @@
+import { useState } from "react";
 import circle from "../../../../assets/svg/circle1.svg";
 import polygon from "../../../../assets/svg/polygon1.svg";
 import Polygonrev from "../../../../assets/svg/polygon2.svg";
 
 const LoginBody = () => {
+  const [isSignIn, setisSignIn] = useState(true);
   return (
     <>
+      <div className=" flex justify-center w-full mt-32 lg:mt-48 xl:mt-56">
+        <div className="w-[50%] text-center">
+          {isSignIn && (
+            <h1 className="uppercase text-2xl lg:text-4xl xl:text-5xl ">
+              log in to your <span className="purple-text"> Earn 4 Views </span>
+              account
+            </h1>
+          )}
+          {!isSignIn && (
+            <h1 className="uppercase text-2xl lg:text-4xl xl:text-5xl ">
+              sign up to your{" "}
+              <span className="purple-text"> Earn 4 Views </span>
+              account
+            </h1>
+          )}
+        </div>
+      </div>
       <div
         className={
-          "w-[80%] md:w-[90%] lg:w-[80%] xl:w-[70%] min-h-[630px] md:min-h-[700px] m-auto py-20 my-40 container2"
+          "w-[80%] md:w-[90%] lg:w-[80%] xl:w-[70%] min-h-[630px] md:min-h-[700px] m-auto py-20  container2 my-16 lg:my-32 xl:my-40"
         }
         id="container"
       >
@@ -15,21 +34,21 @@ const LoginBody = () => {
           className="py-10 md:py-20 form-container sign-up-container sm:translate-x-0 w-[100%] md:w-[60%]"
           id="SignUp"
         >
-          <form action="#" className="sm:px-10">
+          <form action="#" className="sm:px-10 form ">
             <h1 className="text-black font-Para text-2xl md:text-4xl font-bold mb-3">
               Create Account
             </h1>
-            <h2 className="text-black font-Para text-xl font-light">
+            {/* <h2 className="text-black font-Para text-xl font-light">
               Sign Up With
-            </h2>
+            </h2> */}
             {/* <div className="flex flex-row gap-6 social-container my-4">
               <img src={google} alt="" className="w-[50px] h-[50px]" />
               <img src={facebook} alt="" className="w-[50px] h-[50px]" />
             </div> */}
-            <div className="font-Para text-black text-2xl font-bold my-2">
+            {/* <div className="font-Para text-black text-2xl font-bold my-2">
               Or
-            </div>
-            <div className="flex flex-col gap-4 text-left items-start w-[80%] m-auto">
+            </div> */}
+            <div className="flex flex-col mt-10 gap-4 text-left items-start w-[80%] m-auto">
               <div className="font-Para flex flex-col gap-2 text-black font-semibold w-[100%]">
                 <label htmlFor="" className="text-xl">
                   Email
@@ -75,21 +94,21 @@ const LoginBody = () => {
           className="py-10 md:py-20 form-container sign-in-container sm:translate-x-0 w-[100%] md:w-[60%]"
           id="SignIn"
         >
-          <form action="#" className="sm:px-10">
+          <form action="#" className="sm:px-10 form">
             <h1 className="text-black font-Para text-2xl md:text-4xl font-bold mb-3">
               Login To Your Account
             </h1>
-            <h2 className="text-black font-Para text-xl font-light">
+            {/* <h2 className="text-black font-Para text-xl font-light">
               Login with
-            </h2>
+            </h2> */}
             {/* <div className="flex flex-row gap-6 social-container my-4">
               <img src={google} alt="" className="w-[50px] h-[50px]" />
               <img src={facebook} alt="" className="w-[50px] h-[50px]" />
             </div> */}
-            <div className="font-Para text-black text-2xl font-bold my-2">
+            {/* <div className="font-Para text-black text-2xl font-bold my-2">
               Or
-            </div>
-            <div className="flex flex-col gap-4 text-left items-start w-[80%] m-auto">
+            </div> */}
+            <div className="flex flex-col gap-4 mt-10 text-left items-start w-[80%] ml-12">
               <div className="font-Para flex flex-col gap-2 text-black font-semibold w-[100%]">
                 <label htmlFor="" className="text-xl">
                   Email
@@ -153,6 +172,7 @@ const LoginBody = () => {
                 className="uppercase my-10 py-2 px-8 rounded-full bg-transparent border-2 border-white text-xl font-Para font-bold hover:bg-white hover:text-black ease-in-out duration-300"
                 onClick={() => {
                   // StateSet("log in to your slice list account");
+                  setisSignIn(!isSignIn);
                   const container = document.getElementById("container");
                   container.classList.remove("right-panel-active");
                 }}
@@ -171,6 +191,7 @@ const LoginBody = () => {
                 className="uppercase my-10 py-2 px-8 rounded-full bg-transparent border-2 border-white text-xl font-Para font-bold hover:bg-white hover:text-black ease-in-out duration-300"
                 onClick={() => {
                   // StateSet("sign up to your slice list account");
+                  setisSignIn(!isSignIn);
                   const container = document.getElementById("container");
                   container.classList.add("right-panel-active");
                 }}

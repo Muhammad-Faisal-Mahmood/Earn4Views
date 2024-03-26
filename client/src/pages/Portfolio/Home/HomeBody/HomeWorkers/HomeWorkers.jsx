@@ -11,7 +11,7 @@ const HomeWorkers = () => {
           and subscribers.
         </p>
       </div>
-      <div className="my-10 mx-40 p-3 flex flex-col gap-y-5 h-[47vh] overflow-scroll no-scrollbar">
+      <div className="my-10  flex flex-col gap-y-5  overflow-scroll no-scrollbar p-3 h-[85vh]  xl:h-[47vh] lg:my-20 lg:mx-40">
         <HomeWorkerEarningCard />
         <HomeWorkerEarningCard />
         <HomeWorkerEarningCard />

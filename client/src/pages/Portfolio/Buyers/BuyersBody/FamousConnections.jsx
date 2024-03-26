@@ -3,16 +3,16 @@ import ConnectionsCard from "./ConnectionsCard";
 
 const FamousConnections = () => {
   return (
-    <div className="my-24  flex flex-col items-center ">
-      <div className="text-center mx-auto w-[55%]">
-        <h1 className="text-5xl font-bold">Famous Connections</h1>
-        <p className="text-center font-light text-2xl my-8">
+    <div className=" my-10 flex flex-col items-center lg:my-24">
+      <div className="text-center  lg:w-[55%]">
+        <h1 className="text-2xl font-bold lg:text-5xl">Famous Connections</h1>
+        <p className=" font-light mt-4 mb-10 mx-10 text-lg lg:mx-0 lg:my-8 lg:text-2xl">
           Many famous people connected with our platform and get their views,
           likes and maximum subscribers .
         </p>
       </div>
       <div className="grid grid-cols-3 gap-y-10 gap-x-16">
-        {[1, 2, 3, 4, 5, 6,].map((keys, index) => (
+        {[1, 2, 3, 4, 5, 6].map((keys, index) => (
           <ConnectionsCard
             key={index}
             ConnectionName={"Alex Adamatz"}

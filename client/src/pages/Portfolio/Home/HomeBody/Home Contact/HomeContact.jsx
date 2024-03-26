@@ -15,19 +15,19 @@ const HomeContact = () => {
               First please give us some context.
             </p>
           </div>
-          <div className="border-t-2 border-gray-400" />
+          <div className="border-t-2  border-gray-400" />
           <div className="my-2">
-            <form action="" className="flex flex-col gap-4">
+            <form action="" className="flex w-full gap-4  flex-col ">
               <div className="flex flex-col gap-1">
-                <h1>Name:</h1>
+                <h1 className="text-left">Name:</h1>
                 <input
                   type="text"
-                  className="px-4 py-3 shadow-md rounded-sm w-full"
+                  className="px-4 py-3 shadow-md rounded-sm "
                   placeholder="Enter Your Name"
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <h1>Email:</h1>
+                <h1 className="text-left">Email:</h1>
                 <input
                   type="email"
                   className="px-4 py-3 shadow-md rounded-sm w-full"
@@ -35,7 +35,7 @@ const HomeContact = () => {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <h1>Subject:</h1>
+                <h1 className="text-left">Subject:</h1>
                 <input
                   type="text"
                   className="px-4 py-3 shadow-md rounded-sm w-full"
@@ -43,7 +43,7 @@ const HomeContact = () => {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <h1>Message:</h1>
+                <h1 className="text-left">Message:</h1>
                 <textarea
                   className="px-4 py-3 shadow-md rounded-sm w-full"
                   name=""
