@@ -4,7 +4,7 @@ import { FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <div className="gradient-background-horizontal flex justify-between px-8 py-2 items-center fixed w-full">
+    <div className="gradient-background-horizontal flex justify-between px-8 py-2 items-center fixed w-full top-0 z-50">
       <div>
         <img src={logo} className="size-16" />
       </div>

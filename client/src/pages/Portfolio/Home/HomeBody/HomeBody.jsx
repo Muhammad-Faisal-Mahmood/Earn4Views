@@ -7,14 +7,14 @@ import Testimonials from "./Testimonials";
 
 const HomeBody = () => {
   return (
-    <>
+    <div>
       <HomeHero />
       <SocialMediaPlatforms />
       <HomeWorkers />
       <HomeBuyPlans />
       <Testimonials />
       <HomeContact />
-    </>
+    </div>
   );
 };
 
