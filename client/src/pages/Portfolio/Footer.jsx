@@ -78,7 +78,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="w-full text-center py-3 font-bold text-lg md:text-xl">
+      <div className="w-full text-center px-1 py-3 font-bold text-sm md:text-xl">
         © Copyright 2024 Earn 4 Views LTD . All Rights Reserved.
       </div>
     </div>

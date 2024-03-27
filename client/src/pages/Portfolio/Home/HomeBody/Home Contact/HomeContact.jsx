@@ -3,26 +3,28 @@ import contactCall from "../../../../../assets/svg/contact-call.svg";
 
 const HomeContact = () => {
   return (
-    <div className="my-20">
-      <h1 className="my-20 text-center text-4xl font-bold uppercase">
+    <div className="my-12 md:my-20">
+      <h1 className="my-8 md:my-20 text-center text-2xl md:text-4xl font-bold uppercase">
         Contact Us
       </h1>
-      <div className="shadow-basic mx-20 py-20 px-10 rounded-lg flex gap-10">
-        <div className="w-[45%]">
+      <div className="shadow-basic mx-4 md:mx-8 lg:mx-20 py-8 md:py-12 lg:py-20 px-8 md:px-10 rounded-2xl flex gap-10">
+        <div className="w-full md:w-[45%]">
           <div className="flex flex-col gap-3 mb-16">
-            <h1 className="text-4xl font-bold">Let us know your concerns.</h1>
-            <p className="text-2xl text-gray-500">
+            <h1 className="text-3xl md:text-4xl font-bold">
+              Let us know your concerns.
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-500">
               First please give us some context.
             </p>
           </div>
           <div className="border-t-2  border-gray-400" />
           <div className="my-2">
-            <form action="" className="flex w-full gap-4  flex-col ">
+            <form action="" className="flex w-full gap-4  flex-col">
               <div className="flex flex-col gap-1">
                 <h1 className="text-left">Name:</h1>
                 <input
                   type="text"
-                  className="px-4 py-3 shadow-md rounded-sm "
+                  className="px-4 py-3 shadow-md rounded-sm"
                   placeholder="Enter Your Name"
                 />
               </div>
@@ -61,7 +63,7 @@ const HomeContact = () => {
             </form>
           </div>
         </div>
-        <div className="w-[55%] flex flex-col gap-28">
+        <div className="hidden md:flex w-[55%]  flex-col lg:gap-28 gap-12">
           <div className="flex flex-col gap-12">
             <h1 className="text-2xl font-bold my-4">3 steps to solutions</h1>
             <div className="flex gap-2">
@@ -78,7 +80,7 @@ const HomeContact = () => {
             </div>
           </div>
           <div className="shadow-basic p-8 pb-24 flex rounded-lg relative">
-            <div className="w-[70%] flex flex-col gap-4">
+            <div className="w-[50%] lg:w-[70%] flex flex-col gap-4">
               <h1 className="text-2xl font-bold">Special Request?</h1>
               <p className="text-xl">
                 Is your page not accessible or is displayed completely

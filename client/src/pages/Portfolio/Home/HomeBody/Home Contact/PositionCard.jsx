@@ -16,7 +16,7 @@ const PositionCard = ({ gradient, stepNumber, text }) => {
   return (
     <div className={classes}>
       <h1 className="text-2xl font-semibold">{stepNumber}</h1>
-      <p className="text-xl font-semibold">{text}</p>
+      <p className="lg:text-xl font-semibold">{text}</p>
       <div className="flex justify-end">
         {stepNumber === "01" && <FaArrowRight />}
       </div>

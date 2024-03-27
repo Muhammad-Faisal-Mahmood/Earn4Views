@@ -1,4 +1,3 @@
-import React from "react";
 import HomeWorkerEarningCard from "./HomeWorkerEarningCard";
 
 const HomeWorkers = () => {
@@ -11,7 +10,7 @@ const HomeWorkers = () => {
           and subscribers.
         </p>
       </div>
-      <div className="my-10  flex flex-col gap-y-5  overflow-scroll no-scrollbar p-3 h-[85vh]  xl:h-[47vh] lg:my-20 lg:mx-40">
+      <div className="my-10 flex flex-col gap-y-5  overflow-scroll no-scrollbar p-3 h-[40vh]  xl:h-[47vh] lg:my-20 lg:mx-40">
         <HomeWorkerEarningCard />
         <HomeWorkerEarningCard />
         <HomeWorkerEarningCard />
