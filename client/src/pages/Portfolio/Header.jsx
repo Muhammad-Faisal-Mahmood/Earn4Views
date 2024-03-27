@@ -41,7 +41,10 @@ const Header = () => {
 
       {mobileMenuOpen && (
         <div className="absolute md:hidden w-full font-bold text-white text-lg  ">
-          <div className="flex flex-col m-2 gradient-background-horizontal p-2 rounded-lg">
+          <div
+            className="flex flex-col m-2 gradient-background-horizontal p-2 rounded-lg"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
             <Link className="my-2 w-full" to="/">
               Home
             </Link>
