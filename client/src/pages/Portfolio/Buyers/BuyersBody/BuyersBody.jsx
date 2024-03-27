@@ -6,9 +6,17 @@ import HomeBuyPlans from "../../Home/HomeBody/HomeBuyPlans";
 const BuyersBody = () => {
   return (
     <>
-      <HeroSection Heading={"Get the subscribers you need quickly and easily."}/>
-      <FamousConnections />
-      <HomeBuyPlans />
+      <HeroSection
+        Heading={"Get the subscribers you need quickly and easily."}
+      />
+      <div className="hidden md:block">
+        <FamousConnections />
+        <HomeBuyPlans />
+      </div>
+      <div className="md:hidden ock">
+        <HomeBuyPlans />
+        <FamousConnections />
+      </div>
     </>
   );
 };

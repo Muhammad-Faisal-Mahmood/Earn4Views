@@ -1,5 +1,5 @@
-import React from "react";
 import ConnectionsCard from "./ConnectionsCard";
+import ConnectionsCardMobile from "./ConnectionsCardMobile";
 
 const FamousConnections = () => {
   return (
@@ -11,7 +11,7 @@ const FamousConnections = () => {
           likes and maximum subscribers .
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-y-10 gap-x-16">
+      <div className="hidden md:grid grid-cols-3 gap-y-10 gap-x-16">
         {[1, 2, 3, 4, 5, 6].map((keys, index) => (
           <ConnectionsCard
             key={index}
@@ -20,6 +20,13 @@ const FamousConnections = () => {
             ConnectionFollowerCount={"500k"}
           />
         ))}
+      </div>
+      <div className="md:hidden flex flex-col items-center gap-4">
+        <ConnectionsCardMobile />
+        <div className="flex gap-4">
+          <ConnectionsCardMobile />
+          <ConnectionsCardMobile />
+        </div>
       </div>
     </div>
   );

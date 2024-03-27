@@ -50,8 +50,10 @@ const HomeBuyPlans = () => {
   ];
 
   return (
-    <div className="my-20 ">
-      <h1 className="font-extrabold text-center text-5xl my-20">Buy Plans</h1>
+    <div className="my-20 mx-4">
+      <h1 className="font-extrabold text-center text-4xl md:text-5xl my-12 md:my-20">
+        Buy Plans
+      </h1>
       <div className="flex gap-6 flex-wrap md:mx-20 justify-center">
         {buyPlans.map((plan, index) => (
           <PlansCard

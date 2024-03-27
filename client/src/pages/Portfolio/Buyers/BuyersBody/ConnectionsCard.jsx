@@ -1,4 +1,3 @@
-import React from "react";
 import buyerConnectionsImg from "../../../../assets/svg/buyerConnectionsImg.svg";
 
 const ConnectionsCard = ({

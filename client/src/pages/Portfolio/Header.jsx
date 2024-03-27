@@ -42,15 +42,17 @@ const Header = () => {
       {mobileMenuOpen && (
         <div className="absolute md:hidden w-full font-bold text-white text-lg  ">
           <div className="flex flex-col m-2 gradient-background-horizontal p-2 rounded-lg">
-            <div className="my-2">
-              <Link to="/">Home</Link>
-            </div>
-            <div className="my-2">
-              <Link to="/workers">Workers</Link>
-            </div>
-            <div className="my-2">
-              <Link to="/buyers">Buyers</Link>
-            </div>
+            <Link className="my-2 w-full" to="/">
+              Home
+            </Link>
+
+            <Link className="my-2 w-full" to="/workers">
+              Workers
+            </Link>
+
+            <Link className="my-2 w-full" to="/buyers">
+              Buyers
+            </Link>
           </div>
         </div>
       )}
