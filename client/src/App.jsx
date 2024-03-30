@@ -6,6 +6,7 @@ import BuyersBody from "./pages/Portfolio/Buyers/BuyersBody/BuyersBody";
 import WorkersBody from "./pages/Portfolio/Workers/WorkersBody/WorkersBody";
 import ScrollToTop from "./components/ScrollToTop";
 import Dashboard from "./pages/Worker/Dashboard/index.jsx";
+import WorkerDashHome from "./pages/Worker/Home/WorkerDashHome.jsx";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           <Route path="workers" element={<WorkersBody />} />
         </Route>
         <Route path="/worker" element={<Dashboard />}>
-          <Route index element={<div>worker dasboard</div>} />
+          <Route index element={<WorkerDashHome />} />
           <Route path="my-id" element={<div>Worker my id</div>} />
         </Route>
       </Routes>

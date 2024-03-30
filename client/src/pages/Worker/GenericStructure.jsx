@@ -6,9 +6,11 @@ const GenericStructure = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div>
-        <Header />
-        <Outlet />
+      <div className="w-[90%]">
+        <Header className="" />
+        <div className="bg-[#F9F9F9]">
+          <Outlet />
+        </div>
       </div>
     </div>
   );
