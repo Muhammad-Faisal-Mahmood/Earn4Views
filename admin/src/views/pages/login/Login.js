@@ -16,6 +16,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
 import AlertContext from 'src/Context/Alert/AlertContext'
+import { BaseURL } from 'src/components/DataList'
 
 const Login = () => {
 
@@ -25,12 +26,10 @@ const Login = () => {
   const navigate = useNavigate()
 
   const [credentials, setCredentials] = useState({
-    email: '',
-    password: '',
+    Email: '',
+    Password: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-
 
 
   const handleLogin = async () => {
@@ -38,39 +37,28 @@ const Login = () => {
 
     try {
       // Make the API call to your login endpoint
-      const response = await fetch('https://stealth-ecommerce-12f9ab59b8a8.herokuapp.com/auth/token/', {
+      const response = await fetch(`${BaseURL}/loginAdmin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
       });
-
-      if (response.ok) {
-        // If the login is successful, get the auth token from the response
-        const data = await response.json();
-        const authToken = data.access;
-
-        // Save the auth token in session storage
-        sessionStorage.setItem('authToken', authToken);
-
+      
+      const data = await response.json();
+      if(data.success){
+        const AdminODSToken = data.AdminODSToken;
+        sessionStorage.setItem('AdminODSToken', AdminODSToken);
         showAlert('Login Success', 'success')
-
-
         setIsSubmitting(false);
         navigate("/dashboard");
-
-
-        // Redirect to another page or perform other actions as needed
-      } else {
-        // Handle error cases, e.g., display an error message
-        showAlert(response.detail, 'danger')
+      }else{
+        showAlert(data.Message, 'danger')
         setIsSubmitting(false);
       }
     } catch (error) {
       showAlert('Error Occured', 'danger')
       setIsSubmitting(false);
-
     }
   };
 
@@ -99,10 +87,10 @@ const Login = () => {
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
                       <CFormInput
-                        name="email"
+                        name="Email"
                         placeholder="Email"
                         autoComplete="Email"
-                        value={credentials.email}
+                        value={credentials.Email}
                         onChange={handleChange}
                       />
                     </CInputGroup>
@@ -112,10 +100,10 @@ const Login = () => {
                       </CInputGroupText>
                       <CFormInput
                         type="password"
-                        name="password"
+                        name="Password"
                         placeholder="Password"
                         autoComplete="current-password"
-                        value={credentials.password}
+                        value={credentials.Password}
                         onChange={handleChange}
                       />
                     </CInputGroup>
@@ -123,11 +111,6 @@ const Login = () => {
                       <CCol xs={6}>
                         <CButton color="primary" className="px-4" onClick={handleLogin} disabled={isSubmitting}>
                           {isSubmitting ? "Logining" : "Login"}
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
                         </CButton>
                       </CCol>
                     </CRow>

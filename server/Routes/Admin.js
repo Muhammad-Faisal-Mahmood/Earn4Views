@@ -15,6 +15,9 @@ const Plan = require("../Models/Services");
 const Earning = require("../Models/EarningPrice");
 const Service = require("../Models/ServiceTaken");
 const WithdrawAccount = require("../Models/Withdraw");
+const Transaction = require("../Models/BuyerTransaction");
+const Buyer = require("../Models/Buyer");
+const Worker = require("../Models/Worker");
 
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -149,7 +152,7 @@ router.put("/UpdateAdmin",
             console.error(error);
             res.status(500).json({ success: false, message: 'Error occurred' });
         }
-});
+    });
 
 
 //Create Admin Payment
@@ -246,6 +249,7 @@ router.delete("/adminPayment/:id", fetchadmin, async (req, res) => {
 
 
 
+//Plans
 // CREATE Plan
 router.post("/createPlan", fetchadmin, async (req, res) => {
     let success = false;
@@ -466,6 +470,7 @@ router.delete("/deleteEarning/:id", fetchadmin, async (req, res) => {
 });
 
 
+
 // CREATE Service
 router.post("/createService", fetchadmin, async (req, res) => {
     let success = false;
@@ -479,11 +484,10 @@ router.post("/createService", fetchadmin, async (req, res) => {
         if (!admin) {
             return res.status(404).json({ success: false, message: "You Have no Access" });
         }
-        const { User_id, Channel, Service, Amount, URL } = req.body;
+        const { Channel, Servicetaken, Amount, URL } = req.body;
         const service = await Service.create({
-            User_id,
             Channel,
-            Service,
+            Service: Servicetaken,
             Amount,
             URL,
             Status: "Approved"
@@ -498,52 +502,14 @@ router.post("/createService", fetchadmin, async (req, res) => {
 });
 
 // READ New Service Request
-router.get("/getNewServices", fetchadmin, async (req, res) => {
+router.get("/GoingOnServices", fetchadmin, async (req, res) => {
     try {
         let admin = await Admin.findById(req.admin.id);
         if (!admin) {
             return res.status(404).json({ success: false, message: "You Have no Access" });
         }
 
-        const service = await Service.find({ Status: "Pending" });
-        if (!service) {
-            return res.status(404).json({ success: false, message: 'Service not found' });
-        }
-        res.json({ success: true, service });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: 'Error occurred' });
-    }
-});
-
-// READ New Service Request
-router.get("/ApprovedServices", fetchadmin, async (req, res) => {
-    try {
-        let admin = await Admin.findById(req.admin.id);
-        if (!admin) {
-            return res.status(404).json({ success: false, message: "You Have no Access" });
-        }
-
-        const service = await Service.find({ Status: "Approved" });
-        if (!service) {
-            return res.status(404).json({ success: false, message: 'Service not found' });
-        }
-        res.json({ success: true, service });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: 'Error occurred' });
-    }
-});
-
-// READ Delined Service Request
-router.get("/DeclinedServices", fetchadmin, async (req, res) => {
-    try {
-        let admin = await Admin.findById(req.admin.id);
-        if (!admin) {
-            return res.status(404).json({ success: false, message: "You Have no Access" });
-        }
-
-        const service = await Service.find({ Status: "Declined" });
+        const service = await Service.find({ Status: "Approved" }).populate('User_id', 'Name Email')
         if (!service) {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
@@ -559,10 +525,10 @@ router.get("/CompletedServices", fetchadmin, async (req, res) => {
     try {
         let admin = await Admin.findById(req.admin.id);
         if (!admin) {
-            return res.status(404).json({ success: false, message: "You Have no Access" });
+            return res.status(404).json({ success: false, message: "You Have no Access" })
         }
 
-        const service = await Service.find({ Status: "Declined" });
+        const service = await Service.find({ Status: "Declined" }).populate('User_id', 'Name Email')
         if (!service) {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
@@ -578,10 +544,10 @@ router.get("/getService/:id", fetchadmin, async (req, res) => {
     try {
         let admin = await Admin.findById(req.admin.id);
         if (!admin) {
-            return res.status(404).json({ success: false, message: "You Have no Access" });
+            return res.status(404).json({ success: false, message: "You Have no Access" })
         }
 
-        const service = await Service.findById(req.params.id);
+        const service = await Service.findById(req.params.id).populate('User_id', 'Name Email CNIC ProfilePhoto Phone Gender Age')
         if (!service) {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
@@ -600,11 +566,11 @@ router.put("/updateService/:id", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: "You Have no Access" });
         }
 
-        const { User_id, Channel, Service, Amount, URL } = req.body;
+        const { User_id, Channel, Servicetaken, Amount, URL } = req.body;
         const service = await Service.findByIdAndUpdate(req.params.id, {
             User_id,
             Channel,
-            Service,
+            Service: Servicetaken,
             Amount,
             URL
         }, { new: true });
@@ -622,27 +588,6 @@ router.put("/updateService/:id", fetchadmin, async (req, res) => {
 
 //Approve Service
 router.put("/ApproveService/:id", fetchadmin, async (req, res) => {
-    try {
-        let admin = await Admin.findById(req.admin.id);
-        if (!admin) {
-            return res.status(404).json({ success: false, message: "You Have no Access" });
-        }
-
-        const service = await Service.findByIdAndUpdate(req.params.id, { Status: "Approved" }, { new: true });
-
-        if (!service) {
-            return res.status(404).json({ success: false, message: 'Service not found' });
-        }
-
-        res.json({ success: true, service });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: 'Error occurred' });
-    }
-});
-
-//Decline Service
-router.put("/DeclineService/:id", fetchadmin, async (req, res) => {
     try {
         let admin = await Admin.findById(req.admin.id);
         if (!admin) {
@@ -682,6 +627,7 @@ router.delete("/deleteService/:id", fetchadmin, async (req, res) => {
 });
 
 
+
 //Withdraw
 // READ New Withdraw Request
 router.get("/getNewWithdraw", fetchadmin, async (req, res) => {
@@ -691,10 +637,66 @@ router.get("/getNewWithdraw", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: "You Have no Access" });
         }
 
-        const withdraw = await WithdrawAccount.find({ Status: "Pending" });
+        const withdraw = await WithdrawAccount.find({ Status: "Pending" }).populate('User_id', 'Name Email')
         if (!withdraw) {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
+        res.json({ success: true, withdraw });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+router.get("/ApprovedWithdraw", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        // Calculate the date 30 days ago
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        // Find transactions within the last 30 days and with status "Approved"
+        const withdraw = await WithdrawAccount.find({
+            Status: "Approved",
+            Date: { $gte: thirtyDaysAgo } // Filter transactions within the last 30 days
+        }).populate('User_id', 'Name Email')
+
+        if (!withdraw) {
+            return res.status(404).json({ success: false, message: 'No approved Withdraw found in the last 30 days' });
+        }
+
+        res.json({ success: true, withdraw });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+router.get("/DeclineWithdraw", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        // Calculate the date 30 days ago
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        // Find transactions within the last 30 days and with status "Approved"
+        const withdraw = await WithdrawAccount.find({
+            Status: "Declined",
+            Date: { $gte: thirtyDaysAgo } // Filter transactions within the last 30 days
+        }).populate('User_id', 'Name Email')
+
+        if (!withdraw) {
+            return res.status(404).json({ success: false, message: 'No Decline Withdraw found in the last 30 days' });
+        }
+
         res.json({ success: true, withdraw });
     } catch (error) {
         console.error(error);
@@ -710,13 +712,12 @@ router.put("/ApproveWithdraw/:id", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: "You Have no Access" });
         }
 
-        const widthdraw = await WithdrawAccount.findByIdAndUpdate(req.params.id, { Status: "Approved" }, { new: true });
-
+        const widthdraw = await WithdrawAccount.findByIdAndUpdate(req.params.id, { Status: "Approved", Approved_Date: new Date }, { new: true });
         if (!widthdraw) {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
 
-        res.json({ success: true, service });
+        res.json({ success: true, widthdraw });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error occurred' });
@@ -724,7 +725,7 @@ router.put("/ApproveWithdraw/:id", fetchadmin, async (req, res) => {
 });
 
 //Declined Withdraw
-router.put("/DeclinedWithdraw/:id", fetchadmin, async (req, res) => {
+router.put("/DeclineWithdraw/:id", fetchadmin, async (req, res) => {
     try {
         let admin = await Admin.findById(req.admin.id);
         if (!admin) {
@@ -737,11 +738,243 @@ router.put("/DeclinedWithdraw/:id", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
 
+        const user = await Worker.findOne({ User_id: widthdraw.User_id })
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'No User Made this Transaction' });
+        }
+        const balance = user.Earning;
+        const newBalance = balance + widthdraw.Amount
+
+        user.Earning = newBalance;
+        user.save()
+
+        res.json({ success: true, widthdraw });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+
+
+//Transactions
+// READ New Transaction Request
+router.get("/getNewTransaction", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        const transaction = await Transaction.find({ Status: "Pending" }).populate('User_id', 'Name Email')
+        if (!transaction) {
+            return res.status(404).json({ success: false, message: 'Service not found' });
+        }
+        res.json({ success: true, transaction });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+//Approned Transations
+router.get("/ApprovedTransaction", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        // Calculate the date 30 days ago
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        // Find transactions within the last 30 days and with status "Approved"
+        const transactions = await Transaction.find({
+            Status: "Approved",
+            Date: { $gte: thirtyDaysAgo } // Filter transactions within the last 30 days
+        }).populate('User_id', 'Name Email')
+
+        if (!transactions || transactions.length === 0) {
+            return res.status(404).json({ success: false, message: 'No approved transactions found in the last 30 days' });
+        }
+
+        res.json({ success: true, transactions });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+//Declined Transations
+router.get("/DeclinedTransaction", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        const transaction = await Transaction.find({
+            Status: "Declined",
+            Date: { $gte: thirtyDaysAgo } // Filter transactions within the last 30 days
+        }).populate('User_id', 'Name Email')
+
+        if (!transaction || transaction.length === 0) {
+            return res.status(404).json({ success: false, message: 'No approved transactions found in the last 30 days' });
+        }
+
+        res.json({ success: true, transaction });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+//Approve Transaction
+router.put("/ApproveTransaction/:id", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        const transaction = await Transaction.findByIdAndUpdate(req.params.id, { Status: "Approved" }, { new: true });
+
+        if (!transaction) {
+            return res.status(404).json({ success: false, message: 'Service not found' });
+        }
+
+        const user = await Buyer.findOne({ User_id: transaction.User_id })
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'No User Made this Transaction' });
+        }
+        const balance = user.Funds;
+        const newBalance = balance + transaction.Amount
+
+        user.Funds = newBalance;
+        user.save()
+
+        res.json({ success: true, transaction });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+//Declined Transaction
+router.put("/DeclineTransaction/:id", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        const transaction = await Transaction.findByIdAndUpdate(req.params.id, { Status: "Declined" }, { new: true });
+
+        if (!transaction) {
+            return res.status(404).json({ success: false, message: 'Service not found' });
+        }
+
         res.json({ success: true, service });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error occurred' });
     }
 });
+
+
+
+// //
+// //
+// Users
+// //
+// //
+router.get("/BuyersList", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" })
+        }
+
+        const buyers = await Buyer.find().populate('User_id', 'Name Email CNIC ProfilePhoto CNIC_Front CNIC_Back Phone Age Gender Date')
+        if (!buyers) {
+            return res.status(404).json({ success: false, message: 'No Buyer Found' });
+        }
+        res.json({ success: true, buyers });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+router.get("/WorkerList", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" })
+        }
+
+        const worker = await Worker.find({ Role: "Worker" }).populate('User_id', 'Name Email CNIC ProfilePhoto CNIC_Front CNIC_Back Phone Age Gender Date')
+
+        if (!worker) {
+            return res.status(404).json({ success: false, message: 'No Workers Found' });
+        }
+        res.json({ success: true, worker });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+router.delete("/deleteBuyer/:id", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        const buyer = await Buyer.findByIdAndDelete(req.params.id);
+        if (!buyer) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const user = await User.findByIdAndDelete(buyer.User_id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        res.json({ success: true, message: 'User deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+router.delete("/deleteWorker/:id", fetchadmin, async (req, res) => {
+    try {
+        let admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ success: false, message: "You Have no Access" });
+        }
+
+        const worker = await Worker.findByIdAndDelete(req.params.id);
+        if (!worker) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        const user = await User.findByIdAndDelete(worker.User_id);
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        res.json({ success: true, message: 'User deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Error occurred' });
+    }
+});
+
+
 
 module.exports = router

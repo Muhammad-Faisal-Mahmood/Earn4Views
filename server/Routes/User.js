@@ -11,6 +11,8 @@ const User = require("../Models/User");
 const OTP = require("../Models/EmailOtp");
 const Plan = require("../Models/Services");
 const Earning = require("../Models/EarningPrice");
+const Buyer = require("../Models/Buyer");
+const Worker = require("../Models/Worker");
 
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -121,6 +123,19 @@ router.post("/createuser", async (req, res) => {
             Role: req.body.Role,
             Password: SecPassword
         })
+
+        if(req.body.Role=='Buyer'){
+            let buyer = await Buyer.create({
+                User_id: user.id,
+                Funds: 0,
+            })
+        }else if(req.body.Role=='Worker'){
+            let worker = await Worker.create({
+                User_id: user.id,
+                Earning: 0,
+            })
+        }
+
 
         const response = await sendOTPEmail(user._id, req.body.Email, res);
 

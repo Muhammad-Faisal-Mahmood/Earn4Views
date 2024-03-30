@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
 import { useNavigate } from 'react-router-dom'
+import "../scss/style.css"
 
 const DefaultLayout = () => {
   const navigate=useNavigate()
   useEffect(() => {
-    if(!sessionStorage.getItem("authToken")){
+    if(!sessionStorage.getItem("AdminODSToken")){
       navigate('/login')
     }
   
