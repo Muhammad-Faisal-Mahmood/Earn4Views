@@ -1,68 +1,202 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+.purple-text{
+  color: #5a2867;
 }
-a:hover {
-  color: #535bf2;
+.gradient-background-horizontal {
+  background: linear-gradient(90deg, #522182 0%, #904db6 47.12%, #4f1c54 100%);
+}
+.button-gradient-background {
+  background: linear-gradient(90deg, #5d298b 0%, #521e58 100%);
 }
 
-body {
-  margin: 0;
+.two-color-gradient-background {
+  background: linear-gradient(180deg, #5d298b 0%, #521e58 100%);
+}
+
+.shadow-basic {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+.shadow-small {
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* HTML: <div class="triangle"></div> */
+.triangle {
+  height: 100px;
+  aspect-ratio: 2;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.polygon {
+  width: 100px;
+  aspect-ratio: 1;
+  clip-path: polygon(
+    93.3% 75%,
+    50% 100%,
+    6.7% 75%,
+    6.7% 25%,
+    50% 0%,
+    93.3% 25%
+  );
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:focus {
+  outline: none;
+}
+
+.form {
+  background-color: #ffffff;
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+input {
+  background-color: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.container2 {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+  height: 100%;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.form-container {
+  position: absolute;
+  top: 0;
+  height: fit-content;
+  transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+  left: 0;
+  z-index: 2;
+}
+
+.container2.right-panel-active .sign-in-container {
+  transform: translateX(65%);
+}
+
+.sign-up-container {
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+.container2.right-panel-active .sign-up-container {
+  transform: translateX(65%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
+}
+
+@media screen and (max-width: 768px) {
+  .container2.right-panel-active .sign-up-container {
+    transform: translateX(0%);
   }
-  a:hover {
-    color: #747bff;
+  .form {
+    padding: 0 10px;
   }
-  button {
-    background-color: #f9f9f9;
+}
+
+@keyframes show {
+  0%,
+  49.99% {
+    opacity: 0;
+    z-index: 1;
   }
+
+  50%,
+  100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 60%;
+  width: 40%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 10;
+}
+
+.container2.right-panel-active .overlay-container {
+  transform: translateX(-150%);
+}
+
+.overlay {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.container2.right-panel-active .overlay {
+  transform: translateX(50%);
+}
+
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+}
+
+.container2.right-panel-active .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container2.right-panel-active .overlay-right {
+  transform: translateX(20%);
 }
