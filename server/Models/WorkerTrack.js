@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const YoutubeViewSchema = new Schema({
+const WorkerTrackSchema = new Schema({
     User_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -16,5 +16,5 @@ const YoutubeViewSchema = new Schema({
     }
 })
 
-const YoutubeView = mongoose.model("YoutubeView", YoutubeViewSchema)
-module.exports = YoutubeView
+const WorkerTrack = mongoose.model("WorkerTrack", WorkerTrackSchema)
+module.exports = WorkerTrack

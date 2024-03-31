@@ -18,6 +18,7 @@ const WithdrawAccount = require("../Models/Withdraw");
 const Transaction = require("../Models/BuyerTransaction");
 const Buyer = require("../Models/Buyer");
 const Worker = require("../Models/Worker");
+const WorkerAccount = require("../Models/WorkerPay");
 
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -152,7 +153,7 @@ router.put("/UpdateAdmin",
             console.error(error);
             res.status(500).json({ success: false, message: 'Error occurred' });
         }
-    });
+});
 
 
 //Create Admin Payment
@@ -637,16 +638,50 @@ router.get("/getNewWithdraw", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: "You Have no Access" });
         }
 
-        const withdraw = await WithdrawAccount.find({ Status: "Pending" }).populate('User_id', 'Name Email')
-        if (!withdraw) {
+        const withdrawals = await WithdrawAccount.find({ Status: "Pending" }).populate('User_id', 'Name Email');
+        if (!withdrawals) {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
-        res.json({ success: true, withdraw });
+
+        // Fetch worker account details for each withdrawal
+        const withdrawalsWithWorkerAccounts = [];
+        for (const withdrawal of withdrawals) {
+            const workerAccount = await WorkerAccount.findOne({ User_id: withdrawal.User_id });
+            if (workerAccount) {
+                withdrawalsWithWorkerAccounts.push({
+                    withdrawal: {
+                        _id: withdrawal._id,
+                        User_id: withdrawal.User_id,
+                        WithdrawDate: withdrawal.WithdrawDate,
+                        Amount: withdrawal.Amount,
+                        Status: withdrawal.Status,
+                        Approved_Date: withdrawal.Approved_Date
+                    },
+                    workerAccount
+                });
+            } else {
+                // If worker account not found, include null
+                withdrawalsWithWorkerAccounts.push({
+                    withdrawal: {
+                        _id: withdrawal._id,
+                        User_id: withdrawal.User_id,
+                        WithdrawDate: withdrawal.WithdrawDate,
+                        Amount: withdrawal.Amount,
+                        Status: withdrawal.Status,
+                        Approved_Date: withdrawal.Approved_Date
+                    },
+                    workerAccount: null
+                });
+            }
+        }
+
+        res.json({ success: true, withdrawals: withdrawalsWithWorkerAccounts });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error occurred' });
     }
 });
+
 
 router.get("/ApprovedWithdraw", fetchadmin, async (req, res) => {
     try {

@@ -14,7 +14,8 @@ app.use(express.json())
 
 app.use('/api/adminAuth', require('./Routes/Admin'));
 app.use('/api/userAuth', require('./Routes/User'));
-// app.use('/api/beauticianAuth', require('./Routes/Beautician'));
+app.use('/api/buyer', require('./Routes/Buyer'));
+app.use('/api/worker', require('./Routes/Worker'));
 
 app.listen(port, () => {
   console.log(`Inote-book listening at http://localhost:${port}`)
