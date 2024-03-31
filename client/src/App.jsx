@@ -7,6 +7,12 @@ import WorkersBody from "./pages/Portfolio/Workers/WorkersBody/WorkersBody";
 import ScrollToTop from "./components/ScrollToTop";
 import Dashboard from "./pages/Worker/Dashboard/index.jsx";
 import WorkerDashHome from "./pages/Worker/Home/WorkerDashHome.jsx";
+import WorkerProfile from "./pages/Worker/Profile";
+import WorkerWithdraw from "./pages/Worker/Withdraw";
+import YoutubeViewEarning from "./pages/Worker/Earning/YoutubeView";
+import YoutubeWatchTimeEarning from "./pages/Worker/Earning/YoutubeWatchTime";
+import GoogleViewEarning from "./pages/Worker/Earning/GoogleView";
+import GoogleAdViewEarning from "./pages/Worker/Earning/GoogleAdView";
 
 function App() {
   return (
@@ -21,7 +27,15 @@ function App() {
         </Route>
         <Route path="/worker" element={<Dashboard />}>
           <Route index element={<WorkerDashHome />} />
-          <Route path="my-id" element={<div>Worker my id</div>} />
+          <Route path="profile" element={<WorkerProfile />} />
+          <Route path="withdraw" element={<WorkerWithdraw />} />
+          <Route path="earning/youtube/view" element={<YoutubeViewEarning />} />
+          <Route
+            path="earning/youtube/watchtime"
+            element={<YoutubeWatchTimeEarning />}
+          />
+          <Route path="earning/google/view" element={<GoogleViewEarning />} />
+          <Route path="earning/google/adview" element={<GoogleAdViewEarning />} />
         </Route>
       </Routes>
     </BrowserRouter>

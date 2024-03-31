@@ -8,7 +8,7 @@ import { FaChevronDown } from "react-icons/fa";
 
 const Sidebar = () => {
   return (
-    <div className="flex flex-col h-[100vh] justify-between two-color-gradient-background-vertical p-4">
+    <div className="flex fixed w-[20vw] flex-col h-[100vh] justify-between two-color-gradient-background-vertical p-4">
       <div className="flex flex-col items-center">
         <img src={logo} className="size-20" />
         <div className="mt-16 flex flex-col gap-4">

@@ -5,7 +5,7 @@ import user from "../../assets/svg/profile-user.svg";
 
 const Header = () => {
   return (
-    <div className="mx-[5vw] flex justify-between my-4">
+    <div className="mx-[5vw]  flex justify-between my-4">
       <div className="flex items-center rounded-xl border-gray-300 border px-4 w-[30%]">
         <RiSearch2Line className="text-neutral-400" size={30} />
         <input
