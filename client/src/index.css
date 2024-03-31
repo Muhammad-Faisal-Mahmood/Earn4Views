@@ -7,7 +7,7 @@
   scrollbar-width: none; /* Firefox */
 }
 
-.purple-text{
+.purple-text {
   color: #5a2867;
 }
 .gradient-background-horizontal {
@@ -19,6 +19,9 @@
 
 .two-color-gradient-background {
   background: linear-gradient(180deg, #5d298b 0%, #521e58 100%);
+}
+.two-color-gradient-background-vertical {
+  background: linear-gradient(0deg, #5d298b 0%, #521e58 100%);
 }
 
 .shadow-basic {

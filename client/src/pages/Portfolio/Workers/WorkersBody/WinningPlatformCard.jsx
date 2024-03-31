@@ -32,7 +32,7 @@ const WinningPlatformCard = ({ Title, Icon }) => {
 
   return (
     <div
-      className="relative shadow-basic rounded-md w-[80%] -z-50 overflow-hidden h-[400px]"
+      className="relative shadow-basic rounded-md w-[80%] -z-0 overflow-hidden h-[400px]"
       // style={{
       //   backgroundImage: `url(${HexagonalPlatform})`,
       //   backgroundRepeat: "no-repeat",
