@@ -5,7 +5,6 @@ import LoginBody from "./pages/Portfolio/Login/LoginBody";
 import BuyersBody from "./pages/Portfolio/Buyers/BuyersBody/BuyersBody";
 import WorkersBody from "./pages/Portfolio/Workers/WorkersBody/WorkersBody";
 import ScrollToTop from "./components/ScrollToTop";
-import Dashboard from "./pages/Worker/Dashboard/index.jsx";
 import WorkerDashHome from "./pages/Worker/Home/WorkerDashHome.jsx";
 import WorkerProfile from "./pages/Worker/Profile";
 import WorkerWithdraw from "./pages/Worker/Withdraw";
@@ -13,6 +12,7 @@ import YoutubeViewEarning from "./pages/Worker/Earning/YoutubeView";
 import YoutubeWatchTimeEarning from "./pages/Worker/Earning/YoutubeWatchTime";
 import GoogleViewEarning from "./pages/Worker/Earning/GoogleView";
 import GoogleAdViewEarning from "./pages/Worker/Earning/GoogleAdView";
+import WorkerDashboard from "./pages/Worker/WorkerDashboard/index.jsx";
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
           <Route path="buyers" element={<BuyersBody />} />
           <Route path="workers" element={<WorkersBody />} />
         </Route>
-        <Route path="/worker" element={<Dashboard />}>
+        <Route path="/dashboard/worker" element={<WorkerDashboard />}>
           <Route index element={<WorkerDashHome />} />
           <Route path="profile" element={<WorkerProfile />} />
           <Route path="withdraw" element={<WorkerWithdraw />} />
@@ -35,7 +35,25 @@ function App() {
             element={<YoutubeWatchTimeEarning />}
           />
           <Route path="earning/google/view" element={<GoogleViewEarning />} />
-          <Route path="earning/google/adview" element={<GoogleAdViewEarning />} />
+          <Route
+            path="earning/google/adview"
+            element={<GoogleAdViewEarning />}
+          />
+        </Route>
+        <Route path="/dashboard/buyer" element={<WorkerDashboard />}>
+          <Route index element={<WorkerDashHome />} />
+          <Route path="profile" element={<WorkerProfile />} />
+          <Route path="withdraw" element={<WorkerWithdraw />} />
+          <Route path="earning/youtube/view" element={<YoutubeViewEarning />} />
+          <Route
+            path="earning/youtube/watchtime"
+            element={<YoutubeWatchTimeEarning />}
+          />
+          <Route path="earning/google/view" element={<GoogleViewEarning />} />
+          <Route
+            path="earning/google/adview"
+            element={<GoogleAdViewEarning />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
