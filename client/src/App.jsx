@@ -18,9 +18,16 @@ import BuyerDashHome from "./pages/Buyer/Home/index.jsx";
 import BuyerDashProfile from "./pages/Buyer/Profile/index.jsx";
 import BuyerDashTransactions from "./pages/Buyer/Transactions/index.jsx";
 import BuyerDashNewServices from "./pages/Buyer/NewServices/index.jsx";
+import OtpVerification from "./pages/Portfolio/OtpVerification/OtpVerification.jsx";
+import { createContext, useState } from "react";
+import ForgotPassword from "./pages/Portfolio/ForgotPassword/ForgotPassword.jsx";
+
+export const UserContext = createContext();
 
 function App() {
+  const [user, setUser] = useState(null);
   return (
+    <UserContext.Provider value={{ user, setUser }}>
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
@@ -29,6 +36,8 @@ function App() {
           <Route path="login" element={<LoginBody />} />
           <Route path="buyers" element={<BuyersBody />} />
           <Route path="workers" element={<WorkersBody />} />
+          <Route path="otp-verification" element={<OtpVerification />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
         </Route>
         <Route path="/dashboard/worker" element={<WorkerDashboard />}>
           <Route index element={<WorkerDashHome />} />
@@ -53,6 +62,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 

@@ -1,18 +1,25 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import circle from "../../../../assets/svg/circle1.svg";
 import polygon from "../../../../assets/svg/polygon1.svg";
 import Polygonrev from "../../../../assets/svg/polygon2.svg";
 import { Base_Api } from "../../../../utils/BaseApi";
+import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../../../App";
 
 const LoginBody = () => {
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
   const [isSignIn, setisSignIn] = useState(true);
   const [userRole, setuserRole] = useState("");
   const nameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const confirmPasswordRef = useRef("");
+  const loginEmailRef = useRef("");
+  const loginPasswordRef = useRef("");
+  console.log("user context: ", user);
 
-  const handleSubmit = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     // Make sure password and confirm password match
@@ -22,25 +29,35 @@ const LoginBody = () => {
     }
 
     try {
-      const response = await fetch(
-        Base_Api + "api/userAuth/createuser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            Name: nameRef.current.value,
-            Email: emailRef.current.value,
-            Role: userRole,
-            Password: passwordRef.current.value,
-          }),
-        }
-      );
+      const response = await fetch(Base_Api + "api/userAuth/createuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Name: nameRef.current.value,
+          Email: emailRef.current.value,
+          Role: userRole,
+          Password: passwordRef.current.value,
+        }),
+      });
 
       if (response.ok) {
-        // Handle success, maybe redirect user or show a success message
-        console.log("User created successfully, data: ", response);
+        try {
+          const responseData = await response.json();
+          console.log("User created successfully, data: ", responseData);
+
+          if (responseData.AuthToken) {
+            // If AuthToken exists, navigate to 'otp-verification' route
+            setUser({
+              authToken: responseData.AuthToken,
+            });
+            navigate("/otp-verification");
+          }
+          // Handle success, maybe redirect user or show a success message
+        } catch (error) {
+          console.error("Error parsing JSON response:", error.message);
+        }
       } else {
         // Handle errors
         console.error("Error creating user:", response.statusText);
@@ -50,8 +67,60 @@ const LoginBody = () => {
     }
   };
 
-  const handleRoleChange = (e) => {
-    setuserRole(e.target.value);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(Base_Api + "api/userAuth/loginuser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Email: loginEmailRef.current.value,
+
+          Password: loginPasswordRef.current.value,
+        }),
+      });
+
+      if (response.ok) {
+        try {
+          const responseData = await response.json();
+          console.log("User loggedin successfully, data: ", responseData);
+
+          if (responseData.AuthToken) {
+            console.log("logged in user auth token: ", responseData.AuthToken);
+            const userData = await fetch(Base_Api + "api/userAuth/getuser", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "auth-token": responseData.AuthToken,
+              },
+            });
+            if (userData.ok) {
+              try {
+                const userDataJson = await userData.json();
+                console.log("userData :", userDataJson);
+                setUser({
+                  authToken: responseData.AuthToken,
+                  ...userDataJson.userData,
+                });
+              } catch (e) {
+                console.log("error: ", e);
+              }
+            }
+          }
+          // Handle success, maybe redirect user or show a success message
+        } catch (error) {
+          console.error("Error parsing JSON response:", error.message);
+        }
+      } else {
+        // Handle errors
+        console.error("Error logging in user:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error loggin in user:", error.message);
+    }
   };
 
   return (
@@ -83,7 +152,7 @@ const LoginBody = () => {
           className="py-10 md:py-20 form-container sign-up-container sm:translate-x-0 w-[100%] md:w-[60%]"
           id="SignUp"
         >
-          <form onSubmit={handleSubmit} className="sm:px-10 form ">
+          <form onSubmit={handleSignUp} className="sm:px-10 form ">
             <h1 className="text-black font-Para text-2xl md:text-4xl font-bold mb-3">
               Create Account
             </h1>
@@ -188,7 +257,7 @@ const LoginBody = () => {
           className="py-10 md:py-20 form-container sign-in-container sm:translate-x-0 w-[100%] md:w-[60%]"
           id="SignIn"
         >
-          <form action="#" className="sm:px-10 form">
+          <form onSubmit={handleLogin} className="sm:px-10 form">
             <h1 className="text-black font-Para text-2xl md:text-4xl font-bold mb-3">
               Login To Your Account
             </h1>
@@ -209,6 +278,7 @@ const LoginBody = () => {
                 </label>
                 <input
                   type="email"
+                  ref={loginEmailRef}
                   placeholder="Your Email"
                   className="py-2 px-4 bg-white rounded-lg text-lg placeholder:text-gray-400"
                   style={{ boxShadow: "1px 0px 12px 1px #00000040" }}
@@ -220,13 +290,22 @@ const LoginBody = () => {
                 </label>
                 <input
                   type="password"
+                  ref={loginPasswordRef}
                   placeholder="Your Password"
                   className="py-2 px-4 bg-white rounded-lg text-lg placeholder:text-gray-400"
                   style={{ boxShadow: "1px 0px 12px 1px #00000040" }}
                 />
               </div>
+              <Link to={"/forgot-password"}>
+                <h1 className="text-blue-600 font-medium cursor-pointer hover:underline">
+                  Forgot Password?
+                </h1>
+              </Link>
               <div className="flex justify-center w-[100%]">
-                <button className="font-Para w-fit m-auto my-4 bg-black text-white rounded-lg text-xl md:text-xl font-bold py-2 px-6 hover:bg-accence hover:text-black duration-300 ease-in-out">
+                <button
+                  type="submit"
+                  className="font-Para w-fit m-auto my-4 bg-black text-white rounded-lg text-xl md:text-xl font-bold py-2 px-6 hover:bg-accence hover:text-black duration-300 ease-in-out"
+                >
                   Sign In
                 </button>
               </div>
