@@ -28,40 +28,43 @@ function App() {
   const [user, setUser] = useState(null);
   return (
     <UserContext.Provider value={{ user, setUser }}>
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route index element={<HomeBody />} />
-          <Route path="login" element={<LoginBody />} />
-          <Route path="buyers" element={<BuyersBody />} />
-          <Route path="workers" element={<WorkersBody />} />
-          <Route path="otp-verification" element={<OtpVerification />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-        </Route>
-        <Route path="/dashboard/worker" element={<WorkerDashboard />}>
-          <Route index element={<WorkerDashHome />} />
-          <Route path="profile" element={<WorkerProfile />} />
-          <Route path="withdraw" element={<WorkerWithdraw />} />
-          <Route path="earning/youtube/view" element={<YoutubeViewEarning />} />
-          <Route
-            path="earning/youtube/watchtime"
-            element={<YoutubeWatchTimeEarning />}
-          />
-          <Route path="earning/google/view" element={<GoogleViewEarning />} />
-          <Route
-            path="earning/google/adview"
-            element={<GoogleAdViewEarning />}
-          />
-        </Route>
-        <Route path="/dashboard/buyer" element={<BuyerDashboard />}>
-          <Route index element={<BuyerDashHome />} />
-          <Route path="profile" element={<BuyerDashProfile />} />
-          <Route path="transactions" element={<BuyerDashTransactions />} />
-          <Route path="new-services" element={<BuyerDashNewServices />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />}>
+            <Route index element={<HomeBody />} />
+            <Route path="login" element={<LoginBody />} />
+            <Route path="buyers" element={<BuyersBody />} />
+            <Route path="workers" element={<WorkersBody />} />
+            <Route path="otp-verification" element={<OtpVerification />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+          </Route>
+          <Route path="/dashboard/worker" element={<WorkerDashboard />}>
+            <Route index element={<WorkerDashHome />} />
+            <Route path="profile" element={<WorkerProfile />} />
+            <Route path="withdraw" element={<WorkerWithdraw />} />
+            <Route
+              path="earning/youtube/view"
+              element={<YoutubeViewEarning />}
+            />
+            <Route
+              path="earning/youtube/watchtime"
+              element={<YoutubeWatchTimeEarning />}
+            />
+            <Route path="earning/google/view" element={<GoogleViewEarning />} />
+            <Route
+              path="earning/google/adview"
+              element={<GoogleAdViewEarning />}
+            />
+          </Route>
+          <Route path="/dashboard/buyer" element={<BuyerDashboard />}>
+            <Route index element={<BuyerDashHome />} />
+            <Route path="profile" element={<BuyerDashProfile />} />
+            <Route path="transactions" element={<BuyerDashTransactions />} />
+            <Route path="new-services" element={<BuyerDashNewServices />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </UserContext.Provider>
   );
 }

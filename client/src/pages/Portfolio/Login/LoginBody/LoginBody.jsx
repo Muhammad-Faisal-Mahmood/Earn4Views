@@ -5,6 +5,8 @@ import Polygonrev from "../../../../assets/svg/polygon2.svg";
 import { Base_Api } from "../../../../utils/BaseApi";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../../App";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginBody = () => {
   const { user, setUser } = useContext(UserContext);
@@ -60,7 +62,9 @@ const LoginBody = () => {
         }
       } else {
         // Handle errors
-        console.error("Error creating user:", response.statusText);
+        const responseData = await response.json();
+        toast.error(responseData.error);
+        console.error("Error creating user:", responseData.error);
       }
     } catch (error) {
       console.error("Error creating user:", error.message);
@@ -78,7 +82,6 @@ const LoginBody = () => {
         },
         body: JSON.stringify({
           Email: loginEmailRef.current.value,
-
           Password: loginPasswordRef.current.value,
         }),
       });
@@ -106,7 +109,7 @@ const LoginBody = () => {
                   ...userDataJson.userData,
                 });
               } catch (e) {
-                console.log("error: ", e);
+                console.log("Error fetching user data: ", e);
               }
             }
           }
@@ -115,16 +118,18 @@ const LoginBody = () => {
           console.error("Error parsing JSON response:", error.message);
         }
       } else {
-        // Handle errors
-        console.error("Error logging in user:", response.statusText);
+        const responseData = await response.json();
+        toast.error(responseData.Message);
+        console.error("Error logging in user:", responseData.Message);
       }
     } catch (error) {
-      console.error("Error loggin in user:", error.message);
+      console.log("Use case not handled from backend");
     }
   };
 
   return (
     <>
+      <ToastContainer />
       <div className=" flex justify-center w-full mt-32 lg:mt-48 xl:mt-56">
         <div className="w-[50%] text-center">
           {isSignIn && (

@@ -1,5 +1,5 @@
 import { RiSearch2Line } from "react-icons/ri";
-import { FaChevronDown } from "react-icons/fa";
+import { FaChevronDown, FaUserCircle } from "react-icons/fa";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import user from "../../assets/svg/profile-user.svg";
 
@@ -18,7 +18,10 @@ const Header = () => {
         <div className="rounded-full p-1 border">
           <IoIosNotificationsOutline size={22} className="text-neutral-500" />
         </div>
-        <img src={user} className="size-12" />
+        <div>
+          <FaUserCircle size={45} className="text-slate-400" />
+          {/* <img src={user} className="size-12" /> */}
+        </div>
         <FaChevronDown size={15} className="text-neutral-400" />
       </div>
     </div>
