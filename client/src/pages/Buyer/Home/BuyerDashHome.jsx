@@ -4,7 +4,10 @@ import PlansCardBuyer from "../../../components/PlansCardBuyer";
 import TotalEarningCard from "../../../components/TotalEarningCard";
 import BlackButton from "../../../components/BlackButton";
 
+
+
 const BuyerDashHome = () => {
+
   const TableRowData = [
     {
       tid: "#23456",
