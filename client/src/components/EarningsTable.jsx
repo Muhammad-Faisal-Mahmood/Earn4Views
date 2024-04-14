@@ -30,7 +30,7 @@ const EarningsTable = ({ TableHeadings, TableRowData }) => {
                 </td>
                 <td className="py-5">{dayjs(RowData?.Date).format('DD MMMM YYYY')}</td>
                 {RowData?.platform && <td className="py-5">{RowData?.platform}</td>}
-                <td className="py-5">{RowData?.Amount}</td>
+                <td className="py-5">{"$"+RowData?.Amount}</td>
                 <td className="py-5">
                   {RowData?.Status && (
                     <div
