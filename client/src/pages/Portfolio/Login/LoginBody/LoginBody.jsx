@@ -26,7 +26,12 @@ const LoginBody = () => {
 
     // Make sure password and confirm password match
     if (passwordRef.current.value !== confirmPasswordRef.current.value) {
-      alert("Passwords don't match");
+      toast.warning("Passwords don't match");
+      return;
+    }
+
+    if (passwordRef.current.value.length < 8) {
+      toast.warning("Password should be 8 characters long");
       return;
     }
 

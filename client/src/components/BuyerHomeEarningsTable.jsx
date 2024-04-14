@@ -27,8 +27,9 @@ const BuyerHomeEarningsTable = ({ TableHeadings, TableRowData }) => {
                   <h1 className="">{RowData?.tid}</h1>
                 </td>
                 <td className="py-5">{RowData?.name}</td>
-                <td className="py-5">{RowData?.platform}</td>
-                <td className="py-5">{RowData?.amount}</td>
+                {RowData?.complete && <td className="py-5">{RowData?.complete}</td>}
+                {RowData?.amount && <td className="py-5">{RowData?.amount}</td>}
+                {RowData?.platform && <td className="py-5">{RowData?.platform}</td>}
                 <td className="py-5">
                   {RowData?.status && (
                     <div

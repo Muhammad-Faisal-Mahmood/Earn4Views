@@ -1,17 +1,15 @@
-import userAvatar from "../../assets/svg/profile-user.svg";
 import logo from "../../assets/svg/main-logo.svg";
 import SidebarItem from "../../components/SidebarItem";
 import { FaHome } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { FaChevronDown } from "react-icons/fa";
-import HandSetting from "../../assets/svg/hand-settings.svg";
 import { UserContext } from "../../App";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,25 +28,20 @@ const Sidebar = () => {
             icon={<FaHome size={20} />}
             text={"Home"}
             link={"/dashboard/buyer"}
-            active={true}
           />
           <SidebarItem
             icon={<FaUserCircle size={20} />}
             text={"Profile"}
             link={"/dashboard/buyer/profile"}
-            active={false}
           />
           <SidebarItem
             icon={<FaRegCreditCard size={20} />}
             text={"Transactions"}
             link={"/dashboard/buyer/transactions"}
-            active={false}
           />
           <SidebarItem
-            icon={HandSetting}
             text={"New Services"}
             link={"/dashboard/buyer/new-services"}
-            active={false}
           />
         </div>
       </div>

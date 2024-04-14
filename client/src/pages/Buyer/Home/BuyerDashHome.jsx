@@ -3,10 +3,35 @@ import BuyerHomeEarningsTable from "../../../components/BuyerHomeEarningsTable";
 import PlansCardBuyer from "../../../components/PlansCardBuyer";
 import TotalEarningCard from "../../../components/TotalEarningCard";
 import BlackButton from "../../../components/BlackButton";
+import { useEffect, useState } from "react";
+import { Base_Api } from "../../../utils/BaseApi";
+import { ToastContainer, toast } from "react-toastify";
 
 
 
 const BuyerDashHome = () => {
+  const [plans, setPlans] = useState([]);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const response = await fetch(Base_Api + 'api/buyer/getPlans');
+        const data = await response.json();
+        if (data.success) {
+          setPlans(data.plan);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error('Error fetching plans:', error);
+        // Handle error state here if needed
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
+  console.log("buyer plans: ",plans)
 
   const TableRowData = [
     {
@@ -32,50 +57,52 @@ const BuyerDashHome = () => {
     },
   ];
 
-  const buyPlans = [
-    {
-      title: "YouTube Subscribers",
-      price: "$20",
-      features: ["10 Subscribers"],
-    },
-    {
-      title: "Instagram Followers",
-      price: "$20",
-      features: ["10 Followers"],
-    },
-    {
-      title: "Tiktok Followers",
-      price: "$20",
-      features: ["10 Followers"],
-    },
-    {
-      title: "Youtube Views",
-      price: "$20",
-      features: ["10k Views"],
-    },
-    {
-      title: "Google Views",
-      price: "$20",
-      features: ["10k Views"],
-    },
-    {
-      title: "Facebook Followers",
-      price: "$20",
-      features: ["10 Followers"],
-    },
-    {
-      title: "Youtube WatchTime",
-      price: "$20",
-      features: ["10k Views"],
-    },
-    {
-      title: "Google Ad Views",
-      price: "$20",
-      features: ["10k Views"],
-    },
-  ];
+  // const buyPlans = [
+  //   {
+  //     title: "YouTube Subscribers",
+  //     price: "$20",
+  //     features: ["10 Subscribers"],
+  //   },
+  //   {
+  //     title: "Instagram Followers",
+  //     price: "$20",
+  //     features: ["10 Followers"],
+  //   },
+  //   {
+  //     title: "Tiktok Followers",
+  //     price: "$20",
+  //     features: ["10 Followers"],
+  //   },
+  //   {
+  //     title: "Youtube Views",
+  //     price: "$20",
+  //     features: ["10k Views"],
+  //   },
+  //   {
+  //     title: "Google Views",
+  //     price: "$20",
+  //     features: ["10k Views"],
+  //   },
+  //   {
+  //     title: "Facebook Followers",
+  //     price: "$20",
+  //     features: ["10 Followers"],
+  //   },
+  //   {
+  //     title: "Youtube WatchTime",
+  //     price: "$20",
+  //     features: ["10k Views"],
+  //   },
+  //   {
+  //     title: "Google Ad Views",
+  //     price: "$20",
+  //     features: ["10k Views"],
+  //   },
+  // ];
 
   return (
+    <>
+    <ToastContainer/>
     <div className="mx-[7vw] flex flex-col gap-8 py-10">
       {/* <div>
         <h1 className="text-3xl font-bold">Hello, Anna!</h1>
@@ -126,16 +153,17 @@ const BuyerDashHome = () => {
       </div>
 
       <div className=" grid grid-cols-4 gap-4 my-8 flex-wrap md:mx-10 justify-center">
-        {buyPlans.map((plan, index) => (
+        {plans.map((plan, index) => (
           <PlansCardBuyer
             key={index}
-            title={plan.title}
-            price={plan.price}
-            features={plan.features}
+            title={plan.Service}
+            price={"$" + plan.Price * 100}
+            features={["100 subscribers"]}
           />
         ))}
       </div>
     </div>
+    </>
   );
 };
 

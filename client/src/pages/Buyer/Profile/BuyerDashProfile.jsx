@@ -9,6 +9,7 @@ import { FaCheck } from "react-icons/fa";
 import { Base_Api } from "../../../utils/BaseApi";
 import { ToastContainer, toast } from "react-toastify";
 import { FaUserCircle } from "react-icons/fa";
+import { ValidateUserUpdateData } from "../../../utils/UpdateUserInputValidation";
 
 const BuyerDashProfile = () => {
   const { user, setUser } = useContext(UserContext);
@@ -38,6 +39,11 @@ const BuyerDashProfile = () => {
 
   //toggle the field to enabled and not enabled
   const toggleField = (index) => {
+    
+    if(Object.keys(fields)[index] == "Email") {
+      return;
+    }
+
     if (focusedIndex === null) {
       setfocusedIndex(index);
     } else setfocusedIndex(null);
@@ -66,7 +72,11 @@ const BuyerDashProfile = () => {
     }, {});
 
     if (Object.keys(updatedFields).length === 0) {
-      console.log("nothing updated ...");
+      toast.warning("Please provide us the right information");
+      return;
+    }
+
+    if(ValidateUserUpdateData(updatedFields) !== true){
       return;
     }
 
@@ -128,7 +138,7 @@ const BuyerDashProfile = () => {
             {/* <img src={userProfile} className="size-36" /> */}
           </div>
           <h1 className="font-bold text-[#1A1A1A] text-4xl capitalize">
-            {"Hello"}
+          {`${user?.Name.split(" ")[0]}`}
           </h1>
         </div>
         <div>

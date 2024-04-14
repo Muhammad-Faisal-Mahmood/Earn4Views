@@ -1,5 +1,6 @@
 import React from "react";
 import { FaCaretDown } from "react-icons/fa6";
+import dayjs from 'dayjs';
 
 const EarningsTable = ({ TableHeadings, TableRowData }) => {
   return (
@@ -25,17 +26,18 @@ const EarningsTable = ({ TableHeadings, TableRowData }) => {
                 className="rounded-lg text-[14px] text-[#2C2C2C] bg-white "
               >
                 <td className="px-4  ">
-                  <h1 className="">{RowData?.tid}</h1>
+                  <h1 className="">{RowData?.TID}</h1>
                 </td>
-                <td className="py-5">{RowData?.withdrawDate}</td>
-                <td className="py-5">{RowData?.platform}</td>
-                <td className="py-5">{RowData?.amount}</td>
+                <td className="py-5">{dayjs(RowData?.Date).format('DD MMMM YYYY')}</td>
+                {RowData?.platform && <td className="py-5">{RowData?.platform}</td>}
+                <td className="py-5">{RowData?.Amount}</td>
                 <td className="py-5">
-                  {RowData?.status && (
+                  {RowData?.Status && (
                     <div
                       className={
                         "w-fit rounded-full " +
-                        (RowData.status == "withdraw"
+                        (RowData.Status == "withdraw" ||
+                        RowData.Status == "Paid"
                           ? "bg-[#E1FFDC]"
                           : "bg-[#FFF5DC]")
                       }
@@ -43,12 +45,13 @@ const EarningsTable = ({ TableHeadings, TableRowData }) => {
                       <h1
                         className={
                           "capitalize px-8 py-1 " +
-                          (RowData.status == "withdraw"
+                          (RowData.Status == "withdraw" ||
+                          RowData.Status == "Paid"
                             ? "text-[#07A104] "
                             : "text-[#E2B102]")
                         }
                       >
-                        {RowData.status}
+                        {RowData.Status}
                       </h1>
                     </div>
                   )}

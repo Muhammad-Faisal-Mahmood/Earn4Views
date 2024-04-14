@@ -1,8 +1,44 @@
+import { UserContext } from "../../../App";
 import jazzcashPaymentMethod from "../../../assets/svg/jazzcashPaymentMethod.svg";
 import BlackButton from "../../../components/BlackButton";
 import EarningsTable from "../../../components/EarningsTable";
+import { useContext, useEffect, useState } from 'react';
+import { Base_Api } from "../../../utils/BaseApi";
+
 
 const BuyerDashTransactions = () => {
+  const [transactions, setTransactions] = useState([]);
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(Base_Api + 'api/buyer/getTransaction', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'auth-token': user.authToken // Replace yourAuthToken with the actual auth token if needed
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        if (data.success) {
+          setTransactions(data.transaction);
+        } else {
+          throw new Error(data.message);
+        }
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+        // Handle error state here if needed
+      }
+    };
+
+    fetchTransactions();
+  }, []);
+
+  console.log("all transactions data: ", transactions);
   const tableRowData = [
     {
       tid: "#23456",
@@ -109,11 +145,11 @@ const BuyerDashTransactions = () => {
           TableHeadings={[
             "Invoice ID",
             "Billing Date",
-            "Plan",
+            // "Plan",
             "Amount",
             "Status",
           ]}
-          TableRowData={tableRowData}
+          TableRowData={transactions}
         />
       </div>
     </div>
