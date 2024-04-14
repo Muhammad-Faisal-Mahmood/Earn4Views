@@ -3,51 +3,105 @@ import contactCall from "../../../assets/svg/contact-call.svg";
 import InstargramLogo from "../../../assets/svg/InstagramPlatformImg.svg";
 import YoutubeLogo from "../../../assets/svg/YoutubePlatformImg.svg";
 import { useState } from "react";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoMailOutline } from "react-icons/io5";
+import jazzcashPaymentMethod from "../../../assets/svg/jazzcashPaymentMethod.svg";
 
 const BuyerDashNewServices = () => {
   const [step, setStep] = useState(1);
   const [thankyouModal, setThankyouModal] = useState(0);
+  const [selectedPlatform, setSelectedPlatform] = useState(null);
+  const [payNow, setPayNow] = useState(false);
+
+  const platforms = [
+    {
+      img: YoutubeLogo,
+      name: "Youtube",
+      slug: "youtube",
+    },
+    {
+      img: InstargramLogo,
+      name: "Instagram",
+      slug: "instagram",
+    },
+  ];
 
   const stepOne = (
-    <div className="my-2 h-96 custom-scrollbar overflow-y-scroll p-8">
-      <div className="flex h-[700px] gap-4 justify-center">
-        <div className="shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold">
-          <img src={YoutubeLogo} className="size-20" alt="" />
-          Youtube
-        </div>
-        <div className="shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold">
-          <img src={InstargramLogo} className="size-20" alt="" />
-          Instagram
+    <>
+      <div className="my-2 h-96 custom-scrollbar overflow-y-scroll p-8 ">
+        <div className="flex h-[700px] gap-4 justify-center">
+          {platforms.map((platform, index) => (
+            <div
+              onClick={() => setSelectedPlatform(platform.slug)}
+              key={index}
+              className={
+                selectedPlatform === platform.slug
+                  ? "shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold border-black border-4"
+                  : "shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold "
+              }
+            >
+              <img src={platform.img} className="size-20" alt="" />
+              {platform.name}
+            </div>
+          ))}
         </div>
       </div>
-    </div>
+      <button
+        onClick={() => {
+          setStep(step + 1);
+        }}
+        className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
+      >
+        Next
+      </button>
+    </>
   );
 
   const stepTwo = (
-    <div className="my-2 p-8">
-      <div>
-        <h1>Platform</h1>
-        <input
-          type="text"
-          className=" bg-white shadow-basic rounded-sm"
-          placeholder="Youtube Likes"
-        />
+    <>
+      <div className="my-2 p-8 flex flex-col gap-4">
+        <div className="flex-col flex gap-1">
+          <h1>Platform</h1>
+          <select
+            value={"werwe"}
+            // onChange={(e) => setSelectedOption(e.target.value)}
+            className="bg-white shadow-basic p-3 w-full"
+          >
+            <option value="">Select an option</option>
+            <option value="youtubeLikes">Youtube Likes</option>
+            <option value="instagramFollower">Instagram Followers</option>
+          </select>
+        </div>
+        <div className="flex-col flex gap-1">
+          <h1>Amount</h1>
+          <select
+            value={"werwe"}
+            // onChange={(e) => setSelectedOption(e.target.value)}
+            className="bg-white shadow-basic p-3 w-full"
+          >
+            <option value="">Select an option</option>
+            <option value="youtubeLikes">10k</option>
+            <option value="instagramFollower">20k</option>
+          </select>
+        </div>
+        <div className="flex-col flex gap-1">
+          <h1>URL:</h1>
+          <textarea
+            cols={60}
+            rows={2}
+            className="bg-white rounded-sm shadow-basic p-2 text-xs outline-none"
+            placeholder="Example: https://www.access2interpreters.com/the-history-of-thank-you-around-the-world/"
+          />
+        </div>
       </div>
-      <div>
-        <h1>Amount</h1>
-        <input
-          type="text"
-          className=" bg-white shadow-basic rounded-sm"
-          placeholder="10k"
-        />
-      </div>
-      <h1>URL:</h1>
-      <div className="bg-white rounded-sm shadow-basic p-2 text-xs text-neutral-400">
-        Example:
-        https://www.access2interpreters.com/the-history-of-thank-you-around-the-world/
-      </div>
-    </div>
+      <button
+        onClick={() => {
+          setStep(step + 1);
+        }}
+        className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
+      >
+        Pay Now
+      </button>
+    </>
   );
 
   const stepThree = (
@@ -66,6 +120,51 @@ const BuyerDashNewServices = () => {
         <h1 className="font-bold">Total Amount:</h1>
         <h1 className="font-semibold">20k</h1>
       </div>
+
+      <button
+        onClick={() => {
+          setPayNow(true);
+        }}
+        className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
+      >
+        Pay Now
+      </button>
+    </div>
+  );
+
+  const payNowJSX = (
+    <div className="flex flex-col gap-8 py-4">
+      <div>
+        <h1>TID:</h1>
+        <input
+          type="text"
+          className="bg-white shadow-md rounded-sm"
+          placeholder="Example: #12345"
+        />
+      </div>
+      <div className="py-8 px-4 shadow-basic flex items-center gap-4 rounded-md">
+        <img src={jazzcashPaymentMethod} alt="" />
+        <div>
+          <h1>Jazz cash</h1>
+          <h1>**** **** **** 4002</h1>
+          <h1>Expiry on 20/2024</h1>
+          <div className="flex items-center gap-1">
+            <IoMailOutline />
+            billing@acme.corp
+          </div>
+        </div>
+        <div>
+          <button>Change</button>
+        </div>
+      </div>
+      <button
+        onClick={() => {
+          setThankyouModal(true);
+        }}
+        className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
+      >
+        Submit
+      </button>
     </div>
   );
 
@@ -83,32 +182,33 @@ const BuyerDashNewServices = () => {
               </p>
             </div>
             <div className="border-t-2 border-gray-400" />
-            {step === 1 ? stepOne : step === 2 ? stepTwo : stepThree}
-            <div>
-              <button
-                onClick={() =>
-                  step < 3 ? setStep(step + 1) : setThankyouModal(1)
-                }
-                className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
-              >
-                {step == 1 ? "Next" : "Pay Now"}
-              </button>
-            </div>
+            {!payNow && (
+              <div>
+                {step === 1 ? stepOne : step === 2 ? stepTwo : stepThree}
+              </div>
+            )}
+
+            {payNow && payNowJSX}
           </div>
           <div className="hidden md:flex w-[55%]  flex-col lg:gap-28 gap-12">
             <div className="flex flex-col gap-12">
               <h1 className="text-2xl font-bold my-4">3 steps to solutions</h1>
               <div className="flex gap-2">
                 <PositionCard
-                  gradient={true}
-                  stepNumber={"01"}
+                  gradient={step}
+                  stepNumber={1}
                   text={"Fill out the support form"}
                 />
                 <PositionCard
-                  stepNumber={"02"}
+                  gradient={step}
+                  stepNumber={2}
                   text={"You wait, we'll get started"}
                 />
-                <PositionCard stepNumber={"03"} text={"Get your solution"} />
+                <PositionCard
+                  gradient={step}
+                  stepNumber={3}
+                  text={"Get your solution"}
+                />
               </div>
             </div>
             <div className="shadow-basic p-8 pb-12 flex rounded-lg relative">
