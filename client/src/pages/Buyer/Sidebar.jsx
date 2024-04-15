@@ -20,10 +20,10 @@ const Sidebar = () => {
 
   console.log("user from buyer sidebar", user);
   return (
-    <div className="flex fixed w-[20vw] flex-col h-[100vh] justify-between two-color-gradient-background-vertical p-4">
+    <div className="flex fixed w-[16vw] md:w-[20vw] flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 md:py-4">
       <div className="flex flex-col items-center">
-        <img src={logo} className="size-20" />
-        <div className="mt-16 flex flex-col gap-4">
+        <img src={logo} className="size-12 md:size-20" />
+        <div className="mt-8 md:mt-16 flex flex-col gap-4">
           <SidebarItem
             icon={<FaHome size={20} />}
             text={"Home"}
@@ -45,18 +45,18 @@ const Sidebar = () => {
           />
         </div>
       </div>
-      <div className="flex my-4 ">
+      <div className="hidden lg:flex gap-2  my-4 ">
         <div>
           <FaUserCircle size={45} className="text-slate-400" />
           {/* <img src={userAvatar} className="size-12" /> */}
         </div>
-        <div className="px-4">
+        <div>
           <div className="flex items-center gap-2">
             <h1 className="text-white capitalize">{user?.Name}</h1>
             <FaChevronDown size={15} className="text-neutral-500 " />
           </div>
           <div className="">
-            <p className="text-neutral-500 ">{user?.Email}</p>
+            <p className="text-neutral-500">{user?.Email}</p>
           </div>
         </div>
       </div>
