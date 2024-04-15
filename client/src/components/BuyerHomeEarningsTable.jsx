@@ -24,18 +24,24 @@ const BuyerHomeEarningsTable = ({ TableHeadings, TableRowData }) => {
                 className="rounded-lg text-[14px] text-[#2C2C2C] bg-white "
               >
                 <td className="px-4  ">
-                  <h1 className="">{RowData?.tid}</h1>
+                  <h1 className="">{RowData?._id}</h1>
                 </td>
-                <td className="py-5">{RowData?.name}</td>
-                {RowData?.complete && <td className="py-5">{RowData?.complete}</td>}
-                {RowData?.amount && <td className="py-5">{RowData?.amount}</td>}
-                {RowData?.platform && <td className="py-5">{RowData?.platform}</td>}
+                <td className="py-5">{RowData?.Service}</td>
+                {RowData?.workerTrackCount != null && (
+                  <td className="py-5">{`${RowData?.workerTrackCount}%`}</td>
+                )}
+                {RowData?.Amount && (
+                  <td className="py-5">{"$" + RowData?.Amount}</td>
+                )}
+                {RowData?.platform && (
+                  <td className="py-5">{RowData?.platform}</td>
+                )}
                 <td className="py-5">
-                  {RowData?.status && (
+                  {RowData?.Status && (
                     <div
                       className={
                         "w-fit rounded-full " +
-                        (RowData.status == "Complete"
+                        (RowData.Status == "Complete"
                           ? "bg-[#E1FFDC]"
                           : "bg-[#FFF5DC]")
                       }
@@ -43,12 +49,12 @@ const BuyerHomeEarningsTable = ({ TableHeadings, TableRowData }) => {
                       <h1
                         className={
                           "capitalize px-8 py-1 " +
-                          (RowData.status == "Complete"
+                          (RowData.Status == "Complete"
                             ? "text-[#07A104] "
                             : "text-[#E2B102]")
                         }
                       >
-                        {RowData.status}
+                        {RowData.Status === "Complete" ? "Complete" : "Pending"}
                       </h1>
                     </div>
                   )}

@@ -3,14 +3,17 @@ import BuyerHomeEarningsTable from "../../../components/BuyerHomeEarningsTable";
 import PlansCardBuyer from "../../../components/PlansCardBuyer";
 import TotalEarningCard from "../../../components/TotalEarningCard";
 import BlackButton from "../../../components/BlackButton";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Base_Api } from "../../../utils/BaseApi";
 import { ToastContainer, toast } from "react-toastify";
+import { UserContext } from "../../../App";
 
 
 
 const BuyerDashHome = () => {
+  const { user } = useContext(UserContext);
   const [plans, setPlans] = useState([]);
+  const [services, setServices] = useState([]);
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -28,10 +31,32 @@ const BuyerDashHome = () => {
       }
     };
 
+    const fetchServices = async () => {
+      try {
+        const response = await fetch(Base_Api + "api/buyer/ServicesTaken", {
+          method: 'GET',
+          headers: {
+            'auth-token':  user.authToken 
+          }
+        });
+        const data = await response.json();
+        console.log("data received: ",data)
+        if (data.success) {
+          setServices(data.services);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error('Error fetching services:', error);
+      }
+    };
+
     fetchPlans();
+    fetchServices();
   }, []);
 
   console.log("buyer plans: ",plans)
+  console.log("buyer taken services: ",services)
 
   const TableRowData = [
     {
@@ -147,7 +172,7 @@ const BuyerDashHome = () => {
         <div className=" mt-6">
           <BuyerHomeEarningsTable
             TableHeadings={["TID", "Name", "Complete", "Amount", "Status"]}
-            TableRowData={TableRowData}
+            TableRowData={services}
           />
         </div>
       </div>
