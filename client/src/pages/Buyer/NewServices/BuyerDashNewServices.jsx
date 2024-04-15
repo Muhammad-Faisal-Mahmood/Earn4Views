@@ -1,40 +1,159 @@
 import PositionCard from "../../../components/PositionCard";
 import contactCall from "../../../assets/svg/contact-call.svg";
-import InstargramLogo from "../../../assets/svg/InstagramPlatformImg.svg";
+import InstagamLogo from "../../../assets/svg/InstagramPlatformImg.svg";
 import YoutubeLogo from "../../../assets/svg/YoutubePlatformImg.svg";
-import { useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IoClose, IoMailOutline } from "react-icons/io5";
 import jazzcashPaymentMethod from "../../../assets/svg/jazzcashPaymentMethod.svg";
+import { Base_Api } from "../../../utils/BaseApi";
+import { ToastContainer, toast } from "react-toastify";
+import { UserContext } from "../../../App";
+import { Link } from "react-router-dom";
 
 const BuyerDashNewServices = () => {
   const [step, setStep] = useState(1);
   const [thankyouModal, setThankyouModal] = useState(0);
-  const [selectedPlatform, setSelectedPlatform] = useState(null);
+  const [selectedPlatformPlans, setSelectedPlatformPlans] = useState(null);
+  const [plans, setPlans] = useState(null);
+  const [buyer, setBuyer] = useState(null);
   const [payNow, setPayNow] = useState(false);
+  const [optionNotSelected, setOptionNotSelected] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+  const { user } = useContext(UserContext);
+  const urlRef = useRef(null);
 
-  const platforms = [
-    {
-      img: YoutubeLogo,
-      name: "Youtube",
-      slug: "youtube",
-    },
-    {
-      img: InstargramLogo,
-      name: "Instagram",
-      slug: "instagram",
-    },
-  ];
+  useEffect(() => {
+    fetchPlans();
+    fetchBuyer();
+  }, []);
+
+  const fetchPlans = async () => {
+    try {
+      const response = await fetch(Base_Api + "api/buyer/getPlans", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (data.success) {
+        // console.log(data);
+        setPlans(data.plan);
+      } else if (!data.success) {
+        toast.error("Error getting plans");
+      }
+    } catch (error) {
+      console.log("ERR: loading plans in services");
+      // Handle error state here if needed
+    }
+  };
+
+  const fetchBuyer = async () => {
+    try {
+      const response = await fetch(Base_Api + "api/buyer/getBuyer", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": user.authToken,
+        },
+      });
+      const data = await response.json();
+      if (data.success) {
+        // console.log(data);
+        setBuyer(data.buyer);
+        console.log("Data buyer", data.buyer);
+      } else if (!data.success) {
+        toast.error("Error getting plans");
+      }
+    } catch (error) {
+      console.log("ERR: loading plans in services");
+      // Handle error state here if needed
+    }
+  };
+
+  const createService = async () => {
+    try {
+      // console.log("api call create service");
+      const response = await fetch(Base_Api + "api/buyer/createService", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": user.authToken,
+        },
+        body: JSON.stringify({
+          Channel: selectedPlatformPlans[0].Channel,
+          Servicetaken: selectedService.Service,
+          Amount: buyer?.Funds,
+          URL: urlRef?.current,
+          Total: selectedService?.Price * 100,
+        }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        console.log(data);
+        setThankyouModal(true);
+
+        return true;
+      } else if (!data.success) {
+        toast.error(data.message);
+        return false;
+      }
+    } catch (error) {
+      console.log("Error in catch: ", error);
+      toast.error(error.message);
+      return false;
+      // Handle error state here if needed
+    }
+  };
+
+  const channels = [...new Set(plans?.map((plan) => plan.Channel))];
+
+  const platforms = [];
+
+  channels.map((channel) => {
+    if (channel === "Youtube") {
+      platforms.push({
+        img: YoutubeLogo,
+        name: "Youtube",
+      });
+    } else if (channel === "Instagram") {
+      platforms.push({
+        img: InstagamLogo,
+        name: "Instagram",
+      });
+    }
+  });
+
+  const isValidUrl = (url) => {
+    const urlRegex =
+      /^((https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?)|(www\.[\da-z.-]+\.[a-z.]{2,6})$/;
+    return urlRegex.test(url);
+  };
+
+  // const selectedPlatformServices = plans?.map(
+  //   (plan) => plan?.Channel === selectedPlatform && plan.Service
+  // );
+
+  // let selectedPlatformServicePrice;
+
+  // console.log("Selected Platform Services: ", selectedPlatformServices);
 
   const stepOne = (
     <>
       <div className="my-2 h-96 custom-scrollbar overflow-y-scroll p-8 ">
-        <div className="flex h-[700px] gap-4 justify-center">
+        <div className="grid-cols-2 grid gap-4 justify-center">
           {platforms.map((platform, index) => (
             <div
-              onClick={() => setSelectedPlatform(platform.slug)}
+              onClick={() => {
+                const selectedPlatformData = plans.filter(
+                  (plan) => plan.Channel === platform.name
+                );
+                setSelectedPlatformPlans(selectedPlatformData);
+              }}
               key={index}
               className={
-                selectedPlatform === platform.slug
+                selectedPlatformPlans &&
+                selectedPlatformPlans[0]?.Channel === platform.name
                   ? "shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold border-black border-4"
                   : "shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold "
               }
@@ -45,9 +164,15 @@ const BuyerDashNewServices = () => {
           ))}
         </div>
       </div>
+      {optionNotSelected && (
+        <h1 className="text-red-600 font-semibold p-2">
+          * Please select a platform
+        </h1>
+      )}
       <button
         onClick={() => {
-          setStep(step + 1);
+          !selectedPlatformPlans && setOptionNotSelected(true);
+          selectedPlatformPlans && setStep(step + 1);
         }}
         className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
       >
@@ -62,18 +187,31 @@ const BuyerDashNewServices = () => {
         <div className="flex-col flex gap-1">
           <h1>Platform</h1>
           <select
-            value={"werwe"}
-            // onChange={(e) => setSelectedOption(e.target.value)}
+            value={selectedService?.value}
+            onChange={(e) => {
+              setSelectedService(
+                selectedPlatformPlans?.filter(
+                  (plan) => plan.Service === e.target.value
+                )[0]
+              );
+            }}
             className="bg-white shadow-basic p-3 w-full"
           >
-            <option value="">Select an option</option>
-            <option value="youtubeLikes">Youtube Likes</option>
-            <option value="instagramFollower">Instagram Followers</option>
+            <option value="">Select a value</option>
+            {selectedPlatformPlans &&
+              selectedPlatformPlans?.map((plan, index) => (
+                <option key={index} value={`${plan.Service}`}>
+                  {plan.Service}
+                </option>
+              ))}
           </select>
         </div>
         <div className="flex-col flex gap-1">
           <h1>Amount</h1>
-          <select
+          <h1 className="p-2 w-full h-12 shadow-basic">
+            {selectedService ? `$${selectedService?.Price * 100}` : `$0`}
+          </h1>
+          {/* <select
             value={"werwe"}
             // onChange={(e) => setSelectedOption(e.target.value)}
             className="bg-white shadow-basic p-3 w-full"
@@ -81,11 +219,13 @@ const BuyerDashNewServices = () => {
             <option value="">Select an option</option>
             <option value="youtubeLikes">10k</option>
             <option value="instagramFollower">20k</option>
-          </select>
+          </select> */}
         </div>
         <div className="flex-col flex gap-1">
           <h1>URL:</h1>
           <textarea
+            value={urlRef.current}
+            onChange={(e) => (urlRef.current = e.target.value)}
             cols={60}
             rows={2}
             className="bg-white rounded-sm shadow-basic p-2 text-xs outline-none"
@@ -95,7 +235,9 @@ const BuyerDashNewServices = () => {
       </div>
       <button
         onClick={() => {
-          setStep(step + 1);
+          isValidUrl(urlRef.current)
+            ? setStep(step + 1)
+            : toast.warning("Enter valid url");
         }}
         className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
       >
@@ -108,22 +250,25 @@ const BuyerDashNewServices = () => {
     <div>
       <div className="flex justify-between my-8">
         <h1 className="font-bold">Total Amount:</h1>
-        <h1 className="font-semibold">0</h1>
+        <h1 className="font-semibold">{buyer?.Funds}</h1>
       </div>
       <div>
-        <button className="border-4 font-bold text-purple-950 border-purple-950 w-full p-4 my-2">
+        <Link
+          to={"/dashboard/buyer/transactions"}
+          className="border-4 font-bold text-purple-950 border-purple-950 w-full p-4 my-2"
+        >
           Add Funds
-        </button>
+        </Link>
       </div>
 
       <div className="flex justify-between mt-4 mb-8">
         <h1 className="font-bold">Total Amount:</h1>
-        <h1 className="font-semibold">20k</h1>
+        <h1 className="font-semibold">${selectedService?.Price * 100}</h1>
       </div>
 
       <button
         onClick={() => {
-          setPayNow(true);
+          createService();
         }}
         className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
       >
@@ -170,6 +315,8 @@ const BuyerDashNewServices = () => {
 
   return (
     <>
+      <ToastContainer />
+
       <div className=" py-20">
         <div className="shadow-basic bg-white mx-4 md:mx-8 lg:mx-20 py-8 md:py-12 lg:py-20 px-8 md:px-10 rounded-2xl flex gap-10">
           <div className="w-full md:w-[45%]">
