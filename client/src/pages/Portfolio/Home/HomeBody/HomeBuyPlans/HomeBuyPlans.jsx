@@ -1,4 +1,4 @@
-import PlansCard from "./PlansCard";
+import PlansCard from "../../../../../components/PlansCard";
 
 const HomeBuyPlans = () => {
   const buyPlans = [
@@ -54,7 +54,7 @@ const HomeBuyPlans = () => {
       <h1 className="font-extrabold text-center text-4xl md:text-5xl my-8 md:my-20">
         Buy Plans
       </h1>
-      <div className="flex gap-6 flex-wrap md:mx-20 justify-center">
+      <div className="grid grid-cols-3 gap-6 flex-wrap md:mx-20 justify-center">
         {buyPlans.map((plan, index) => (
           <PlansCard
             key={index}

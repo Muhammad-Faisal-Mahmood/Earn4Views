@@ -1,6 +1,4 @@
 import dayjs from "dayjs";
-import { IoCardOutline } from "react-icons/io5";
-import WinningPlatformCard from "../../Portfolio/Workers/WorkersBody/WinningPlatformCard";
 import WorkerYoutubePlatformCard from "../../../components/WorkerYoutubePlatformCard";
 import WorkerGooglePlatformCard from "../../../components/WorkerGooglePlatformCard";
 import EarningsTable from "../../../components/EarningsTable";
@@ -78,6 +76,7 @@ const WorkerDashHome = () => {
           if (card.type == "youtube")
             return (
               <WorkerYoutubePlatformCard
+                key={index}
                 Title={card.title}
                 Description={card.description}
                 Earning={card.earning}
@@ -87,6 +86,7 @@ const WorkerDashHome = () => {
           else
             return (
               <WorkerGooglePlatformCard
+                key={index}
                 Title={card.title}
                 Description={card.description}
                 Earning={card.earning}

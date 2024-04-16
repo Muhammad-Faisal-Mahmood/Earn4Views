@@ -1,5 +1,5 @@
-import PositionCard from "./PositionCard";
 import contactCall from "../../../../../assets/svg/contact-call.svg";
+import PositionCard from "../../../../../components/PositionCard";
 
 const HomeContact = () => {
   return (

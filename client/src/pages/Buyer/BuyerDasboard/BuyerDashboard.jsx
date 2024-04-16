@@ -1,7 +1,7 @@
 import GenericStructure from "../GenericStructure";
 
-const Dashboard = () => {
+const BuyerDashboard = () => {
   return <GenericStructure />;
 };
 
-export default Dashboard;
+export default BuyerDashboard;
