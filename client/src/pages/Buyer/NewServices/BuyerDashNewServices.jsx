@@ -9,10 +9,11 @@ import { Base_Api } from "../../../utils/BaseApi";
 import { ToastContainer, toast } from "react-toastify";
 import { UserContext } from "../../../App";
 import { Link } from "react-router-dom";
+import Steps from "./Steps";
 
 const BuyerDashNewServices = () => {
   const [step, setStep] = useState(1);
-  const [thankyouModal, setThankyouModal] = useState(0);
+  const [thankyouModal, setThankyouModal] = useState(null);
   const [selectedPlatformPlans, setSelectedPlatformPlans] = useState(null);
   const [plans, setPlans] = useState(null);
   const [buyer, setBuyer] = useState(null);
@@ -84,8 +85,10 @@ const BuyerDashNewServices = () => {
           Channel: selectedPlatformPlans[0].Channel,
           Servicetaken: selectedService.Service,
           Amount: buyer?.Funds,
+          // Amount: 100,
           URL: urlRef?.current,
           Total: selectedService?.Price * 100,
+          // Total: 0,
         }),
       });
       const data = await response.json();
@@ -140,8 +143,8 @@ const BuyerDashNewServices = () => {
 
   const stepOne = (
     <>
-      <div className="my-2 h-96 custom-scrollbar overflow-y-scroll p-8 ">
-        <div className="grid-cols-2 grid gap-4 justify-center">
+      <div className="my-2 h-96 custom-scrollbar overflow-y-scroll p-8">
+        <div className="grid-cols-1 lg:grid-cols-2 grid gap-4 justify-center">
           {platforms.map((platform, index) => (
             <div
               onClick={() => {
@@ -154,12 +157,12 @@ const BuyerDashNewServices = () => {
               className={
                 selectedPlatformPlans &&
                 selectedPlatformPlans[0]?.Channel === platform.name
-                  ? "shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold border-black border-4"
-                  : "shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold "
+                  ? "shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold border-black border-4 flex flex-col items-center"
+                  : "shadow-basic h-fit px-8 py-4 rounded-xl text-center font-bold flex flex-col items-center "
               }
             >
               <img src={platform.img} className="size-20" alt="" />
-              {platform.name}
+              <h1>{platform.name}</h1>
             </div>
           ))}
         </div>
@@ -169,21 +172,23 @@ const BuyerDashNewServices = () => {
           * Please select a platform
         </h1>
       )}
-      <button
-        onClick={() => {
-          !selectedPlatformPlans && setOptionNotSelected(true);
-          selectedPlatformPlans && setStep(step + 1);
-        }}
-        className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
-      >
-        Next
-      </button>
+      <div className="w-full flex justify-center">
+        <button
+          onClick={() => {
+            !selectedPlatformPlans && setOptionNotSelected(true);
+            selectedPlatformPlans && setStep(step + 1);
+          }}
+          className=" px-16 md:w-full button-gradient-background text-white py-2 md:py-4 font-bold text-2xl rounded-md"
+        >
+          Next
+        </button>
+      </div>
     </>
   );
 
   const stepTwo = (
     <>
-      <div className="my-2 p-8 flex flex-col gap-4">
+      <div className="my-2 px-4 py-8 md:p-8 flex flex-col gap-4">
         <div className="flex-col flex gap-1">
           <h1>Platform</h1>
           <select
@@ -250,16 +255,13 @@ const BuyerDashNewServices = () => {
     <div>
       <div className="flex justify-between my-8">
         <h1 className="font-bold">Total Amount:</h1>
-        <h1 className="font-semibold">{buyer?.Funds}</h1>
+        <h1 className="font-semibold ">{buyer?.Funds || 0}</h1>
       </div>
-      <div>
-        <Link
-          to={"/dashboard/buyer/transactions"}
-          className="border-4 font-bold text-purple-950 border-purple-950 w-full p-4 my-2"
-        >
+      <Link to={"/dashboard/buyer/transactions"} className="">
+        <div className="  border-4 font-bold text-purple-950 border-purple-950 w-full p-4 my-2">
           Add Funds
-        </Link>
-      </div>
+        </div>
+      </Link>
 
       <div className="flex justify-between mt-4 mb-8">
         <h1 className="font-bold">Total Amount:</h1>
@@ -270,7 +272,7 @@ const BuyerDashNewServices = () => {
         onClick={() => {
           createService();
         }}
-        className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
+        className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-md"
       >
         Pay Now
       </button>
@@ -317,14 +319,17 @@ const BuyerDashNewServices = () => {
     <>
       <ToastContainer />
 
-      <div className=" py-20">
-        <div className="shadow-basic bg-white mx-4 md:mx-8 lg:mx-20 py-8 md:py-12 lg:py-20 px-8 md:px-10 rounded-2xl flex gap-10">
+      <div className="md:hidden">
+        <Steps step={step} />
+      </div>
+      <div className="py-4 md:py-20">
+        <div className="shadow-basic bg-white mx-3 md:mx-8 lg:mx-20 py-8 md:py-12 lg:py-20 px-4 md:px-10 rounded-2xl flex gap-10">
           <div className="w-full md:w-[45%]">
-            <div className="flex flex-col gap-3 mb-16">
+            <div className="flex flex-col gap-3  mb-8 md:mb-16 text-center md:text-left">
               <h1 className="text-xl md:text-3xl font-bold">
                 Let us know your concerns.
               </h1>
-              <p className="text-xl md:text-xl text-gray-500">
+              <p className="text-sm md:text-xl text-gray-500">
                 First please give us some context.
               </p>
             </div>
@@ -376,7 +381,7 @@ const BuyerDashNewServices = () => {
 
       {thankyouModal && (
         <div className="fixed top-0 left-0  w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-          <div className=" w-[40%] opacity-50-bg rounded-md p-4 pb-16 ">
+          <div className="w-[90%] md:w-[40%] opacity-50-bg rounded-md p-4 pb-16 ">
             <div
               onClick={() => setThankyouModal(0)}
               className="text-white w-full justify-end p-2 cursor-pointer flex "
@@ -385,8 +390,8 @@ const BuyerDashNewServices = () => {
             </div>
 
             <div className="text-white items-center flex flex-col gap-10 justify-center">
-              <h1 className="text-5xl text-white">Thank You</h1>
-              <p className="text-lg text-white">
+              <h1 className="text-2xl md:text-5xl text-white">Thank You</h1>
+              <p className="text-xl md:text-lg text-white">
                 You can See your service status
               </p>
               <button className="p-4 w-fit rounded-lg bg-white text-black font-bold">
