@@ -26,7 +26,7 @@ const EarningsTable = ({ TableHeadings, TableRowData }) => {
                 className="rounded-lg text-[14px] text-[#2C2C2C] bg-white "
               >
                 <td className="px-4  ">
-                  <h1 className="">{RowData?.TID}</h1>
+                  <h1 className="">{RowData?.TID ? RowData?.TID: RowData._id}</h1>
                 </td>
                 <td className="py-5">{dayjs(RowData?.Date).format('DD MMMM YYYY')}</td>
                 {RowData?.platform && <td className="py-5">{RowData?.platform}</td>}

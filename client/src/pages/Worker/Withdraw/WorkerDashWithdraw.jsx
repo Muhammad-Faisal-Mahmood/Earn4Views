@@ -1,41 +1,116 @@
-import React, { useState } from "react";
+import React, { useState,useContext, useEffect, } from "react";
 import TotalEarningCard from "../../../components/TotalEarningCard";
 import jazzcashPaymentMethod from "../../../assets/svg/jazzcashPaymentMethod.svg";
 import EarningsTable from "../../../components/EarningsTable";
+import { UserContext } from "../../../App";
+import { Base_Api } from "../../../utils/BaseApi";
+import { ToastContainer, toast } from "react-toastify";
+import PaymentMethodModal from "../../../components/PaymentMethodModal";
+import { BsBank } from "react-icons/bs";
+import WithdrawModal from "../../../components/WithdrawModal";
 
 const WorkerDashWithdraw = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const tableRowData = [
-    {
-      tid: "#23456",
-      withdrawDate: "23 Jan 2023",
-      platform: "Youtube Likes",
-      amount: "$1200",
-      status: "withdraw",
-    },
-    {
-      tid: "#23456",
-      withdrawDate: "23 Jan 2023",
-      platform: "Youtube Likes",
-      amount: "$1200",
-      status: "withdraw",
-    },
-    {
-      tid: "#23456",
-      withdrawDate: "23 Jan 2023",
-      platform: "Youtube Likes",
-      amount: "$1200",
-      status: "pending",
-    },
-  ];
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isChangeModalOpen, setIsChangeModalOpen] = useState(false);
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const { user } = useContext(UserContext);
+  const [withdraws, setWithdraws] = useState([])
+  const [workerPaymentMethod, setWorkerPaymentMethod] = useState(null);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  useEffect(() => {
+    const fetchWithdraws = async() =>{
+      try {
+        const response = await fetch(Base_Api + "api/worker/withdaws", {
+          headers: {
+            "auth-token": user.authToken 
+          }
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch withdraws");
+        }
+        const data = await response.json();
+        if (data.success) {
+          setWithdraws(data.withdraw);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
+
+    const getWorkerPaymentMethod = async () => {
+      try {
+        const response = await fetch(Base_Api + "api/worker/getaccount", {
+          headers: {
+            "auth-token": user.authToken 
+          }
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch worker payment method");
+        }
+        const data = await response.json();
+        if (data.success) {
+          setWorkerPaymentMethod(data.WokerAccount);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
+    fetchWithdraws()
+    getWorkerPaymentMethod()
+  }, [])
+
+  
+  // const tableRowData = [
+  //   {
+  //     tid: "#23456",
+  //     withdrawDate: "23 Jan 2023",
+  //     platform: "Youtube Likes",
+  //     amount: "$1200",
+  //     status: "withdraw",
+  //   },
+  //   {
+  //     tid: "#23456",
+  //     withdrawDate: "23 Jan 2023",
+  //     platform: "Youtube Likes",
+  //     amount: "$1200",
+  //     status: "withdraw",
+  //   },
+  //   {
+  //     tid: "#23456",
+  //     withdrawDate: "23 Jan 2023",
+  //     platform: "Youtube Likes",
+  //     amount: "$1200",
+  //     status: "pending",
+  //   },
+  // ];
+
+  const openAddModal = () => {
+    setIsAddModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const openChangeModal = () => {
+    setIsChangeModalOpen(true);
   };
+
+  const openWithdrawModal = () => {
+    setIsWithdrawModalOpen(true);
+  };
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+
+  const closeChangeModal = () => {
+    setIsChangeModalOpen(false);
+  };
+
+  const closeWithdrawModal = ()=>{
+    setIsWithdrawModalOpen(false);
+  }
 
   return (
     <div className="mx-[7vw] flex flex-col gap-12 py-10">
@@ -55,10 +130,11 @@ const WorkerDashWithdraw = () => {
         <h1 className="bg-[#EEEEEE] py-4 px-4 rounded-t-2xl text-[#2C2C2C] text-[14px] font-semibold">
           Payment method
         </h1>
-        <div className="bg-white flex justify-between py-6 px-4 shadow-lg rounded-md">
+        {workerPaymentMethod && <div className="bg-white flex justify-between py-6 px-4 shadow-lg rounded-md">
           <div>
-            <img src={jazzcashPaymentMethod} />
-            <h1>Jazz Cash</h1>
+            {/* <img src={jazzcashPaymentMethod} /> */}
+            <BsBank size={36}/>
+            <h1>{workerPaymentMethod.BankAccount}</h1>
           </div>
           <div>
             <div className="flex gap-10 items-center">
@@ -66,7 +142,7 @@ const WorkerDashWithdraw = () => {
                 Account Title:
               </h1>
               <h1 className="text-[#696969] text-[12px] font-medium">
-                Sohaib Shoukat
+                {workerPaymentMethod.Account_Title}
               </h1>
             </div>
             <div className="flex gap-4 items-center">
@@ -74,76 +150,46 @@ const WorkerDashWithdraw = () => {
                 Account Number:
               </h1>
               <h1 className="text-[#696969] text-[12px] font-medium">
-                1234 3456 6789 4002
+                {workerPaymentMethod.Account_No}
               </h1>
             </div>
           </div>
           <div className="">
             <button
-              onClick={openModal}
-              className="text-[14px] font-semibold text-[#4F1C54] px-4 py-2 border-2 border-[#522182]"
+              onClick={openChangeModal}
+              className="text-[14px] font-semibold text-[#4F1C54] px-4 py-2 border-2 rounded-md border-[#522182]"
             >
               Change
             </button>
           </div>
-        </div>
+        </div>}
+        {!workerPaymentMethod && <div className="bg-white flex justify-between items-center py-6 px-4 shadow-lg rounded-md">
+          <h1>Add a Payment Method</h1>
+          <button
+              onClick={openAddModal}
+              className="text-[14px] font-semibold text-[#4F1C54] px-4 py-2 border-2 border-[#522182] rounded-md"
+            >
+              Add
+            </button>
+          </div>}
       </div>
+      {workerPaymentMethod && <div>
+        <button onClick={openWithdrawModal} className="w-[60%] rounded-md text-[20px] font-semibold text-[#4F1C54] px-4 py-2 border-2 border-[#522182]">Withdraw Money</button>
+      </div>}
       <div className="">
         <EarningsTable
           TableHeadings={[
             "TID",
             "Withdraw Date",
-            "Platform",
             "Amount",
             "Status",
           ]}
-          TableRowData={tableRowData}
+          TableRowData={withdraws}
         />
       </div>
-      {isModalOpen && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white w-[40%] rounded-md px-5 py-4">
-            <div className="flex flex-col mt-5 ">
-              <label htmlFor="newAccountTitle" className="text-[#522182]">
-                Select Bank
-              </label>
-              <span className="border-2 my-2 border-[#522182] rounded-lg">
-                <input
-                  type="text"
-                  id="newAccountTitle"
-                  className=" bg-transparent  m-0 outline-none border border-black"
-                />
-              </span>
-              <label htmlFor="newAccountNumber" className="text-[#522182]">
-                Account Title:
-              </label>
-              <span className="border-2 my-2 border-[#522182] rounded-lg">
-                <input
-                  type="text"
-                  id="newAccountTitle"
-                  className=" bg-transparent  m-0 outline-none border border-black"
-                />
-              </span>
-              <label htmlFor="newPaymentMethod" className="text-[#522182]">
-                Account Number:
-              </label>
-              <span className="border-2 my-2 border-[#522182] rounded-lg">
-                <input
-                  type="text"
-                  id="newAccountTitle"
-                  className=" bg-transparent  m-0 outline-none border border-black"
-                />
-              </span>
-            </div>
-            <button
-              className="mt-4 two-color-gradient-background-vertical text-white font-semibold w-full px-4 py-2 rounded-md"
-              onClick={closeModal}
-            >
-              Change
-            </button>
-          </div>
-        </div>
-      )}
+      {isAddModalOpen && <PaymentMethodModal closeModal={closeAddModal} Add={true} />}
+      {isChangeModalOpen && <PaymentMethodModal closeModal={closeChangeModal} Change={true}/>}
+      {isWithdrawModalOpen && <WithdrawModal closeModal={closeWithdrawModal}/>}
     </div>
   );
 };
