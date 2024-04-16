@@ -5,7 +5,7 @@ import WorkerGooglePlatformCardImg from "../assets/svg/WorkerGooglePlatformCard.
 
 const WorkerGooglePlatformCard = ({
   Title,
-  Description,
+ 
   EarningType,
   Earning,
 }) => {
@@ -22,7 +22,6 @@ const WorkerGooglePlatformCard = ({
           {EarningType}
           <span className="ml-5">{Earning}</span>
         </h1>
-        <p className="py-2 text-[8px] font-medium ">{Description}</p>
         <button className="bg-white text-black font-medium  py-1 px-3 rounded-md">
           Start Earning
         </button>

@@ -18,41 +18,54 @@ import BuyerDashHome from "./pages/Buyer/Home/index.jsx";
 import BuyerDashProfile from "./pages/Buyer/Profile/index.jsx";
 import BuyerDashTransactions from "./pages/Buyer/Transactions/index.jsx";
 import BuyerDashNewServices from "./pages/Buyer/NewServices/index.jsx";
+import OtpVerification from "./pages/Portfolio/OtpVerification/OtpVerification.jsx";
+import { createContext, useState } from "react";
+import ForgotPassword from "./pages/Portfolio/ForgotPassword/ForgotPassword.jsx";
+
+export const UserContext = createContext();
 
 function App() {
+  const [user, setUser] = useState(null);
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route index element={<HomeBody />} />
-          <Route path="login" element={<LoginBody />} />
-          <Route path="buyers" element={<BuyersBody />} />
-          <Route path="workers" element={<WorkersBody />} />
-        </Route>
-        <Route path="/dashboard/worker" element={<WorkerDashboard />}>
-          <Route index element={<WorkerDashHome />} />
-          <Route path="profile" element={<WorkerProfile />} />
-          <Route path="withdraw" element={<WorkerWithdraw />} />
-          <Route path="earning/youtube/view" element={<YoutubeViewEarning />} />
-          <Route
-            path="earning/youtube/watchtime"
-            element={<YoutubeWatchTimeEarning />}
-          />
-          <Route path="earning/google/view" element={<GoogleViewEarning />} />
-          <Route
-            path="earning/google/adview"
-            element={<GoogleAdViewEarning />}
-          />
-        </Route>
-        <Route path="/dashboard/buyer" element={<BuyerDashboard />}>
-          <Route index element={<BuyerDashHome />} />
-          <Route path="profile" element={<BuyerDashProfile />} />
-          <Route path="transactions" element={<BuyerDashTransactions />} />
-          <Route path="new-services" element={<BuyerDashNewServices />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <UserContext.Provider value={{ user, setUser }}>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />}>
+            <Route index element={<HomeBody />} />
+            <Route path="login" element={<LoginBody />} />
+            <Route path="buyers" element={<BuyersBody />} />
+            <Route path="workers" element={<WorkersBody />} />
+            <Route path="otp-verification" element={<OtpVerification />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+          </Route>
+          <Route path="/dashboard/worker" element={<WorkerDashboard />}>
+            <Route index element={<WorkerDashHome />} />
+            <Route path="profile" element={<WorkerProfile />} />
+            <Route path="withdraw" element={<WorkerWithdraw />} />
+            <Route
+              path="earning/youtube/view"
+              element={<YoutubeViewEarning />}
+            />
+            <Route
+              path="earning/youtube/watchtime"
+              element={<YoutubeWatchTimeEarning />}
+            />
+            <Route path="earning/google/view" element={<GoogleViewEarning />} />
+            <Route
+              path="earning/google/adview"
+              element={<GoogleAdViewEarning />}
+            />
+          </Route>
+          <Route path="/dashboard/buyer" element={<BuyerDashboard />}>
+            <Route index element={<BuyerDashHome />} />
+            <Route path="profile" element={<BuyerDashProfile />} />
+            <Route path="transactions" element={<BuyerDashTransactions />} />
+            <Route path="new-services" element={<BuyerDashNewServices />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserContext.Provider>
   );
 }
 

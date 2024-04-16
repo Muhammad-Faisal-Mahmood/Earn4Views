@@ -1,53 +1,74 @@
+import { useEffect, useState } from "react";
 import PlansCard from "../../../../../components/PlansCard";
+import { Base_Api } from "../../../../../utils/BaseApi";
 
 const HomeBuyPlans = () => {
-  const buyPlans = [
-    {
-      title: "YouTube Subscribers",
-      price: "$20",
-      features: ["10 Subscribers"],
-    },
-    {
-      title: "Instagram Followers",
-      price: "$20",
-      features: ["10 Followers"],
-    },
-    {
-      title: "Tiktok Followers",
-      price: "$20",
-      features: ["10 Followers"],
-    },
-    {
-      title: "Youtube Views",
-      price: "$20",
-      features: ["10k Views"],
-    },
-    {
-      title: "Google Views",
-      price: "$20",
-      features: ["10k Views"],
-    },
-    {
-      title: "Facebook Followers",
-      price: "$20",
-      features: ["10 Followers"],
-    },
-    {
-      title: "Youtube WatchTime",
-      price: "$20",
-      features: ["10k Views"],
-    },
-    {
-      title: "Google Ad Views",
-      price: "$20",
-      features: ["10k Views"],
-    },
-    {
-      title: "Instagram Likes",
-      price: "$20",
-      features: ["10 Followers"],
-    },
-  ];
+  const [buyPlanData, setbuyPlanData] = useState([]);
+
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const response = await fetch(
+          Base_Api +
+          "api/userAuth/getPlans"
+        );
+        const data = await response.json();
+        console.log(data?.plan);
+        setbuyPlanData(data?.plan);
+      } catch (error) {
+        console.error("Error fetching plans:", error);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+  // const buyPlans = [
+  //   {
+  //     title: "YouTube Subscribers",
+  //     price: "$20",
+  //     features: ["10 Subscribers"],
+  //   },
+  //   {
+  //     title: "Instagram Followers",
+  //     price: "$20",
+  //     features: ["10 Followers"],
+  //   },
+  //   {
+  //     title: "Tiktok Followers",
+  //     price: "$20",
+  //     features: ["10 Followers"],
+  //   },
+  //   {
+  //     title: "Youtube Views",
+  //     price: "$20",
+  //     features: ["10k Views"],
+  //   },
+  //   {
+  //     title: "Google Views",
+  //     price: "$20",
+  //     features: ["10k Views"],
+  //   },
+  //   {
+  //     title: "Facebook Followers",
+  //     price: "$20",
+  //     features: ["10 Followers"],
+  //   },
+  //   {
+  //     title: "Youtube WatchTime",
+  //     price: "$20",
+  //     features: ["10k Views"],
+  //   },
+  //   {
+  //     title: "Google Ad Views",
+  //     price: "$20",
+  //     features: ["10k Views"],
+  //   },
+  //   {
+  //     title: "Instagram Likes",
+  //     price: "$20",
+  //     features: ["10 Followers"],
+  //   },
+  // ];
 
   return (
     <div className="my-20 mx-4">
@@ -55,12 +76,12 @@ const HomeBuyPlans = () => {
         Buy Plans
       </h1>
       <div className="grid grid-cols-3 gap-6 flex-wrap md:mx-20 justify-center">
-        {buyPlans.map((plan, index) => (
+        {buyPlanData.map((plan, index) => (
           <PlansCard
             key={index}
-            title={plan.title}
-            price={plan.price}
-            features={plan.features}
+            title={plan.Service}
+            price={"$ " + plan.Price * 100}
+            features={["100 Subscribers"]}
           />
         ))}
       </div>

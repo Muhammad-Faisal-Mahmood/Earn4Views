@@ -22,7 +22,7 @@ const Service = require("../Models/ServiceTaken");
 // CREATE Service
 router.post("/createTransactions", fetchuser, async (req, res) => {
     let success = false;
-    const errors = validationResult(req);
+    const errors =  validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ success, errors: errors.array() });
     }
