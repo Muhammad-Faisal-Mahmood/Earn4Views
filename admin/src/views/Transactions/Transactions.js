@@ -53,7 +53,7 @@ const NewTransaction = () => {
             const data = await response.json()
             if (data.success) {
                 showAlert('Transaction Approved', 'success');
-                FetchEarning()
+                FetchService()
             } else {
                 showAlert(data.message, 'danger');
             }
@@ -73,7 +73,7 @@ const NewTransaction = () => {
             const data = await response.json()
             if (data.success) {
                 showAlert('Transaction Declined', 'success');
-                FetchEarning()
+                FetchService()
             } else {
                 showAlert(data.message, 'danger');
             }

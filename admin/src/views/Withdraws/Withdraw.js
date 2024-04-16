@@ -31,7 +31,7 @@ const NewWithdraw = () => {
                 }
             });
             const withdrawData = await response.json();
-            setwithdraws(withdrawData.withdraw);
+            setwithdraws(withdrawData.withdrawals);
         } catch (error) {
             showAlert(error.message, 'danger');
         }
@@ -62,6 +62,7 @@ const NewWithdraw = () => {
     }
 
     const Declinewithdraw = async (id) => {
+        console.log(id)
         try {
             const response = await fetch(`${BaseURL}/DeclineWithdraw/${id}/`, {
                 method: 'PUT',
@@ -92,7 +93,9 @@ const NewWithdraw = () => {
                             <CTableHead color="light">
                                 <CTableRow>
                                     <CTableHeaderCell>Name</CTableHeaderCell>
-                                    <CTableHeaderCell>Email</CTableHeaderCell>
+                                    <CTableHeaderCell>Bank</CTableHeaderCell>
+                                    <CTableHeaderCell>Account No</CTableHeaderCell>
+                                    <CTableHeaderCell>Account Holder Name</CTableHeaderCell>
                                     <CTableHeaderCell>Amount</CTableHeaderCell>
                                     <CTableHeaderCell>Date</CTableHeaderCell>
                                     <CTableHeaderCell>Actions</CTableHeaderCell>
@@ -101,31 +104,38 @@ const NewWithdraw = () => {
                             <CTableBody>
                                 {withdraws?.map((item, index) => (
                                     <>
+                                    {console.log(item?.withdrawal._id)}
                                         <CTableRow v-for="item in tableItems" key={index} style={{ cursor: "pointer" }}>
                                             <CTableDataCell>
-                                                <div>{item?.User_id?.Name}</div>
+                                                <div>{item?.withdrawal?.User_id?.Name}</div>
                                             </CTableDataCell>
                                             <CTableDataCell>
-                                                <div>{item?.User_id?.Email}</div>
+                                                <div>{item?.workerAccount?.BankAccount}</div>
                                             </CTableDataCell>
                                             <CTableDataCell>
-                                                <div>{item.Amount}</div>
+                                                <div>{item?.workerAccount?.Account_No}</div>
                                             </CTableDataCell>
                                             <CTableDataCell>
-                                                <div>{item.Date}</div>
+                                                <div>{item?.workerAccount?.Account_Title}</div>
+                                            </CTableDataCell>
+                                            <CTableDataCell>
+                                                <div>{item?.withdrawal.Amount}</div>
+                                            </CTableDataCell>
+                                            <CTableDataCell>
+                                                <div>{item?.withdrawal.WithdrawDate}</div>
                                             </CTableDataCell>
                                             <CTableDataCell>
                                                 <div className="col">
                                                     <CButton 
                                                         color="primary mx-2"
-                                                        onClick={()=>{Approvewithdraw(item._id)}}
+                                                        onClick={()=>{Approvewithdraw(item?.withdrawal._id)}}
                                                     >
                                                         Approve
                                                     </CButton>
 
                                                     <CButton 
                                                         color="danger mx-2" 
-                                                        onClick={() => { Declinewithdraw(item._id) }} 
+                                                        onClick={() => { Declinewithdraw(item?.withdrawal._id) }} 
                                                         style={{ color: "white" }}
                                                     >
                                                         Decline

@@ -53,7 +53,7 @@ const DeclinedTransaction = () => {
             const data = await response.json()
             if (data.success) {
                 showAlert('Transaction Approved', 'success');
-                FetchEarning()
+                FetchService()
             } else {
                 showAlert(data.message, 'danger');
             }

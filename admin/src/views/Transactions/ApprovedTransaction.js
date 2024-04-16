@@ -31,7 +31,7 @@ const ApprovedTransaction = () => {
                 }
             });
             const transactionData = await response.json();
-            settransactions(transactionData.transaction);
+            settransactions(transactionData.transactions);
         } catch (error) {
             showAlert(error.message, 'danger');
         }

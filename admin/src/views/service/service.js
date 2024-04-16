@@ -74,6 +74,7 @@ const service = () => {
                                     <CTableHeaderCell>Channel</CTableHeaderCell>
                                     <CTableHeaderCell>Service</CTableHeaderCell>
                                     <CTableHeaderCell>Amount</CTableHeaderCell>
+                                    <CTableHeaderCell>Completed Till Now</CTableHeaderCell>
                                     <CTableHeaderCell>URL</CTableHeaderCell>
                                     <CTableHeaderCell>Total</CTableHeaderCell>
                                     <CTableHeaderCell>Activity</CTableHeaderCell>
@@ -90,6 +91,9 @@ const service = () => {
                                         </CTableDataCell>
                                         <CTableDataCell>
                                             <div>{item.Amount}</div>
+                                        </CTableDataCell>
+                                        <CTableDataCell>
+                                            <div>{item?.workerTrackCount}</div>
                                         </CTableDataCell>
                                         <CTableDataCell>
                                             <div>{item.URL}</div>

@@ -51,7 +51,7 @@ const Completeservice = () => {
             const data = await response.json()
             if (data.success) {
                 showAlert('Service Deleted', 'success');
-                FetchEarning()
+                FetchService()
             } else {
                 showAlert(data.message, 'danger');
             }

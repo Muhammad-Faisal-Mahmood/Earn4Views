@@ -151,7 +151,7 @@ router.get("/ServicesTaken", fetchuser, async (req, res) => {
                 }
             },
             {
-                $project: { workerTracks: 0 } // Exclude workerTracks from the result
+                $project: { workerTracks: 0 }
             }
         ]);
 

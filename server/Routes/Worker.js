@@ -137,7 +137,6 @@ router.post("/createwithdraw", fetchuser, async (req, res) => {
 
         const withdraw = await WithdrawAccount.create({
             User_id: req.user.id,
-            Channel,
             Amount: Amount,
             Status: "Pending"
         });
@@ -176,6 +175,7 @@ router.get("/withdaws", fetchuser, async (req, res) => {
 router.get("/YoutubeView", fetchuser, async (req, res) => {
     try {
         const { IP_Address } = req.body
+        console.log(IP_Address)
         const userId = req.user.id;
         let user = await User.findById(req.user.id);
 
@@ -193,11 +193,11 @@ router.get("/YoutubeView", fetchuser, async (req, res) => {
         const unusedServices = await Service.find({
             _id: { $nin: [...userServices, ...ipServices] },
             Channel: "Youtube",
-            Service: "Youtube Views"
+            Service: "Youtube View"
         });
 
         if (!unusedServices.length) {
-            return res.status(404).json({ message: 'No unused service found.' });
+            return res.status(404).json({ succcess: false, service: 0, message: 'No unused service found.' });
         }
 
         // Pick a random unused service
@@ -236,7 +236,8 @@ router.post('/YoutubeViewEarn', fetchuser, async (req, res) => {
             await WorkerTrack.deleteMany({ Service_id: service_id })
         }
 
-        let = await Earning.findOne({ Service: "Youtube View" });
+        let ServiceEarning = await Earning.findOne({ Service: "Youtube View" });
+        console.log(ServiceEarning)
 
         let workerAmount = await Worker.findOne({ User_id: userId })
 
@@ -276,7 +277,7 @@ router.get("/YoutubeWatchTime", fetchuser, async (req, res) => {
         });
 
         if (!unusedServices.length) {
-            return res.status(404).json({ message: 'No unused service found.' });
+            return res.status(404).json({ succcess: false, service: 0, message: 'No unused service found.' });
         }
 
         // Pick a random unused service
@@ -315,7 +316,7 @@ router.post('/YoutubeWatchEarn', fetchuser, async (req, res) => {
             await WorkerTrack.deleteMany({ Service_id: service_id })
         }
 
-        let = await Earning.findOne({ Service: "Youtube Watch Time" });
+        let ServiceEarning = await Earning.findOne({ Service: "Youtube Watch Time" });
 
         let workerAmount = await Worker.findOne({ User_id: userId })
 
@@ -355,7 +356,7 @@ router.get("/YoutubeSubscriber", fetchuser, async (req, res) => {
         });
 
         if (!unusedServices.length) {
-            return res.status(404).json({ message: 'No unused service found.' });
+            return res.status(404).json({ succcess: false, service: 0, message: 'No unused service found.' });
         }
 
         // Pick a random unused service
@@ -394,7 +395,7 @@ router.post('/YoutubeSubscriberEarn', fetchuser, async (req, res) => {
             await WorkerTrack.deleteMany({ Service_id: service_id })
         }
 
-        let = await Earning.findOne({ Service: "Youtube Subscriber" });
+        let ServiceEarning = await Earning.findOne({ Service: "Youtube Subscriber" });
 
         let workerAmount = await Worker.findOne({ User_id: userId })
 
@@ -430,11 +431,11 @@ router.get("/GoogleViews", fetchuser, async (req, res) => {
         const unusedServices = await Service.find({
             _id: { $nin: [...userServices, ...ipServices] },
             Channel: "Google",
-            Service: "Google Views"
+            Service: "Google View"
         });
 
         if (!unusedServices.length) {
-            return res.status(404).json({ message: 'No unused service found.' });
+            return res.status(404).json({ succcess: false, service: 0, message: 'No unused service found.' });
         }
 
         // Pick a random unused service
@@ -473,7 +474,7 @@ router.post('/GoogleViewsEarn', fetchuser, async (req, res) => {
             await WorkerTrack.deleteMany({ Service_id: service_id })
         }
 
-        let = await Earning.findOne({ Service: "Google View" });
+        let ServiceEarning = await Earning.findOne({ Service: "Google View" });
 
         let workerAmount = await Worker.findOne({ User_id: userId })
 
@@ -509,11 +510,11 @@ router.get("/GoogleAddViews", fetchuser, async (req, res) => {
         const unusedServices = await Service.find({
             _id: { $nin: [...userServices, ...ipServices] },
             Channel: "Google",
-            Service: "Google Add Views"
+            Service: "Google Add View"
         });
 
         if (!unusedServices.length) {
-            return res.status(404).json({ message: 'No unused service found.' });
+            return res.status(404).json({ succcess: false, service: 0, message: 'No unused service found.' });
         }
 
         // Pick a random unused service
@@ -552,7 +553,7 @@ router.post('/GoogleAddViewsEarn', fetchuser, async (req, res) => {
             await WorkerTrack.deleteMany({ Service_id: service_id })
         }
 
-        let = await Earning.findOne({ Service: "Google Add View" });
+        let ServiceEarning = await Earning.findOne({ Service: "Google Add View" });
 
         let workerAmount = await Worker.findOne({ User_id: userId })
 

@@ -510,11 +510,41 @@ router.get("/GoingOnServices", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: "You Have no Access" });
         }
 
-        const service = await Service.find({ Status: "Approved" }).populate('User_id', 'Name Email')
-        if (!service) {
-            return res.status(404).json({ success: false, message: 'Service not found' });
+        // const service = await Service.find({ Status: "Approved" }).populate('User_id', 'Name Email')
+        // if (!service) {
+        //     return res.status(404).json({ success: false, message: 'Service not found' });
+        // }
+
+        const services = await Service.find({ Status: "Approved" }).populate('User_id', 'Name Email')
+        if (!services || services.length === 0) {
+            return res.status(404).json({ success: false, message: 'Services not found' });
         }
-        res.json({ success: true, service });
+
+        const serviceIds = services.map(service => service._id); // Extracting service ids
+
+        const serviceWithWorkerTrackCount = await Service.aggregate([
+            {
+                $match: { _id: { $in: serviceIds } } // Filter based on service ids
+            },
+            {
+                $lookup: {
+                    from: "workertracks",
+                    localField: "_id",
+                    foreignField: "Service_id",
+                    as: "workerTracks"
+                }
+            },
+            {
+                $addFields: {
+                    workerTrackCount: { $size: "$workerTracks" } // Count the number of worker tracks
+                }
+            },
+            {
+                $project: { workerTracks: 0 }
+            }
+        ]);
+
+        res.json({ success: true, service:serviceWithWorkerTrackCount });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error occurred' });
@@ -529,7 +559,7 @@ router.get("/CompletedServices", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: "You Have no Access" })
         }
 
-        const service = await Service.find({ Status: "Declined" }).populate('User_id', 'Name Email')
+        const service = await Service.find({ Status: "Completed" }).populate('User_id', 'Name Email')
         if (!service) {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
@@ -697,7 +727,7 @@ router.get("/ApprovedWithdraw", fetchadmin, async (req, res) => {
         // Find transactions within the last 30 days and with status "Approved"
         const withdraw = await WithdrawAccount.find({
             Status: "Approved",
-            Date: { $gte: thirtyDaysAgo } // Filter transactions within the last 30 days
+            WithdrawDate: { $gte: thirtyDaysAgo } // Filter transactions within the last 30 days
         }).populate('User_id', 'Name Email')
 
         if (!withdraw) {
@@ -725,7 +755,7 @@ router.get("/DeclineWithdraw", fetchadmin, async (req, res) => {
         // Find transactions within the last 30 days and with status "Approved"
         const withdraw = await WithdrawAccount.find({
             Status: "Declined",
-            Date: { $gte: thirtyDaysAgo } // Filter transactions within the last 30 days
+            WithdrawDate: { $gte: thirtyDaysAgo } // Filter transactions within the last 30 days
         }).populate('User_id', 'Name Email')
 
         if (!withdraw) {
@@ -913,7 +943,7 @@ router.put("/DeclineTransaction/:id", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: 'Service not found' });
         }
 
-        res.json({ success: true, service });
+        res.json({ success: true, transaction });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Error occurred' });
@@ -952,7 +982,7 @@ router.get("/WorkerList", fetchadmin, async (req, res) => {
             return res.status(404).json({ success: false, message: "You Have no Access" })
         }
 
-        const worker = await Worker.find({ Role: "Worker" }).populate('User_id', 'Name Email CNIC ProfilePhoto CNIC_Front CNIC_Back Phone Age Gender Date')
+        const worker = await Worker.find().populate('User_id', 'Name Email CNIC ProfilePhoto CNIC_Front CNIC_Back Phone Age Gender Date')
 
         if (!worker) {
             return res.status(404).json({ success: false, message: 'No Workers Found' });

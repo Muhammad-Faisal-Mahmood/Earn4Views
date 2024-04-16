@@ -96,8 +96,6 @@ const sendOTPEmail = async (id, email, res) => {
 ///////
 //API's Start
 /////
-
-
 //Create a user 
 router.post("/createuser", async (req, res) => {
     let success = false;

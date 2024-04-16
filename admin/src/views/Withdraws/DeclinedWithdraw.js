@@ -72,7 +72,7 @@ const DeclinedWithdraw = () => {
                                                 <div>{item.Amount}</div>
                                             </CTableDataCell>
                                             <CTableDataCell>
-                                                <div>{item.Date}</div>
+                                                <div>{item.WithdrawDate}</div>
                                             </CTableDataCell>
                                         </CTableRow>
                                     </>

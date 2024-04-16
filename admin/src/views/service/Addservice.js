@@ -26,8 +26,14 @@ const Addservice = () => {
         Amount: '',
         URL: '',
     });
+    // const [BulkAmount, setBulkAmount] = useState(0);
+    const [Bulkentry, setBulkentry] = useState(false)
+    const [BulkURL, setBulkURL] = useState('')
+
+
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+
 
 
     const handleInputChange = (e) => {
@@ -65,6 +71,46 @@ const Addservice = () => {
         }
     };
 
+    const BulkFormSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+    
+        try {
+            const linkArray = BulkURL.split('\n').filter(BulkURL => BulkURL.trim() !== '');
+            const requests = linkArray.map(async (item) => {
+                const response = await fetch(`${BaseURL}/createService`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'AdminODSToken': sessionStorage.getItem('AdminODSToken'),
+                    },
+                    body: JSON.stringify({
+                        Channel: formData.Channel,
+                        Servicetaken: formData.Servicetaken,
+                        Amount: formData.Amount,
+                        URL: item,
+                    }),
+                });
+                const data = await response.json();
+                if (!data.success) {
+                    showAlert(data.message, 'danger');
+                }
+                return data.success;
+            });
+    
+            await Promise.all(requests);
+    
+            showAlert('Services Added', 'success');
+    
+        } catch (error) {
+            showAlert(error.message, 'danger');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+    
+
+
 
     const FetchPlans = async () => {
         try {
@@ -83,17 +129,30 @@ const Addservice = () => {
     useEffect(() => {
         FetchPlans()
     }, [])
-    
+
 
 
     return (
         <CCol xs={12}>
             <CCard className="mb-4">
                 <CCardHeader>
-                    <strong>Add Service</strong>
+                    <div className='d-flex justify-content-between align-item-center'>
+                        <strong>Add Service</strong>
+                        <div className="d-flex">
+                            <CFormLabel htmlFor="Bulk" style={{ marginRight: "10px" }}>Bulk Select</CFormLabel>
+                            <input
+                                type="checkbox"
+                                id="Bulk"
+                                onChange={() => { setBulkentry(!Bulkentry) }}
+                            />
+                        </div>
+                    </div>
                 </CCardHeader>
                 <CCardBody>
-                    <CForm className="bgForm" onSubmit={handleFormSubmit}>
+                    <CForm className="bgForm" onSubmit={(e) => {
+                        e.preventDefault()
+                        Bulkentry ? BulkFormSubmit(e) : handleFormSubmit(e)
+                    }}>
                         <div className="row">
                             <div className="mb-3 col-md-4">
                                 <CFormLabel htmlFor="Channel">Channel</CFormLabel>
@@ -136,26 +195,59 @@ const Addservice = () => {
                                 />
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="mb-3">
-                                <CFormLabel htmlFor="URL">URL</CFormLabel>
+                        {/* {Bulkentry && <div className="row">
+                            <div className="mb-3 col-md-4">
+                                <CFormLabel htmlFor="BulkAmount">How Much Entries You want to do</CFormLabel>
                                 <CFormInput
-                                    id="URL"
-                                    placeholder="http://example.com"
-                                    onChange={handleInputChange}
-                                    value={formData.URL}>
-                                </CFormInput>
+                                    type="number"
+                                    id="BulkAmount"
+                                    placeholder="10"
+                                    onChange={(e) => { setBulkAmount(e.target.value) }}
+                                    value={BulkAmount}
+                                />
+                                <p>Max 10 at 1 Time</p>
                             </div>
-                        </div>
+                        </div>} */}
+                        {Bulkentry ? (
+                            <>
+                                <div className="row" >
+                                    <div className="mb-3">
+                                        <CFormLabel htmlFor={`BulkURL`}>URL</CFormLabel>
+                                        <CFormTextarea
+                                            rows={5}
+                                            id={`BulkURL`}
+                                            placeholder="http://example.com"
+                                            onChange={(e) => {
+                                                setBulkURL(e.target.value);
+                                            }}
+                                            value={BulkURL}
+                                        />
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <div className="row">
+                                <div className="mb-3">
+                                    <CFormLabel htmlFor="URL">URL</CFormLabel>
+                                    <CFormInput
+                                        id="URL"
+                                        placeholder="http://example.com"
+                                        onChange={handleInputChange}
+                                        value={formData.URL}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
                         <div className="mb-3">
                             <CButton type="submit" className="mb-3" disabled={isSubmitting}>
                                 {isSubmitting ? 'Adding...' : 'Add'}
                             </CButton>
                         </div>
                     </CForm>
-                </CCardBody>
-            </CCard>
-        </CCol>
+                </CCardBody >
+            </CCard >
+        </CCol >
     )
 }
 
