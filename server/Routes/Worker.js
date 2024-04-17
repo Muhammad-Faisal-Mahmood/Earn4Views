@@ -172,7 +172,7 @@ router.get("/withdaws", fetchuser, async (req, res) => {
 
 
 //Earn Amount
-router.get("/YoutubeView", fetchuser, async (req, res) => {
+router.post("/YoutubeView", fetchuser, async (req, res) => {
     try {
         const { IP_Address } = req.body
         console.log(IP_Address)
@@ -253,7 +253,7 @@ router.post('/YoutubeViewEarn', fetchuser, async (req, res) => {
     }
 })
 
-router.get("/YoutubeWatchTime", fetchuser, async (req, res) => {
+router.post("/YoutubeWatchTime", fetchuser, async (req, res) => {
     try {
         const { IP_Address } = req.body
         const userId = req.user.id;
@@ -332,7 +332,7 @@ router.post('/YoutubeWatchEarn', fetchuser, async (req, res) => {
     }
 })
 
-router.get("/YoutubeSubscriber", fetchuser, async (req, res) => {
+router.post("/YoutubeSubscriber", fetchuser, async (req, res) => {
     try {
         const { IP_Address } = req.body
         const userId = req.user.id;
@@ -411,7 +411,7 @@ router.post('/YoutubeSubscriberEarn', fetchuser, async (req, res) => {
     }
 })
 
-router.get("/GoogleViews", fetchuser, async (req, res) => {
+router.post("/GoogleViews", fetchuser, async (req, res) => {
     try {
         const { IP_Address } = req.body
         const userId = req.user.id;
@@ -490,7 +490,7 @@ router.post('/GoogleViewsEarn', fetchuser, async (req, res) => {
     }
 })
 
-router.get("/GoogleAddViews", fetchuser, async (req, res) => {
+router.post("/GoogleAddViews", fetchuser, async (req, res) => {
     try {
         const { IP_Address } = req.body
         const userId = req.user.id;
