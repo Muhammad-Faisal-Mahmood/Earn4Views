@@ -5,7 +5,6 @@ import WorkerYoutubePlatformCardImg from "../assets/svg/WorkerYoutubePlatformCar
 
 const WorkerYoutubePlatformCard = ({
   Title,
-  Description,
   EarningType,
   Earning,
 }) => {
@@ -22,7 +21,6 @@ const WorkerYoutubePlatformCard = ({
           {EarningType}
           <span className="ml-5">{Earning}</span>
         </h1>
-        <p className="py-2 text-[8px] ">{Description}</p>
         <button className="bg-white text-black  py-1 px-3 rounded-md">
           Start Earning
         </button>

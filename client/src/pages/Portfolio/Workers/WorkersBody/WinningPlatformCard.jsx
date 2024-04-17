@@ -6,7 +6,7 @@ import FacebookPlatformImg from "../../../../assets/svg/FacebookPlatformImg.svg"
 
 import HexagonalPlatform from "../../../../assets/svg/hexagonalplatform.svg";
 
-const WinningPlatformCard = ({ Title, Icon }) => {
+const WinningPlatformCard = ({ Title, Icon, Price }) => {
   let CardImgSource;
 
   // Determine CardImgSource based on the Icon prop
@@ -51,7 +51,7 @@ const WinningPlatformCard = ({ Title, Icon }) => {
         <p className="py-4 text-lg ">
           You can earn from youtube by just watching videos.
         </p>
-        <h1 className="text-2xl font-bold pb-10">200$</h1>
+        <h1 className="text-2xl font-bold pb-10">{Price}</h1>
       </div>
     </div>
   );

@@ -1,0 +1,1 @@
+export const Base_Api = "https://earn4views-backend.vercel.app/"

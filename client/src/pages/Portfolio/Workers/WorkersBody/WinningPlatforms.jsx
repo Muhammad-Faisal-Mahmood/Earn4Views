@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import WinningPlatformCard from "./WinningPlatformCard";
+import { Base_Api } from "../../../../utils/BaseApi";
 
 const WinningPlatforms = () => {
+  const [platformEarningsData, setplatformEarningsData] = useState([]);
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const response = await fetch(
+          Base_Api +
+          "api/userAuth/getEarnings"
+        );
+        const data = await response.json();
+        console.log(data?.earning);
+        setplatformEarningsData(data?.earning);
+      } catch (error) {
+        console.error("Error fetching earnings:", error);
+      }
+    };
+
+    fetchPlans();
+  }, []);
   const PlatformCards = [
     { cardTitle: "Youtube Views", Icon: "youtube" },
     { cardTitle: "Youtube Likes", Icon: "youtube" },
@@ -19,11 +38,12 @@ const WinningPlatforms = () => {
         Winning Platforms
       </h1>
       <div className="grid grid-cols-1 justify-items-center gap-y-10 items-center my-10 md:grid-cols-2  lg:my-20 lg:grid-cols-3">
-        {PlatformCards.map((card, index) => (
+        {platformEarningsData.map((card, index) => (
           <WinningPlatformCard
             key={index}
-            Title={card.cardTitle}
-            Icon={card.Icon}
+            Title={card.Service}
+            Icon={card.Channel.toLowerCase()}
+            Price={card.Price * 100 + "$"}
             // ConnectionName={"Alex Adamatz"}
             // ConnectionJobTitle={"Youtuber"}
             // ConnectionFollowerCount={"500k"}
