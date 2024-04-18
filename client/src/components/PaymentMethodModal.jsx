@@ -52,50 +52,47 @@ const PaymentMethodModal = ({ closeModal, Add, Change }) => {
     }
   };
 
-  const HandleAccountAdd = async () =>{
+  const HandleAccountAdd = async () => {
     if (
-        bankRef.current.value == "" ||
-        accountTitleRef.current.value == "" ||
-        accountNumberRef.current.value == ""
-      ) {
-        toast.warning("Enter valid data");
-        return;
-      }
+      bankRef.current.value == "" ||
+      accountTitleRef.current.value == "" ||
+      accountNumberRef.current.value == ""
+    ) {
+      toast.warning("Enter valid data");
+      return;
+    }
 
-      try {
-        const response = await fetch(
-          Base_Api + `api/worker/withdrawAccount`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": user.authToken,
-            },
-            body: JSON.stringify({
-              BankAccount: bankRef.current.value,
-              Account_No: accountNumberRef.current.value,
-              Account_Title: accountTitleRef.current.value,
-            }),
-          }
-        );
-        const data = await response.json();
-        if (data.success) {
-          toast.success("Payment method added successfully");
-        } else {
-          toast.error(data.message);
-        }
-      } catch (error) {
-        toast.error(error.message);
+    try {
+      const response = await fetch(Base_Api + `api/worker/withdrawAccount`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": user.authToken,
+        },
+        body: JSON.stringify({
+          BankAccount: bankRef.current.value,
+          Account_No: accountNumberRef.current.value,
+          Account_Title: accountTitleRef.current.value,
+        }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast.success("Payment method added successfully");
+      } else {
+        toast.error(data.message);
       }
-  }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <>
       <ToastContainer />
       <div
         onClick={handleOverlayClick}
-        className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+        className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center px-8 md:px-0"
       >
-        <div className="bg-white w-[40%] rounded-md px-5 py-4">
+        <div className="bg-white w-full md:w-[40%] rounded-md px-5 py-4">
           <div className="flex flex-col mt-5 ">
             <label
               htmlFor="newAccountTitle"
@@ -148,7 +145,7 @@ const PaymentMethodModal = ({ closeModal, Add, Change }) => {
           </div>
           <button
             className="mt-4 two-color-gradient-background-vertical text-xl text-white font-semibold w-full px-4 py-4 rounded-md"
-            onClick={()=> Add? HandleAccountAdd(): HandleAccountChange()}
+            onClick={() => (Add ? HandleAccountAdd() : HandleAccountChange())}
           >
             {Add ? "Add" : "Change"}
           </button>

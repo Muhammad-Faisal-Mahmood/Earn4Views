@@ -28,7 +28,7 @@ const WorkerDashProfile = () => {
         <form className="grid grid-cols-2 gap-x-20 gap-y-5">
           {ProfileFields.map((field, index) => {
             return (
-              <div>
+              <div key={index}>
                 <label className="text-2xl text-[#1A1A1A] uppercase">
                   {field.label}:
                 </label>

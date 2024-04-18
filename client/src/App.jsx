@@ -43,12 +43,9 @@ function App() {
           </Route>
           <Route path="/dashboard/worker" element={<WorkerDashboard />}>
             <Route index element={<WorkerDashHome />} />
-            <Route path="profile" element={<WorkerProfile />} />
+            <Route path="profile" element={<BuyerDashProfile />} />
             <Route path="withdraw" element={<WorkerWithdraw />} />
-            <Route
-            path="earning"
-            element={<Earning />}
-            />
+            <Route path="earning" element={<Earning />} />
             <Route
               path="earning/youtube/view"
               element={<YoutubeViewEarning />}

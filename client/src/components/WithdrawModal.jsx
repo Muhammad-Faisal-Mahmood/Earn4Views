@@ -3,7 +3,7 @@ import { UserContext } from "../App";
 import { Base_Api } from "../utils/BaseApi";
 import { ToastContainer, toast } from "react-toastify";
 
-const WithdrawModal = ({closeModal}) => {
+const WithdrawModal = ({ closeModal }) => {
   const { user } = useContext(UserContext);
   const amountRef = useRef(null);
 
@@ -17,34 +17,31 @@ const WithdrawModal = ({closeModal}) => {
       return;
     }
 
-    if(amountRef.current.value < 5){
-        toast.warning("Amount should be greater than 5$");
-        return;
+    if (amountRef.current.value < 5) {
+      toast.warning("Amount should be greater than 5$");
+      return;
     }
 
     try {
-        const response = await fetch(
-          Base_Api + `api/worker/createwithdraw`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": user.authToken,
-            },
-            body: JSON.stringify({
-              Amount: amountRef.current.value,
-            }),
-          }
-        );
-        const data = await response.json();
-        if (data.success) {
-          toast.success("Payment withdrawn successfully");
-        } else {
-          toast.error(data.message);
-        }
-      } catch (error) {
-        toast.error(error.message);
+      const response = await fetch(Base_Api + `api/worker/createwithdraw`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": user.authToken,
+        },
+        body: JSON.stringify({
+          Amount: amountRef.current.value,
+        }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        toast.success("Payment withdrawn successfully");
+      } else {
+        toast.error(data.message);
       }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const handleOverlayClick = (event) => {
@@ -57,9 +54,9 @@ const WithdrawModal = ({closeModal}) => {
       <ToastContainer />
       <div
         onClick={handleOverlayClick}
-        className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+        className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center px-8 md:px-0"
       >
-        <div className="bg-white w-[40%] rounded-md px-5 py-4">
+        <div className="bg-white w-full md:w-[40%] rounded-md px-5 py-4">
           <div className="flex flex-col mt-5 ">
             <label
               htmlFor="newAccountTitle"

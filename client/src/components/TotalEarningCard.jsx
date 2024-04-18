@@ -6,27 +6,26 @@ import { ToastContainer, toast } from "react-toastify";
 
 const TotalEarningCard = () => {
   const [worker, setWorker] = useState(null);
-  const { user,setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     const fetchWorker = async () => {
       try {
         const response = await fetch(Base_Api + "api/worker/getworker", {
           headers: {
-            "auth-token": user.authToken 
-          }
+            "auth-token": user.authToken,
+          },
         });
-        
+
         const data = await response.json();
-       
-        if(data.success){
+
+        if (data.success) {
           setWorker(data.woker);
-        }
-        else{
+        } else {
           toast.error(data.message || data.error);
         }
       } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
         toast.error(error.message);
       }
     };
@@ -34,19 +33,20 @@ const TotalEarningCard = () => {
     fetchWorker();
   }, []);
 
-  
   return (
-    <>
-    <ToastContainer/>
-    <div className="rounded-2xl bg-[#F3E8FF] w-fit flex flex-col items-center p-6 pb-8">
-      <div className="bg-[#BF83FF] rounded-full w-fit p-2 mb-2">
-        <IoCardOutline size={30} color="#fff" />
-      </div>
+    <div className="flex justify-center flex-col items-center md:items-start ">
+      <ToastContainer />
+      <div className="rounded-2xl bg-[#F3E8FF] w-fit flex flex-col items-center p-6 pb-8">
+        <div className="bg-[#BF83FF] rounded-full w-fit p-2 mb-2">
+          <IoCardOutline size={30} color="#fff" />
+        </div>
 
-      <h1 className="text-[#425166] text-xl">Total Earning</h1>
-      <h1 className="text-[#151D48] font-bold text-2xl">{worker?.Earning}$</h1>
+        <h1 className="text-[#425166] text-xl">Total Earning</h1>
+        <h1 className="text-[#151D48] font-bold text-2xl">
+          {worker?.Earning}$
+        </h1>
+      </div>
     </div>
-    </>
   );
 };
 
