@@ -99,7 +99,7 @@ const YoutubeViewEarning = () => {
           <div className="flex items-center justify-center">
             <button
               onClick={HandleYoutubeViewEarning}
-              className="two-color-gradient-background-vertical text-white px-16 text-3xl font-bold py-4 rounded-md"
+              className="two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl"
             >
               Next
             </button>

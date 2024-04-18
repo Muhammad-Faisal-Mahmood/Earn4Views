@@ -98,7 +98,7 @@ const YoutubeWatchTimeEarning = () => {
         )}
         {urlkey && (
           <div className="flex items-center justify-center">
-            <button onClick={HandleWatchTimeEarning} className="two-color-gradient-background-vertical text-white px-16 text-3xl font-bold py-4 rounded-md">
+            <button onClick={HandleWatchTimeEarning} className="two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl">
               Next
             </button>
           </div>
