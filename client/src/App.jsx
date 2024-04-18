@@ -21,6 +21,8 @@ import BuyerDashNewServices from "./pages/Buyer/NewServices/index.jsx";
 import OtpVerification from "./pages/Portfolio/OtpVerification/OtpVerification.jsx";
 import { createContext, useState } from "react";
 import ForgotPassword from "./pages/Portfolio/ForgotPassword/ForgotPassword.jsx";
+import Earning from "./pages/Worker/Earning";
+import YoutubeSubscribeEarning from "./pages/Worker/Earning/YoutubeSubscriber";
 
 export const UserContext = createContext();
 
@@ -44,6 +46,10 @@ function App() {
             <Route path="profile" element={<WorkerProfile />} />
             <Route path="withdraw" element={<WorkerWithdraw />} />
             <Route
+            path="earning"
+            element={<Earning />}
+            />
+            <Route
               path="earning/youtube/view"
               element={<YoutubeViewEarning />}
             />
@@ -51,9 +57,13 @@ function App() {
               path="earning/youtube/watchtime"
               element={<YoutubeWatchTimeEarning />}
             />
+            <Route
+              path="earning/youtube/subscriber"
+              element={<YoutubeSubscribeEarning />}
+            />
             <Route path="earning/google/view" element={<GoogleViewEarning />} />
             <Route
-              path="earning/google/adview"
+              path="earning/google/addview"
               element={<GoogleAdViewEarning />}
             />
           </Route>

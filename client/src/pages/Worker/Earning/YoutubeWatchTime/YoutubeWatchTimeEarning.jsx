@@ -1,26 +1,119 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import EarningInstructions from "../../../../components/EarningInstructions";
-import { IoIosPlayCircle } from "react-icons/io";
+import { UserContext } from "../../../../App";
+import { fetchUserIpAddress } from "../../../../utils/FetchUsersIp";
+import { Base_Api } from "../../../../utils/BaseApi";
+import getYouTubeID from "get-youtube-id";
+import { ToastContainer, toast } from "react-toastify";
 
 const YoutubeWatchTimeEarning = () => {
-    const YoutubeWatchTimeEarningInstructions = [
-        { text: "Watch full video" },
-        { text: "Click Next" },
-        { text: "Earning will add" },
-      ];
-  return (
-    <div className="mx-[7vw] flex flex-col gap-12 py-10">
-    <EarningInstructions Instructions={YoutubeWatchTimeEarningInstructions} />
-    <div className="w-full h-[50vh] bg-[#E3E1E1] rounded-lg flex items-center justify-center">
-      <IoIosPlayCircle color="#904DB6" size={86} />
-    </div>
-    <div className="flex items-center justify-center">
-      <button className="two-color-gradient-background-vertical text-white px-16 text-3xl font-bold py-4 rounded-md">
-        Next
-      </button>
-    </div>
-  </div>
-  )
-}
+  const { user, setUser } = useContext(UserContext);
+  const [videoData, setVideoData] = useState(null);
+  const [noServicesAvailable, setNoServicesAvailable] = useState(false);
 
-export default YoutubeWatchTimeEarning
+  useEffect(() => {
+    fetchYoutubeVideo();
+    fetchUserIpAddress(setUser);
+  }, []);
+
+  const fetchYoutubeVideo = async () => {
+    if (!user.ip) {
+      fetchUserIpAddress(setUser);
+    }
+    try {
+      const response = await fetch(Base_Api + "api/worker/YoutubeWatchTime", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": user.authToken,
+        },
+        body: JSON.stringify({ IP_Address: user.ip }),
+      });
+
+      const data = await response.json();
+      if (!data?.success && data?.service == 0) {
+        setNoServicesAvailable(true);
+        return;
+      }
+      setVideoData(data);
+    } catch (error) {
+      console.error("Error fetching YouTube video:", error);
+    }
+  };
+
+  const HandleWatchTimeEarning = async () => {
+    if (!user.ip) {
+      fetchUserIpAddress(setUser);
+    }
+    try {
+      const response = await fetch(Base_Api + "api/worker/YoutubeWatchEarn", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": user.authToken,
+        },
+        body: JSON.stringify({
+          IP_Address: user.ip,
+          service_id: videoData._id,
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        toast.success(data.message);
+        fetchYoutubeVideo();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Error adding earning:", error);
+    }
+  };
+
+  const urlkey = getYouTubeID(videoData?.URL);
+  const YoutubeWatchTimeEarningInstructions = [
+    { text: "Watch full video" },
+    { text: "Click Next" },
+    { text: "Earning will add" },
+  ];
+  return (
+    <>
+      <ToastContainer />
+      <div className="mx-[7vw] flex flex-col gap-12 py-10 h-[100vh]">
+        <EarningInstructions
+          Instructions={YoutubeWatchTimeEarningInstructions}
+        />
+        {urlkey && (
+          <div className="w-full h-[50vh] bg-[#E3E1E1] rounded-lg flex items-center justify-center">
+            <iframe
+              width={"100%"}
+              height={"100%"}
+              src={`https://www.youtube.com/embed/${urlkey}`}
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        )}
+        {urlkey && (
+          <div className="flex items-center justify-center">
+            <button onClick={HandleWatchTimeEarning} className="two-color-gradient-background-vertical text-white px-16 text-3xl font-bold py-4 rounded-md">
+              Next
+            </button>
+          </div>
+        )}
+
+        {noServicesAvailable && (
+          <div>
+            <h1 className="text-xl font-medium">
+              No Services available at the moment. Try again later..
+            </h1>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default YoutubeWatchTimeEarning;
