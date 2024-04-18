@@ -13,18 +13,18 @@ const Sidebar = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!user) {
+  //     navigate("/");
+  //   }
+  // }, []);
 
 
   return (
-    <div className="flex fixed w-[20vw] flex-col h-[100vh] justify-between two-color-gradient-background-vertical p-4">
+    <div className="flex fixed w-[16vw] md:w-[20vw] flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 md:py-4">
       <div className="flex flex-col items-center">
-        <img src={logo} className="size-20" />
-        <div className="mt-16 flex flex-col gap-4">
+        <img src={logo} className="size-12 md:size-20" />
+        <div className="mt-8 md:mt-16 flex flex-col gap-4">
           <SidebarItem
             icon={<FaHome size={20} />}
             text={"Home"}
@@ -38,7 +38,7 @@ const Sidebar = () => {
           <SidebarItem
             icon={<FaRegCreditCard size={20} />}
             text={"Earning"}
-            link={"/dashboard/worker/earning/youtube/view"}
+            link={"/dashboard/worker/earning"}
           />
           <SidebarItem
             icon={<FaRegCreditCard size={20} />}
@@ -47,7 +47,7 @@ const Sidebar = () => {
           />
         </div>
       </div>
-      <div className="flex my-4 ">
+      <div className="hidden lg:flex gap-2  my-4">
         {/* <img src={user} className="size-12" /> */}
         <FaUserCircle size={45} className="text-slate-400" />
         <div className="px-4">

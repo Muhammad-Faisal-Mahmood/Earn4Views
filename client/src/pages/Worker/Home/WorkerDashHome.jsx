@@ -10,7 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const WorkerDashHome = () => {
   const { user } = useContext(UserContext);
-  const [withdraws, setWithdraws] = useState([])
+  const [withdraws, setWithdraws] = useState([]);
   const [earningPlans, setEarningPlans] = useState([]);
 
   useEffect(() => {
@@ -31,12 +31,12 @@ const WorkerDashHome = () => {
       }
     };
 
-    const fetchWithdraws = async() =>{
+    const fetchWithdraws = async () => {
       try {
         const response = await fetch(Base_Api + "api/worker/withdaws", {
           headers: {
-            "auth-token": user.authToken 
-          }
+            "auth-token": user.authToken,
+          },
         });
         if (!response.ok) {
           throw new Error("Failed to fetch withdraws");
@@ -50,14 +50,14 @@ const WorkerDashHome = () => {
       } catch (error) {
         toast.error(error.message);
       }
-    }
+    };
 
-    fetchWithdraws()
+    fetchWithdraws();
     fetchEarningPlans();
   }, []);
 
-  console.log("worker earning plans: ",earningPlans);
-  console.log("worker withdraws: ",withdraws);
+  console.log("worker earning plans: ", earningPlans);
+  console.log("worker withdraws: ", withdraws);
   // const CardData = [
   //   {
   //     title: "Youtube View",
@@ -131,24 +131,24 @@ const WorkerDashHome = () => {
           </p>
         </div>
         <TotalEarningCard />
-        <div className="grid grid-cols-1 justify-items-center gap-x-4 items-center  md:grid-cols-2  lg:my-5 lg:grid-cols-5">
+        <div className="grid grid-cols-2  gap-4   md:grid-cols-3  lg:my-5 lg:grid-cols-5">
           {earningPlans.map((plan, index) => {
             if (plan.Channel == "Youtube")
               return (
                 <WorkerYoutubePlatformCard
                   key={plan._id}
                   Title={plan.Service}
-                  Earning={`$${plan.Price*100}`}
+                  Earning={`$${plan.Price * 100}`}
                   EarningType={"Per View"}
                 />
               );
             else
               return (
                 <WorkerGooglePlatformCard
-                key={plan._id}
-                Title={plan.Service}
-                Earning={`$${plan.Price*100}`}
-                EarningType={"Per View"}
+                  key={plan._id}
+                  Title={plan.Service}
+                  Earning={`$${plan.Price * 100}`}
+                  EarningType={"Per View"}
                 />
               );
           })}
@@ -159,11 +159,13 @@ const WorkerDashHome = () => {
           <p className="text-xs font-medium my-2 text-[#696969]">
             Effortlessly handle your withdraws right here.
           </p>
-          <div className="w-[90%] mt-6">
-            <EarningsTable
-              TableHeadings={["TID", "Withdraw Date", "Amount", "Status"]}
-              TableRowData={withdraws}
-            />
+          <div className="services-horizontal-scrollbar overflow-x-scroll mt-6">
+            <div className="w-[700px] lg:w-full">
+              <EarningsTable
+                TableHeadings={["TID", "Withdraw Date", "Amount", "Status"]}
+                TableRowData={withdraws}
+              />
+            </div>
           </div>
         </div>
       </div>

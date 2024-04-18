@@ -35,7 +35,7 @@ const Earning = () => {
   return (
     <>
       <ToastContainer />
-      <div className="mx-[7vw]  py-10 grid grid-cols-1 justify-items-center gap-x-4 items-center  md:grid-cols-2  lg:my-5 lg:grid-cols-5">
+      <div className="mx-[7vw] h-[100vh]  py-10 grid grid-cols-2  gap-x-4 gap-y-10  md:grid-cols-3 lg:grid-cols-4  xl:my-5 xl:grid-cols-5">
           {earningPlans.map((plan) => {
             if (plan.Channel == "Youtube")
               return (

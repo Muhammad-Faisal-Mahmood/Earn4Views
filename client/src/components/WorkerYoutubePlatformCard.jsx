@@ -12,7 +12,7 @@ const WorkerYoutubePlatformCard = ({ Title, EarningType, Earning }) => {
 
   const route = getRoute(Title);
   return (
-    <div className="relative   -z-0 overflow-hidden rounded-md bg-white shadow-basic ">
+    <div className="relative h-fit  -z-0 overflow-hidden rounded-md bg-white shadow-basic ">
       <img
         className="absolute w-full  md:scale-[125%]  -z-10 mt-8"
         src={WorkerYoutubePlatformCardImg}
