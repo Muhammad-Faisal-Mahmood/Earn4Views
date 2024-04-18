@@ -75,7 +75,7 @@ const HomeBuyPlans = () => {
       <h1 className="font-extrabold text-center text-4xl md:text-5xl my-8 md:my-20">
         Buy Plans
       </h1>
-      <div className="grid grid-cols-3 gap-6 flex-wrap md:mx-20 justify-center">
+      <div className="grid grid-cols-1 gap-6 flex-wrap md:mx-20 justify-center md:grid-cols-2 lg:grid-cols-3">
         {buyPlanData.map((plan, index) => (
           <PlansCard
             key={index}

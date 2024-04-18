@@ -12,7 +12,9 @@ const Header = () => {
     <div className="gradient-background-horizontal  py-1  fixed w-full top-0 z-50">
       <div className="flex justify-between items-center px-4 md:px-8 md:py-2">
         <div>
+          <Link to={"/"}>
           <img src={logo} className="size-14 md:size-16" />
+          </Link>
         </div>
         <div className="md:gap-12 font-bold text-white text-lg hidden md:flex">
           <Link to="/">Home</Link>
@@ -55,6 +57,9 @@ const Header = () => {
 
             <Link className="my-2 w-full" to="/buyers">
               Buyers
+            </Link>
+            <Link className="my-2 w-full" to="/login">
+              Login/Signup
             </Link>
           </div>
         </div>

@@ -24,7 +24,7 @@ const HomeContact = () => {
                 <h1 className="text-left">Name:</h1>
                 <input
                   type="text"
-                  className="px-4 py-3 shadow-md rounded-sm"
+                  className="px-4 py-3 shadow-lg rounded-md bg-transparent"
                   placeholder="Enter Your Name"
                 />
               </div>
@@ -32,7 +32,7 @@ const HomeContact = () => {
                 <h1 className="text-left">Email:</h1>
                 <input
                   type="email"
-                  className="px-4 py-3 shadow-md rounded-sm w-full"
+                  className="px-4 py-3 shadow-lg rounded-md bg-transparent w-full"
                   placeholder="Enter Your Email"
                 />
               </div>
@@ -40,14 +40,14 @@ const HomeContact = () => {
                 <h1 className="text-left">Subject:</h1>
                 <input
                   type="text"
-                  className="px-4 py-3 shadow-md rounded-sm w-full"
+                  className="px-4 py-3 shadow-lg w-full bg-transparent rounded-md"
                   placeholder="Example: Facebook likes"
                 />
               </div>
               <div className="flex flex-col gap-1">
                 <h1 className="text-left">Message:</h1>
                 <textarea
-                  className="px-4 py-3 shadow-md rounded-sm w-full"
+                  className="px-4 py-3 shadow-lg rounded-md w-full"
                   name=""
                   id=""
                   placeholder="message..."
@@ -69,14 +69,14 @@ const HomeContact = () => {
             <div className="flex gap-2">
               <PositionCard
                 gradient={true}
-                stepNumber={"01"}
+                stepNumber={"1"}
                 text={"Fill out the support form"}
               />
               <PositionCard
-                stepNumber={"02"}
+                stepNumber={"2"}
                 text={"You wait, we'll get started"}
               />
-              <PositionCard stepNumber={"03"} text={"Get your solution"} />
+              <PositionCard stepNumber={"3"} text={"Get your solution"} />
             </div>
           </div>
           <div className="shadow-basic p-8 pb-24 flex rounded-lg relative">
