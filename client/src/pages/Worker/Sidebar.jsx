@@ -8,17 +8,15 @@ import { UserContext } from "../../App";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 const Sidebar = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate("/");
-  //   }
-  // }, []);
-
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="flex fixed w-[16vw] md:w-[20vw] flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 md:py-4">

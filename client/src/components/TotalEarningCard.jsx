@@ -34,7 +34,7 @@ const TotalEarningCard = () => {
   }, []);
 
   return (
-    <div className="flex justify-center flex-col items-center md:items-start ">
+    <div className="flex justify-center flex-col items-center lg:items-start ">
       <ToastContainer />
       <div className="rounded-2xl bg-[#F3E8FF] w-fit flex flex-col items-center p-6 pb-8">
         <div className="bg-[#BF83FF] rounded-full w-fit p-2 mb-2">

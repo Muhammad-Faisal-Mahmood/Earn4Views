@@ -106,7 +106,7 @@ const YoutubeSubscribeEarning = () => {
               if (!timerStarted) {
                 startTimer(); // Start timer only if not already running
               }
-            }} to={websiteData.URL} target="_blank" className="text-white two-color-gradient-background w-full text-3xl text-center font-bold rounded-md py-5">
+            }} to={websiteData.URL} target="_blank" className="text-white  two-color-gradient-background w-full  text-center font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl">
               Visit Channel
             </Link>
           )}
@@ -114,7 +114,7 @@ const YoutubeSubscribeEarning = () => {
             <button
             disabled={!nextButtonState}
               onClick={HandleGoogleViewEarning}
-              className="text-[#532283] border-2 border-[#521E5B] w-full text-3xl font-bold rounded-md py-5"
+              className="text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl"
             >
               Next
             </button>

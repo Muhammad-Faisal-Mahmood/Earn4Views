@@ -113,31 +113,31 @@ const WorkerDashWithdraw = () => {
 
   return (
     <div className="mx-[7vw] flex flex-col gap-4 md:gap-12 py-10">
-      <div className="flex flex-col justify-between items-center lg:flex-row">
+      <div className="flex flex-col justify-between  lg:flex-row">
         <div>
           <h1 className="text-lg font-semibold text-[#2C2C2C]">Withdraw</h1>
           <p className="text-[#696969] text-xs md:text-sm font-medium">
             Effortlessly handle your withdraw right here.
           </p>
         </div>
-        <h1 className="text-[#4F1C54] text-lg font-bold my-4 lg:text-2xl">
+        <h1 className="text-[#4F1C54] text-lg font-bold my-4 text-center lg:text-left lg:text-2xl">
           Minimum 5$ Withdraw
         </h1>
       </div>
       <TotalEarningCard />
-      <div className="md:w-[60%] ">
-        <h1 className="bg-[#EEEEEE] hidden md:block py-4 px-4 rounded-t-2xl text-[#2C2C2C] text-[14px] font-semibold">
+      <div className="lg:w-[60%] ">
+        <h1 className="bg-[#EEEEEE] hidden lg:block py-4 px-4 rounded-t-2xl text-[#2C2C2C] text-[14px] font-semibold">
           Payment method
         </h1>
         {workerPaymentMethod && (
-          <div className="bg-white flex flex-col md:flex-row items-center justify-between py-6 gap-4 px-4 shadow-lg rounded-md">
+          <div className="bg-white flex flex-col lg:flex-row items-center justify-between py-6 gap-4 px-4 shadow-lg rounded-md">
             <div>
               {/* <img src={jazzcashPaymentMethod} /> */}
               <BsBank size={36} />
               <h1>{workerPaymentMethod.BankAccount}</h1>
             </div>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col md:flex-row md:gap-10 items-center">
+            <div className="flex flex-col gap-4 mt-4">
+              <div className="flex flex-col lg:flex-row lg:gap-10 items-center">
                 <h1 className="text-[#522182] text-[14px] font-bold">
                   Account Title:
                 </h1>
@@ -145,7 +145,7 @@ const WorkerDashWithdraw = () => {
                   {workerPaymentMethod.Account_Title}
                 </h1>
               </div>
-              <div className="flex flex-col md:flex-row md:gap-4 items-center">
+              <div className="flex flex-col lg:flex-row lg:gap-4 items-center">
                 <h1 className="text-[#522182] text-[14px] font-bold">
                   Account Number:
                 </h1>
@@ -157,7 +157,7 @@ const WorkerDashWithdraw = () => {
             <div className="flex justify-center">
               <button
                 onClick={openChangeModal}
-                className="md:text-[14px] text-xl px-4 py-1 font-semibold text-[#4F1C54] md:px-4 md:py-2 border-2 rounded-md border-[#522182]"
+                className=" text-lg px-4 py-1 font-semibold  text-[#696969] lg:px-4 lg:py-2 border-2 rounded-md border-[#ECECEC] lg:border-[#522182] lg:border-2 lg:text-[#4F1C54] lg:text-xl"
               >
                 Change
               </button>
@@ -165,7 +165,7 @@ const WorkerDashWithdraw = () => {
           </div>
         )}
         {!workerPaymentMethod && (
-          <div className="bg-white flex justify-between items-center py-6 px-4shadow-lg rounded-md">
+          <div className="bg-white flex flex-col gap-2 justify-between items-center px-2 py-6 px-4shadow-lg rounded-md md:flex-row md:gap-0">
             <h1>Add a Payment Method</h1>
             <button
               onClick={openAddModal}
@@ -177,10 +177,10 @@ const WorkerDashWithdraw = () => {
         )}
       </div>
       {workerPaymentMethod && (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center lg:justify-start">
           <button
             onClick={openWithdrawModal}
-            className="md:w-[60%] rounded-md text-[20px] font-semibold text-[#4F1C54] px-4 py-2 border-2 border-[#522182]"
+            className="lg:w-[60%] rounded-md text-[20px] font-semibold text-[#4F1C54] px-4 py-2 border-2 border-[#522182]"
           >
             Withdraw Money
           </button>
