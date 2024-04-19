@@ -7,9 +7,10 @@ import { ToastContainer, toast } from "react-toastify";
 import { fetchUserIpAddress } from "../../../../utils/FetchUsersIp";
 
 const YoutubeViewEarning = () => {
-  const { user,setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [videoData, setVideoData] = useState(null);
   const [noServicesAvailable, setNoServicesAvailable] = useState(false);
+  const [VideoPlayed, setVideoPlayed] = useState(false)
 
   useEffect(() => {
     fetchYoutubeVideo();
@@ -17,7 +18,7 @@ const YoutubeViewEarning = () => {
   }, []);
 
   const fetchYoutubeVideo = async () => {
-    if(!user.ip){
+    if (!user.ip) {
       fetchUserIpAddress(setUser);
     }
     try {
@@ -40,9 +41,9 @@ const YoutubeViewEarning = () => {
       console.error("Error fetching YouTube video:", error);
     }
   };
-  
+
   const HandleYoutubeViewEarning = async () => {
-    if(!user.ip){
+    if (!user.ip) {
       fetchUserIpAddress(setUser);
     }
     try {
@@ -63,7 +64,7 @@ const YoutubeViewEarning = () => {
         toast.success(data.message);
         fetchYoutubeVideo();
       }
-      else{
+      else {
         toast.error(data.message);
       }
     } catch (error) {
@@ -99,7 +100,8 @@ const YoutubeViewEarning = () => {
           <div className="flex items-center justify-center">
             <button
               onClick={HandleYoutubeViewEarning}
-              className="two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl"
+              disabled={VideoPlayed}
+              className={`two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl ${VideoPlayed && opacity - 30}`}
             >
               Next
             </button>
