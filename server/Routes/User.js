@@ -13,6 +13,7 @@ const Plan = require("../Models/Services");
 const Earning = require("../Models/EarningPrice");
 const Buyer = require("../Models/Buyer");
 const Worker = require("../Models/Worker");
+const path = require('path')
 
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -22,7 +23,10 @@ const JWT_KEY = "EarnFarooqWithViews";
 
 const PhotosStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        return cb(null, "./uploads/UserProfile");
+        console.log(9)
+        let usersPath = path.join(process.cwd(), '/uploads/UserProfile');
+        return cb(null, usersPath);
+        console.log(8)
     },
     filename: function (req, file, cb) {
         return cb(null, `${Date.now()}-${file.originalname}`);
@@ -332,8 +336,11 @@ router.post("/loginuser", async (req, res) => {
 router.put("/UpProImg", fetchuser, PhotosUploader.single('Proimg'), async (req, res) => {
         try {
             let userid = req.user.id;
+            console.log(1)
             let path = req.file.path;
+            console.log(2)
             let remainingUrl = path.replace('uploads/', '')
+            console.log(3)
             
             const user = await User.findById({ _id: userid }).select("ProfilePhoto");
             if (!user) {
@@ -347,6 +354,7 @@ router.put("/UpProImg", fetchuser, PhotosUploader.single('Proimg'), async (req, 
             res.json({ success: true });
         } catch (error) {
             console.error(error);
+            console.log(error);
             res.status(500).send('Error occurred');
         }
 });
