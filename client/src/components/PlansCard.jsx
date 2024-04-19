@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const PlansCard = ({ title, price, features }) => {
   // Prop validation using PropTypes
@@ -21,9 +22,11 @@ const PlansCard = ({ title, price, features }) => {
         </div>
       ))}
 
-      <button className="rounded-md bg-black py-2 px-4 text-white mt-12 w-full">
-        Subscribe
-      </button>
+      <Link to={"/login"}>
+        <button className="rounded-md bg-black py-2 px-4 text-white mt-12 w-full">
+          Subscribe
+        </button>
+      </Link>
     </div>
   );
 };

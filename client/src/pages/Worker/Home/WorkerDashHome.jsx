@@ -22,6 +22,7 @@ const WorkerDashHome = () => {
         }
         const data = await response.json();
         if (data.success) {
+          console.log(data.earning);
           setEarningPlans(data.earning);
         } else {
           toast.error(data.message);
@@ -70,7 +71,7 @@ const WorkerDashHome = () => {
           </p>
         </div>
         <TotalEarningCard />
-        <div className="grid grid-cols-2  gap-4   md:grid-cols-3  lg:my-5 lg:grid-cols-5">
+        <div className="grid grid-cols-2  md:grid-cols-3  lg:grid-cols-4 xl:grid-cols-5 gap-2 justify-around md:gap-4">
           {earningPlans.map((plan, index) => {
             if (plan.Channel == "Youtube")
               return (
@@ -91,6 +92,13 @@ const WorkerDashHome = () => {
                 />
               );
           })}
+
+          <WorkerYoutubePlatformCard
+            key={"id"}
+            Title={"Title"}
+            Earning={"earnign"}
+            EarningType={"Per View"}
+          />
         </div>
 
         <div>

@@ -9,7 +9,7 @@ const SidebarItem = ({ icon, text, link }) => {
   return (
     <Link
       to={link}
-      className={`flex h-8 w-8 p-[4px] md:px-4 md:py-2 ${
+      className={`flex h-8 w-8 p-[4px] md:px-2 md:py-2 ${
         isActive ? "text-black bg-white" : "text-white "
       }  md:w-40 rounded-full items-center justify-center md:justify-start md:gap-2`}
     >

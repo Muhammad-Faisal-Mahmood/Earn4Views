@@ -45,16 +45,18 @@ const Sidebar = () => {
           />
         </div>
       </div>
-      <div className="hidden lg:flex gap-2  my-4">
-        {/* <img src={user} className="size-12" /> */}
-        <FaUserCircle size={45} className="text-slate-400" />
-        <div className="px-4">
+      <div className="hidden lg:flex gap-2  my-4 ">
+        <div>
+          <FaUserCircle size={45} className="text-slate-400" />
+          {/* <img src={userAvatar} className="size-12" /> */}
+        </div>
+        <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-white">{user?.Name}</h1>
+            <h1 className="text-white capitalize">{user?.Name}</h1>
             <FaChevronDown size={15} className="text-neutral-500 " />
           </div>
-          <div className="">
-            <p className="text-neutral-500 ">{user?.Email}</p>
+          <div>
+            <h1 className="text-[#747475] text-xs break-all">{user?.Email}</h1>
           </div>
         </div>
       </div>

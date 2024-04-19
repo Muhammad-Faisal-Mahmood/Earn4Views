@@ -6,6 +6,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { Base_Api } from "../../../utils/BaseApi";
 import { ToastContainer, toast } from "react-toastify";
 import { BsBank } from "react-icons/bs";
+import TotalEarningCardBuyer from "../../../components/TotalEarningCardBuyer";
 
 const BuyerDashTransactions = () => {
   const [transactions, setTransactions] = useState([]);
@@ -134,6 +135,9 @@ const BuyerDashTransactions = () => {
             <BlackButton text={"Add Fund"} />
           </div>
         </div>
+        <div>
+          <TotalEarningCardBuyer />
+        </div>
         <div className="shadow-basic rounded-xl py-8 px-4 md:p-8 grid gap-10  bg-white items-center">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-20">
             <div>
@@ -154,7 +158,7 @@ const BuyerDashTransactions = () => {
             </div>
             <div className="">
               <h1 className="bg-[#EEEEEE] py-4 px-4 rounded-t-2xl text-[#2C2C2C] text-[14px] font-semibold">
-                Payment method
+                Payment ethod
               </h1>
               <div className="bg-white flex justify-between py-6 px-4 shadow-lg rounded-md">
                 <div>
