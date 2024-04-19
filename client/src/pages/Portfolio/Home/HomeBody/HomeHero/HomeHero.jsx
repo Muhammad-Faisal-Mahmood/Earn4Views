@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import HomeHeroImg from "../../../../../assets/img/HomeHeroImg.svg";
 import HomeHeroImgMobile from "../../../../../assets/svg/HomeHeroMobile.svg";
 
@@ -13,9 +14,12 @@ const HomeHero = () => {
             Grow beyond yourself professionally by increasing followers and
             likes on your social accounts.
           </h1>
-          <button className="button-gradient-background py-3 px-12 text-white rounded-md w-fit font-bold lg:px-6">
+          <Link
+            to={"/login"}
+            className="button-gradient-background py-3 px-12 text-white rounded-md w-fit font-bold lg:px-6"
+          >
             Start working
-          </button>
+          </Link>
         </div>
       </div>
       <div className="hidden w-[65%] lg:block">

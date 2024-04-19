@@ -21,7 +21,7 @@ const Sidebar = () => {
   console.log("user from buyer sidebar", user);
   // w-[16vw] md:w-[15vw]
   return (
-    <div className="flex   flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 py-4">
+    <div className="flex flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 py-4">
       <div className="flex flex-col items-center">
         <img src={logo} className="size-12 md:size-20" />
         <div className="mt-8 md:mt-16 flex flex-col gap-4">
@@ -56,8 +56,8 @@ const Sidebar = () => {
             <h1 className="text-white capitalize">{user?.Name}</h1>
             <FaChevronDown size={15} className="text-neutral-500 " />
           </div>
-          <div className="">
-            <p className="text-neutral-500">{user?.Email}</p>
+          <div>
+            <h1 className="text-[#747475] text-xs break-all">{user?.Email}</h1>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { FaCaretDown } from "react-icons/fa6";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 const EarningsTable = ({ TableHeadings, TableRowData }) => {
   return (
@@ -26,11 +26,17 @@ const EarningsTable = ({ TableHeadings, TableRowData }) => {
                 className="rounded-lg text-[14px] text-[#2C2C2C] bg-white "
               >
                 <td className="px-4  ">
-                  <h1 className="">{RowData?.TID ? RowData?.TID: RowData._id}</h1>
+                  <h1 className="">
+                    {RowData?.TID ? RowData?.TID : RowData._id}
+                  </h1>
                 </td>
-                <td className="py-5">{dayjs(RowData?.Date).format('DD MMMM YYYY')}</td>
-                {RowData?.platform && <td className="py-5">{RowData?.platform}</td>}
-                <td className="py-5">{"$"+RowData?.Amount}</td>
+                <td className="py-5">
+                  {dayjs(RowData?.Date).format("DD MMMM YYYY")}
+                </td>
+                {RowData?.platform && (
+                  <td className="py-5">{RowData?.platform}</td>
+                )}
+                <td className="py-5">{"$" + RowData?.Amount}</td>
                 <td className="py-5">
                   {RowData?.Status && (
                     <div
@@ -51,7 +57,9 @@ const EarningsTable = ({ TableHeadings, TableRowData }) => {
                             : "text-[#E2B102]")
                         }
                       >
-                        {RowData.Status}
+                        {RowData.Status === "Pending"
+                          ? `${RowData.Status} (within 2-3 days)`
+                          : RowData.Status}
                       </h1>
                     </div>
                   )}

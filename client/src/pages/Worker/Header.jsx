@@ -3,16 +3,43 @@ import { FaChevronDown, FaChevronUp, FaUserCircle } from "react-icons/fa";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import user from "../../assets/svg/profile-user.svg";
 import { TiThMenu } from "react-icons/ti";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { Link, Navigate } from "react-router-dom";
+import { Base_Api } from "../../utils/BaseApi";
 
 const Header = () => {
   const [openDropDown, setOpenDropDown] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const [worker, setWorker] = useState(null);
+
+  useEffect(() => {
+    const fetchWorker = async () => {
+      try {
+        const response = await fetch(Base_Api + "api/worker/getworker", {
+          headers: {
+            "auth-token": user.authToken,
+          },
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          setWorker(data.woker);
+        } else {
+          // toast.error(data.message || data.error);
+        }
+      } catch (error) {
+        console.log(error.message);
+        // toast.error(error.message);
+      }
+    };
+
+    fetchWorker();
+  }, []);
 
   return (
-    <div className="px-4 md:px-[5vw] flex shadow-md justify-between py-2 sm:py-4">
+    <div className="px-4 md:px-[5vw] flex shadow-md justify-between md:justify-end py-2 sm:py-4">
       <div className="md:hidden flex items-center">
         <TiThMenu size={24} />
       </div>
@@ -47,7 +74,15 @@ const Header = () => {
           )}
         </div>
         {openDropDown && (
-          <div className="absolute top-14 right-0 two-color-gradient-background text-neutral-200 p-2 rounded-md flex flex-col gap-2 w-40">
+          <div className="absolute top-14 right-0 two-color-gradient-background text-neutral-200 p-2 rounded-md flex flex-col gap-2 ">
+            <Link to={"/dashboard/worker/profile"}>
+              <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
+                Profile
+              </h1>
+            </Link>
+            <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
+              Balance: ${worker?.Earning.toFixed(3)}
+            </h1>
             <Link to={"/login"}>
               <h1
                 onClick={() => {
@@ -58,12 +93,6 @@ const Header = () => {
                 Logout
               </h1>
             </Link>
-            <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
-              Profile
-            </h1>
-            <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
-              Balance: $50
-            </h1>
           </div>
         )}
       </div>

@@ -258,7 +258,7 @@ const LoginBody = () => {
               <div className="flex justify-center w-[100%]">
                 <button
                   type="submit"
-                  className="font-Para w-fit m-auto my-4 bg-black text-white rounded-lg text-xl md:text-xl font-bold py-2 px-6 hover:bg-accence hover:text-black duration-300 ease-in-out"
+                  className="font-Para w-fit m-auto my-4 bg-black bg-opacity-80 hover:bg-opacity-100 text-white rounded-lg text-xl md:text-xl font-bold py-2 px-6 hover:bg-accence  duration-300 ease-in-out"
                 >
                   Sign Up
                 </button>
@@ -284,7 +284,7 @@ const LoginBody = () => {
             {/* <div className="font-Para text-black text-2xl font-bold my-2">
               Or
             </div> */}
-            <div className="flex flex-col gap-4 mt-10 text-left items-start w-[80%] ml-12">
+            <div className="flex flex-col gap-4 mt-10 text-left items-start w-[80%] ">
               <div className="font-Para flex flex-col gap-2 text-black font-semibold w-[100%]">
                 <label htmlFor="" className="text-xl">
                   Email
@@ -317,14 +317,14 @@ const LoginBody = () => {
               <div className="flex justify-center w-[100%]">
                 <button
                   type="submit"
-                  className="font-Para w-fit m-auto my-4 bg-black text-white rounded-lg text-xl md:text-xl font-bold py-2 px-6 hover:bg-accence hover:text-black duration-300 ease-in-out"
+                  className="font-Para w-fit m-auto my-4 hover:bg-opacity-100 bg-black bg-opacity-80 text-white rounded-lg text-xl md:text-xl font-bold py-2 px-6 hover:bg-accence duration-300 ease-in-out"
                 >
                   Sign In
                 </button>
               </div>
             </div>
           </form>
-          <div className="py-4">
+          <div className="p-4">
             <h1
               onClick={() => {
                 setisSignIn(!isSignIn);

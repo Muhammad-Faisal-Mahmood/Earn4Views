@@ -22,6 +22,7 @@ const BuyerDashNewServices = () => {
   const [selectedService, setSelectedService] = useState(null);
   const { user } = useContext(UserContext);
   const urlRef = useRef(null);
+  const amountRef = useRef(null);
 
   useEffect(() => {
     fetchPlans();
@@ -64,10 +65,10 @@ const BuyerDashNewServices = () => {
         setBuyer(data.buyer);
         console.log("Data buyer", data.buyer);
       } else if (!data.success) {
-        toast.error("Error getting plans");
+        toast.error("Error getting buyer info");
       }
     } catch (error) {
-      console.log("ERR: loading plans in services");
+      console.log("ERR: loading buyer information in services");
       // Handle error state here if needed
     }
   };
@@ -84,10 +85,10 @@ const BuyerDashNewServices = () => {
         body: JSON.stringify({
           Channel: selectedPlatformPlans[0].Channel,
           Servicetaken: selectedService.Service,
-          Amount: buyer?.Funds,
+          Amount: amountRef?.current,
           // Amount: 100,
           URL: urlRef?.current,
-          Total: selectedService?.Price * 100,
+          Total: selectedService?.Price * amountRef?.current,
           // Total: 0,
         }),
       });
@@ -200,7 +201,7 @@ const BuyerDashNewServices = () => {
                 )[0]
               );
             }}
-            className="bg-white shadow-basic p-3 w-full"
+            className="bg-white shadow-basic p-3 w-full rounded-md"
           >
             <option value="">Select a value</option>
             {selectedPlatformPlans &&
@@ -213,9 +214,17 @@ const BuyerDashNewServices = () => {
         </div>
         <div className="flex-col flex gap-1">
           <h1>Amount</h1>
-          <h1 className="p-2 w-full h-12 shadow-basic">
+          <input
+            value={amountRef.current}
+            onChange={(e) => {
+              amountRef.current = e.target.value;
+            }}
+            type="number"
+            className="p-2 w-full h-12 shadow-basic rounded-md bg-white"
+          />
+          {/* <h1 className="p-2 w-full h-12 shadow-basic">
             {selectedService ? `$${selectedService?.Price * 100}` : `$0`}
-          </h1>
+          </h1> */}
           {/* <select
             value={"werwe"}
             // onChange={(e) => setSelectedOption(e.target.value)}
@@ -232,17 +241,22 @@ const BuyerDashNewServices = () => {
             value={urlRef.current}
             onChange={(e) => (urlRef.current = e.target.value)}
             cols={60}
-            rows={2}
-            className="bg-white rounded-sm shadow-basic p-2 text-xs outline-none"
+            rows={3}
+            className="bg-white rounded-md shadow-basic p-2 text-xs outline-none"
             placeholder="Example: https://www.access2interpreters.com/the-history-of-thank-you-around-the-world/"
           />
         </div>
       </div>
       <button
         onClick={() => {
-          isValidUrl(urlRef.current)
-            ? setStep(step + 1)
-            : toast.warning("Enter valid url");
+          function validateNextStep() {
+            if (!selectedService) return "Please select a platform.";
+            if (!amountRef.current) return "Enter the amount of service.";
+            if (!isValidUrl(urlRef.current)) return "Enter Valid URL.";
+            return false;
+          }
+          const validation = validateNextStep();
+          validation ? toast.error(validation) : setStep(step + 1);
         }}
         className="w-full button-gradient-background text-white py-4 font-bold text-2xl rounded-sm"
       >
@@ -254,8 +268,8 @@ const BuyerDashNewServices = () => {
   const stepThree = (
     <div>
       <div className="flex justify-between my-8">
-        <h1 className="font-bold">Total Amount:</h1>
-        <h1 className="font-semibold ">{buyer?.Funds || 0}</h1>
+        <h1 className="font-bold">Your Balance:</h1>
+        <h1 className="font-semibold ">{buyer?.Funds.toFixed(3) || 0}</h1>
       </div>
       <Link to={"/dashboard/buyer/transactions"} className="">
         <div className="  border-4 font-bold text-purple-950 border-purple-950 w-full p-4 my-2">
@@ -265,7 +279,7 @@ const BuyerDashNewServices = () => {
 
       <div className="flex justify-between mt-4 mb-8">
         <h1 className="font-bold">Total Amount:</h1>
-        <h1 className="font-semibold">${selectedService?.Price * 100}</h1>
+        <h1 className="font-semibold">${selectedService?.Price * 100 || 0}</h1>
       </div>
 
       <button
@@ -390,13 +404,17 @@ const BuyerDashNewServices = () => {
             </div>
 
             <div className="text-white items-center flex flex-col gap-10 justify-center">
-              <h1 className="text-2xl md:text-5xl text-white">Thank You</h1>
+              <h1 className="text-2xl font-bold md:text-5xl text-white">
+                Thank You
+              </h1>
               <p className="text-xl md:text-lg text-white">
                 You can See your service status
               </p>
-              <button className="p-4 w-fit rounded-lg bg-white text-black font-bold">
-                Check Now
-              </button>
+              <Link to={"/dashboard/buyer/"}>
+                <button className="p-4 w-fit rounded-lg bg-white text-black font-bold">
+                  Check Now
+                </button>
+              </Link>
             </div>
           </div>
         </div>
