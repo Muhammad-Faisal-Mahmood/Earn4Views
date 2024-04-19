@@ -19,7 +19,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="flex fixed w-[16vw] md:w-[20vw] flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 md:py-4">
+    <div className="flex flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 py-4">
       <div className="flex flex-col items-center">
         <img src={logo} className="size-12 md:size-20" />
         <div className="mt-8 md:mt-16 flex flex-col gap-4">

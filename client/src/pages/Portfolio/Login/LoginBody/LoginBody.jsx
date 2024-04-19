@@ -153,9 +153,12 @@ const LoginBody = () => {
         </div>
       </div>
       <div
-        className={
-          "w-[80%] md:w-[90%] lg:w-[80%] xl:w-[70%] min-h-[630px] md:min-h-[820px] m-auto py-20  container2 my-16 lg:my-32 xl:my-40"
-        }
+        //   className={`w-[80%] md:w-[90%] lg:w-[80%] xl:w-[70%] ${
+        //     isSignIn ? "min-h-[750px]" : "min-h-[630px]"
+        //   }  md:min-h-[820px] m-auto py-20 flex  container2 my-16 lg:my-32 xl:my-40`}
+        //   id="container"
+        // >
+        className={`w-[80%] md:w-[90%] lg:w-[80%] xl:w-[70%] min-h-[750px] md:min-h-[820px] m-auto py-20 flex  container2 my-16 lg:my-32 xl:my-40`}
         id="container"
       >
         <div
@@ -321,7 +324,20 @@ const LoginBody = () => {
               </div>
             </div>
           </form>
+          <div className="py-4">
+            <h1
+              onClick={() => {
+                setisSignIn(!isSignIn);
+                const container = document.getElementById("container");
+                container.classList.add("right-panel-active");
+              }}
+              className="text-center underline text-blue-700 cursor-pointer"
+            >
+              Please sign up here if you don&apos;t have account already!
+            </h1>
+          </div>
         </div>
+
         <div className="overlay-container hidden md:block">
           <img
             src={circle}

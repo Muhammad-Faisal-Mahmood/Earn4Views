@@ -38,7 +38,9 @@ const Earning = () => {
       <ToastContainer />
       <div className="mx-[7vw] h-[100vh] py-10 flex flex-col gap-12">
         <div>
-          <h1 className="font-bold text-lg md:text-xl lg:text-2xl xl:text-3xl">Start Earning Right Now</h1>
+          <h1 className="font-bold text-lg md:text-xl lg:text-2xl xl:text-3xl">
+            Start Earning Right Now
+          </h1>
         </div>
         <TotalEarningCard />
         <div className=" grid grid-cols-2  gap-x-4 gap-y-10  md:grid-cols-3 lg:grid-cols-4  xl:my-5 xl:grid-cols-5">
