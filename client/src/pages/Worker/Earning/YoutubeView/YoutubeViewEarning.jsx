@@ -21,6 +21,7 @@ const YoutubeViewEarning = () => {
     if (!user.ip) {
       fetchUserIpAddress(setUser);
     }
+    setVideoPlayed(false)
     try {
       const response = await fetch(Base_Api + "api/worker/YoutubeView", {
         method: "POST",
@@ -84,11 +85,11 @@ const YoutubeViewEarning = () => {
       <div className="mx-[7vw] flex flex-col gap-12 py-10 h-[100vh]">
         <EarningInstructions Instructions={YoutubeViewEarningInstructions} />
         {urlkey && (
-          <div className="w-full h-[50vh] bg-[#E3E1E1] rounded-lg flex items-center justify-center">
+          <div className="w-full h-[50vh] bg-[#E3E1E1] rounded-lg flex items-center justify-center pointer-events-none">
             <iframe
               width={"100%"}
               height={"100%"}
-              src={`https://www.youtube.com/embed/${urlkey}`}
+              src={`https://www.youtube.com/embed/${urlkey}?autoplay=1&controls=0&showinfo=0`}
               title="YouTube video player"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -100,8 +101,8 @@ const YoutubeViewEarning = () => {
           <div className="flex items-center justify-center">
             <button
               onClick={HandleYoutubeViewEarning}
-              disabled={VideoPlayed}
-              className={`two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl ${VideoPlayed && opacity - 30}`}
+              disabled={!VideoPlayed}
+              className={`two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl ${!VideoPlayed && 'opacity-30'}`}
             >
               Next
             </button>
