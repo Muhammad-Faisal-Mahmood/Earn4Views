@@ -1,27 +1,33 @@
 import { RiSearch2Line } from "react-icons/ri";
-import { FaChevronDown, FaUserCircle } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp, FaUserCircle } from "react-icons/fa";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import user from "../../assets/svg/profile-user.svg";
 import { TiThMenu } from "react-icons/ti";
+import { useContext, useState } from "react";
+import { UserContext } from "../../App";
+import { Link, Navigate } from "react-router-dom";
 
 const Header = () => {
+  const [openDropDown, setOpenDropDown] = useState(false);
+  const { user, setUser } = useContext(UserContext);
+
   return (
     <div className="px-4 md:px-[5vw] flex shadow-md justify-between py-2 sm:py-4">
       <div className="md:hidden flex items-center">
         <TiThMenu size={24} />
       </div>
-      <div className="hidden md:flex items-center rounded-xl border-gray-300 border px-4 w-[30%]">
+      {/* <div className="hidden md:flex items-center rounded-xl border-gray-300 px-4 w-[30%]">
         <RiSearch2Line className="text-neutral-400" size={30} />
         <input
           type="text"
           placeholder="Search.."
           className="bg-white outline-none w-full py-1"
         />
-      </div>
-      <div className="flex gap-2 md:gap-4 items-center">
-        <div className="rounded-full p-1 border">
+      </div> */}
+      <div className="flex gap-2 md:gap-4 items-center relative">
+        {/* <div className="rounded-full p-1 border">
           <IoIosNotificationsOutline size={22} className="text-neutral-500" />
-        </div>
+        </div> */}
         <div className="hidden md:flex">
           <FaUserCircle size={45} className="text-slate-400" />
           {/* <img src={user} className="size-12" /> */}
@@ -30,7 +36,36 @@ const Header = () => {
           <FaUserCircle size={35} className="text-slate-400" />
           {/* <img src={user} className="size-12" /> */}
         </div>
-        <FaChevronDown size={15} className="text-neutral-400" />
+        <div
+          className="cursor-pointer"
+          onClick={() => setOpenDropDown(!openDropDown)}
+        >
+          {openDropDown ? (
+            <FaChevronUp size={15} className="text-neutral-400" />
+          ) : (
+            <FaChevronDown size={15} className="text-neutral-400" />
+          )}
+        </div>
+        {openDropDown && (
+          <div className="absolute top-14 right-0 two-color-gradient-background text-neutral-200 p-2 rounded-md flex flex-col gap-2 w-40">
+            <Link to={"/login"}>
+              <h1
+                onClick={() => {
+                  setUser(null);
+                }}
+                className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer"
+              >
+                Logout
+              </h1>
+            </Link>
+            <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
+              Profile
+            </h1>
+            <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
+              Balance: $50
+            </h1>
+          </div>
+        )}
       </div>
     </div>
   );

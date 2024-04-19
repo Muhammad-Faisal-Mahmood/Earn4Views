@@ -7,10 +7,7 @@ const WinningPlatforms = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const response = await fetch(
-          Base_Api +
-          "api/userAuth/getEarnings"
-        );
+        const response = await fetch(Base_Api + "api/userAuth/getEarnings");
         const data = await response.json();
         console.log(data?.earning);
         setplatformEarningsData(data?.earning);
@@ -37,7 +34,7 @@ const WinningPlatforms = () => {
       <h1 className="text-2xl font-bold text-center lg:text-5xl">
         Winning Platforms
       </h1>
-      <div className="grid grid-cols-1 justify-items-center gap-y-10 items-center my-10 md:grid-cols-2  lg:my-20 lg:grid-cols-3">
+      <div className="grid grid-cols-1 justify-items-center gap-5 items-center my-10 sm:grid-cols-2 md:grid-cols-  lg:my-20 lg:grid-cols-3">
         {platformEarningsData.map((card, index) => (
           <WinningPlatformCard
             key={index}
