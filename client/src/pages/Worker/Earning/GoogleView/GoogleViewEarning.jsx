@@ -78,7 +78,7 @@ const GoogleViewEarning = () => {
   };
 
   const startTimer = () => {
-    setTimerStarted(true); 
+    setTimerStarted(true);
     setNextButtonState(false);
     const timerId = setTimeout(() => {
       setNextButtonState(true);
@@ -112,14 +112,14 @@ const GoogleViewEarning = () => {
         )}
         {websiteData && (
           <button
-          disabled={!nextButtonState}
+            disabled={!nextButtonState}
             onClick={HandleGoogleViewEarning}
-            className="text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl"
+            className={`text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl ${!nextButtonState && "opacity-20"}`}
           >
             Next
           </button>
         )}
-        {noServicesAvailable && <NoService/>}
+        {noServicesAvailable && <NoService />}
       </div>
     </>
   );

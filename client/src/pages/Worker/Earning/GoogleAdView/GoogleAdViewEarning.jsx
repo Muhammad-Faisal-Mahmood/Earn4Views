@@ -95,8 +95,8 @@ const GoogleAdViewEarning = () => {
   };
   const GoogleAddViewEarningInstructions = [
     { text: "Click button" },
-    { text: "See website till end and copy code from end of the website" },
-    { text: "Add code in input field" },
+    { text: "See website till end" },
+    // { text: "Add code in input field" },
     { text: "Earning will add" },
   ];
   return (
@@ -118,7 +118,7 @@ const GoogleAdViewEarning = () => {
             Visit Website
           </Link>
         )}
-        {websiteData && (
+        {/* {websiteData && (
           <div className="mb-2 md:mb-5">
             <h1 className="font-bold text-xl md:text-2xl lg:text-3xl">Copy Code:</h1>
             <input
@@ -127,12 +127,12 @@ const GoogleAdViewEarning = () => {
               className="w-full mt-8  py-5 px-5 rounded-md bg-[#EBEAEA] shadow-md"
             />
           </div>
-        )}
+        )} */}
         {websiteData && (
           <button
             disabled={!nextButtonState}
             onClick={HandleGoogleViewEarning}
-            className="text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl"
+            className={`text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl ${!nextButtonState && "opacity-20"}`}
           >
             Next
           </button>
