@@ -20,14 +20,14 @@ const HorizontalSlider = ({ values }) => {
     <>
       <div className="carousel relative">
         <div className="carousel-inner overflow-x-hidden">
-          {values.map((value, index) => (
+          {values.map((item, index) => (
             <div
               key={index}
               className={`carousel-item transition ease-out duration-300 mx-4  ${
                 index === currentIndex ? "block" : "hidden"
               }`}
             >
-              <TestimonialCard />
+              <TestimonialCard card={item} />
             </div>
           ))}
         </div>

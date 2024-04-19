@@ -8,7 +8,7 @@ const HomeContact = () => {
         Contact Us
       </h1>
       <div className="shadow-basic mx-4 md:mx-8 lg:mx-20 py-8 md:py-12 lg:py-20 px-8 md:px-10 rounded-2xl flex gap-10">
-        <div className="w-full md:w-[45%]">
+        <div className="w-full lg:w-[45%]">
           <div className="flex flex-col gap-3 mb-16">
             <h1 className="text-3xl md:text-4xl font-bold">
               Let us know your concerns.
@@ -63,7 +63,7 @@ const HomeContact = () => {
             </form>
           </div>
         </div>
-        <div className="hidden md:flex w-[55%]  flex-col lg:gap-28 gap-12">
+        <div className="hidden lg:flex w-[55%]  flex-col lg:gap-28 gap-12">
           <div className="flex flex-col gap-12">
             <h1 className="text-2xl font-bold my-4">3 steps to solutions</h1>
             <div className="flex gap-2">
