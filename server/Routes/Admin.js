@@ -23,7 +23,7 @@ const WorkerAccount = require("../Models/WorkerPay");
 
 const upload = multer({ storage: multer.memoryStorage() });
 
-const JWT_KEY = "OnDemandServiceAppBeautician";
+const JWT_KEY = "EarnFarooqWithViews";
 
 const PhotosStorage = multer.diskStorage({
     destination: function (req, file, cb) {

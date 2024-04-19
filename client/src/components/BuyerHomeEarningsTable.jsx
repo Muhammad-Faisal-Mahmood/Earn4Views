@@ -28,7 +28,7 @@ const BuyerHomeEarningsTable = ({ TableHeadings, TableRowData }) => {
                 </td>
                 <td className="py-5">{RowData?.Service}</td>
                 {RowData?.workerTrackCount != null && (
-                  <td className="py-5">{`${RowData?.workerTrackCount}%`}</td>
+                  <td className="py-5">{`${RowData.Status == "Complete" ? "100%" : ((RowData?.workerTrackCount / RowData?.Amount) * 100).toFixed(2)}%`}</td>
                 )}
                 {RowData?.Amount && (
                   <td className="py-5">{"$" + RowData?.Amount}</td>

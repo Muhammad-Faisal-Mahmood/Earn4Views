@@ -56,67 +56,6 @@ const WorkerDashHome = () => {
     fetchEarningPlans();
   }, []);
 
-  console.log("worker earning plans: ", earningPlans);
-  console.log("worker withdraws: ", withdraws);
-  // const CardData = [
-  //   {
-  //     title: "Youtube View",
-  //     earningType: "Per View",
-  //     earning: "$10",
-  //     description: "You can earn from youtube by just watching videos.",
-  //     type: "youtube",
-  //   },
-  //   {
-  //     title: "Youtube Subscribe",
-  //     earningType: "Per View",
-  //     earning: "$10",
-  //     description: "You can earn from youtube by just watching videos.",
-  //     type: "youtube",
-  //   },
-  //   {
-  //     title: "Youtube watchtime",
-  //     earningType: "Per View",
-  //     earning: "$10",
-  //     description: "You can earn from youtube by just watching videos.",
-  //     type: "youtube",
-  //   },
-  //   {
-  //     title: "Google Views",
-  //     earningType: "Per View",
-  //     earning: "$10",
-  //     description: "You can earn from youtube by just watching videos.",
-  //     type: "google",
-  //   },
-  //   {
-  //     title: "Google Ad View",
-  //     earningType: "Per View",
-  //     earning: "$10",
-  //     description: "You can earn from youtube by just watching videos.",
-  //     type: "google",
-  //   },
-  // ];
-
-  // const TableRowData = [
-  //   {
-  //     tid: "#23456",
-  //     withdrawDate: "23 Jan 2023",
-  //     platform: "Youtube Likes",
-  //     amount: "$1200",
-  //   },
-  //   {
-  //     tid: "#23456",
-  //     withdrawDate: "23 Jan 2023",
-  //     platform: "Youtube Likes",
-  //     amount: "$1200",
-  //   },
-  //   {
-  //     tid: "#23456",
-  //     withdrawDate: "23 Jan 2023",
-  //     platform: "Youtube Likes",
-  //     amount: "$1200",
-  //   },
-  // ];
-
   return (
     <>
       <ToastContainer />

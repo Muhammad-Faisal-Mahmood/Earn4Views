@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const JWT_KEY = "OnDemandServiceAppBeautician";
+const JWT_KEY = "EarnFarooqWithViews";
 
 const fetchadmin = (req,res,next)=>{
 

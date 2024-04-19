@@ -329,9 +329,7 @@ router.post("/loginuser", async (req, res) => {
 })
 
 //Upload Profile Image
-router.put("/UpProImg",
-    fetchuser,
-    PhotosUploader.single('Proimg'), async (req, res) => {
+router.put("/UpProImg", fetchuser, PhotosUploader.single('Proimg'), async (req, res) => {
         try {
             let userid = req.user.id;
             let path = req.file.path;
@@ -434,15 +432,14 @@ router.put("/UpdateUser",
 });
 
 //Update CNIC
-router.put("/UpdateCNIC",
-fetchuser,
+router.put("/UpdateCNIC", fetchuser,
     CNICUploader.fields([
         { name: 'CNIC_Front', maxCount: 1 },
         { name: 'CNIC_Back', maxCount: 1 }
     ]), async (req, res) => {
         try {
 
-            let user = await User.findById(req.beautician.id);
+            let user = await User.findById(req.user.id);
             if (!user) {
                 return res.status(400).json({ error: "Account not found" });
             }
@@ -462,7 +459,7 @@ fetchuser,
                 }
             }
 
-            user = await User.findByIdAndUpdate(req.beautician.id, { $set: newBeautician }, { new: true });
+            user = await User.findByIdAndUpdate(req.user.id, { $set: newUser }, { new: true });
             if (!user) {
                 return res.status(404).json({ success: false, message: "Beautician not found" });
             }
@@ -470,13 +467,15 @@ fetchuser,
             res.json({ success: true });
 
         } catch (error) {
-            if (req.files) {
-                Object.values(req.files).forEach(async (fileArray) => {
-                    await Promise.all(fileArray.map(async (file) => {
-                        await fs.unlink(file.path);
-                    }));
-                });
-            }
+            // if (req.files) {
+            //     Object.values(req.files).forEach(async (fileArray) => {
+            //         await Promise.all(fileArray.map(async (file) => {
+            //             await fs.unlink(file.path);
+            //         }));
+            //     });
+            // }
+
+            console.log(error)
 
             res.status(500).json({ success: false, message: 'Error occurred' });
         }
