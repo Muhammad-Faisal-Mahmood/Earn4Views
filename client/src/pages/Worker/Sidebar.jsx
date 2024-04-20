@@ -7,10 +7,10 @@ import { FaChevronDown } from "react-icons/fa";
 import { UserContext } from "../../App";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../../utils/getUser";
+import { Base_Api } from "../../utils/BaseApi";
 
 const Sidebar = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const token = localStorage.getItem("e4vToken");
 
@@ -18,9 +18,6 @@ const Sidebar = () => {
     if (!user) {
       if(!token){
         navigate("/");
-      }
-      else{
-        getUser(token,setUser);
       }
     }
   }, []);
@@ -56,8 +53,8 @@ const Sidebar = () => {
       </div>
       <div className="hidden lg:flex gap-2  my-4 ">
         <div>
-          <FaUserCircle size={45} className="text-slate-400" />
-          {/* <img src={userAvatar} className="size-12" /> */}
+          {!user?.ProfilePhoto && <FaUserCircle size={45} className="text-slate-400" />}
+          {user?.ProfilePhoto && <img src={`${Base_Api + "uploads/"+ user?.ProfilePhoto}`} className="size-12 rounded-full" />}
         </div>
         <div>
           <div className="flex items-center gap-2">

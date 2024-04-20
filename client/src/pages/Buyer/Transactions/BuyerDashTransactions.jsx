@@ -16,6 +16,7 @@ const BuyerDashTransactions = () => {
   const fundsRef = useRef(null);
 
   useEffect(() => {
+    if(!user) return;
     const fetchTransactions = async () => {
       try {
         const response = await fetch(Base_Api + "api/buyer/getTransaction", {
@@ -60,7 +61,7 @@ const BuyerDashTransactions = () => {
 
     fetchTransactions();
     fetchPaymentAccount();
-  }, []);
+  }, [user]);
 
   const handleTransaction = async () => {
     if (TIDRef.current.value == "" || fundsRef.current.value == "") {
@@ -158,7 +159,7 @@ const BuyerDashTransactions = () => {
             </div>
             <div className="">
               <h1 className="bg-[#EEEEEE] py-4 px-4 rounded-t-2xl text-[#2C2C2C] text-[14px] font-semibold">
-                Payment ethod
+                Payment method
               </h1>
               <div className="bg-white flex justify-between py-6 px-4 shadow-lg rounded-md">
                 <div>

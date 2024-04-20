@@ -19,7 +19,7 @@ import BuyerDashProfile from "./pages/Buyer/Profile/index.jsx";
 import BuyerDashTransactions from "./pages/Buyer/Transactions/index.jsx";
 import BuyerDashNewServices from "./pages/Buyer/NewServices/index.jsx";
 import OtpVerification from "./pages/Portfolio/OtpVerification/OtpVerification.jsx";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import ForgotPassword from "./pages/Portfolio/ForgotPassword/ForgotPassword.jsx";
 import Earning from "./pages/Worker/Earning";
 import YoutubeSubscribeEarning from "./pages/Worker/Earning/YoutubeSubscriber";
@@ -30,9 +30,21 @@ export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState(null);
   const token = localStorage.getItem("e4vToken");
-  if(!user && token){
-    getUser(token,setUser);
-  }
+
+  useEffect(() => {
+    getUserByToken();
+  }, []);
+
+  const getUserByToken = async () => {
+    if (!user && token) {
+      const data = await getUser(token);
+      setUser({
+        authToken: token,
+        ...data,
+      });
+    }
+  };
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <BrowserRouter>

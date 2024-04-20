@@ -74,9 +74,13 @@ const BuyerDashProfile = () => {
       return acc;
     }, {});
 
-    if (Object.keys(updatedFields).length === 0) {
+    if (Object.keys(updatedFields).length === 0 && !profileImage) {
       toast.warning("Please provide us the right information");
       return;
+    }
+
+    if(profileImage){
+      handleProfileImageUpload();
     }
 
     if (ValidateUserUpdateData(updatedFields) !== true) {
@@ -143,7 +147,7 @@ const BuyerDashProfile = () => {
       setCNICBackImage(file);
     } else if (imageType === "profile") {
       setProfileImage(file);
-      handleProfileImageUpload();
+      // handleProfileImageUpload();
     }
   };
 
@@ -217,6 +221,7 @@ const BuyerDashProfile = () => {
   };
 
   const getProfileImage = async () => {
+    if(!user) return;
     try {
       const response = await fetch(
           `${Base_Api}api/userAuth/getProImg`,
@@ -247,9 +252,10 @@ const BuyerDashProfile = () => {
 
   useEffect(() => {
     getProfileImage()
-  }, [])
+  }, [user])
   
-
+console.log("profile photo url",`${Base_Api + "uploads/"+ user?.ProfilePhoto}`)
+console.log("cnic url",`${Base_Api + "uploads/"+ user?.CNIC_Front}`)
   return (
     <>
       <ToastContainer />
@@ -257,7 +263,7 @@ const BuyerDashProfile = () => {
         <div className="hidden lg:block">
           <h1 className="text-3xl font-bold">
             Hello,
-            <span className="capitalize">{`${user?.Name.split(" ")[0]}`}</span>!
+            <span className="capitalize">{`${user?.Name?.split(" ")[0]}`}</span>!
           </h1>
           <p className="text-gray-500">
             {dayjs().format("dddd MMMM DD, YYYY")}
@@ -265,8 +271,8 @@ const BuyerDashProfile = () => {
         </div>
         <div className="flex flex-col items-center justify-center py-4">
           <div className="relative rounded-full w-20 h-20 md:w-40 md:h-40 flex justify-center items-center">
-            {/* <FaUserCircle size={120} className="text-slate-400" /> */}
-            <img src={`${Base_Api + user?.ProfilePhoto}`} className="size-36" />
+            {!user?.ProfilePhoto && <FaUserCircle size={120} className="text-slate-400" />}
+           {user?.ProfilePhoto && <img src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`} className="md:size-36 rounded-full size-20" />}
 
             <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute  -bottom-2 -right-2 md:bottom-3 md:right-6 ">
               <label htmlFor="profile-image">
@@ -283,7 +289,7 @@ const BuyerDashProfile = () => {
 
             {/* if the image is dynamically fetched:  */}
           </div>
-          <h1 className="font-bold text-[#1A1A1A] text-2xl lg:text-4xl capitalize">
+          <h1 className="font-bold text-[#1A1A1A] mt-2 text-2xl lg:text-4xl capitalize md:mt-0">
             {`${user?.Name}`}
           </h1>
         </div>
@@ -336,14 +342,14 @@ const BuyerDashProfile = () => {
               </button>
             </div>
 
-            <div className="flex gap-4 flex-col md:flex-row md: justify-around">
+            <div className="flex gap-4 flex-col lg:flex-row lg: justify-around">
               <div className="flex flex-col gap-2">
                 <label className="text-lg md:text-2xl text-[#1A1A1A] uppercase md:my-4">
                   cnic front image:
                 </label>
                 <div className="w-full flex justify-center ">
                   <div className="relative">
-                    <img src={DummyCnic} />
+                    <img src={user?.CNIC_Front ? `${Base_Api +  "uploads/"+ user?.CNIC_Front}` :DummyCnic} className={user?.CNIC_Front? "size-48" : " "}/>
                     <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute -bottom-2 -right-2 ">
                       <label htmlFor="cnic-front">
                         <FaCamera className="text-white cursor-pointer" />
@@ -366,7 +372,7 @@ const BuyerDashProfile = () => {
                 </label>
                 <div className="w-full flex justify-center ">
                   <div className="relative">
-                    <img src={DummyCnic} />
+                  <img src={user?.CNIC_Back ? `${Base_Api+ "uploads/"+ user?.CNIC_Back}` :DummyCnic} className={user?.CNIC_Back? "size-48" : " "} />
                     <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute -bottom-2 -right-2 ">
                       <label htmlFor="cnic-back">
                         <FaCamera className="text-white cursor-pointer" />

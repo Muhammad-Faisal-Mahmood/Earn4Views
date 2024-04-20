@@ -9,6 +9,7 @@ const TotalEarningCardBuyer = () => {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
+    if(!user) return
     const fetchBuyer = async () => {
       try {
         const response = await fetch(Base_Api + "api/buyer/getBuyer", {
@@ -31,7 +32,7 @@ const TotalEarningCardBuyer = () => {
     };
 
     fetchBuyer();
-  }, []);
+  }, [user]);
 
   return (
     <div className="flex justify-center flex-col items-center lg:items-start ">
