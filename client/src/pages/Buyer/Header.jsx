@@ -61,12 +61,26 @@ const Header = () => {
           <IoIosNotificationsOutline size={22} className="text-neutral-500" />
         </div> */}
           <div className="hidden md:flex">
+          {!user?.ProfilePhoto && (
             <FaUserCircle size={45} className="text-slate-400" />
-            {/* <img src={user} className="size-12" /> */}
+          )}
+          {user?.ProfilePhoto && (
+            <img
+              src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
+              className="size-12 rounded-full"
+            />
+          )}
           </div>
           <div className="md:hidden">
-            <FaUserCircle size={35} className="text-slate-400" />
-            {/* <img src={user} className="size-12" /> */}
+          {!user?.ProfilePhoto && (
+            <FaUserCircle size={45} className="text-slate-400" />
+          )}
+          {user?.ProfilePhoto && (
+            <img
+              src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
+              className="size-12 rounded-full"
+            />
+          )}
           </div>
           <div
             className="cursor-pointer"
@@ -86,7 +100,7 @@ const Header = () => {
                 </h1>
               </Link>
               <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
-                Balance: ${buyer?.Funds.toFixed(3) || 0}
+                Balance: ${buyer?.Funds.toFixed(3) || 0.000}
               </h1>
               <Link to={"/login"}>
                 <h1

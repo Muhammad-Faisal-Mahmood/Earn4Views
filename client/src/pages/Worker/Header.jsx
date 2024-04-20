@@ -15,7 +15,7 @@ const Header = () => {
 
   useEffect(() => {
     const fetchWorker = async () => {
-      if(!user) return;
+      if (!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/getworker", {
           headers: {
@@ -37,7 +37,7 @@ const Header = () => {
     };
 
     fetchWorker();
-  }, []);
+  }, [user]);
 
   return (
     <div className="px-4 md:px-[5vw] flex shadow-md justify-between md:justify-end py-2 sm:py-4">
@@ -57,12 +57,26 @@ const Header = () => {
           <IoIosNotificationsOutline size={22} className="text-neutral-500" />
         </div> */}
         <div className="hidden md:flex">
-          <FaUserCircle size={45} className="text-slate-400" />
-          {/* <img src={user} className="size-12" /> */}
+          {!user?.ProfilePhoto && (
+            <FaUserCircle size={45} className="text-slate-400" />
+          )}
+          {user?.ProfilePhoto && (
+            <img
+              src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
+              className="size-12 rounded-full"
+            />
+          )}
         </div>
         <div className="md:hidden">
-          <FaUserCircle size={35} className="text-slate-400" />
-          {/* <img src={user} className="size-12" /> */}
+          {!user?.ProfilePhoto && (
+            <FaUserCircle size={45} className="text-slate-400" />
+          )}
+          {user?.ProfilePhoto && (
+            <img
+              src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
+              className="size-12 rounded-full"
+            />
+          )}
         </div>
         <div
           className="cursor-pointer"

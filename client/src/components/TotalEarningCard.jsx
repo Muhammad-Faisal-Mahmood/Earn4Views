@@ -6,7 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const TotalEarningCard = () => {
   const [worker, setWorker] = useState(null);
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchWorker = async () => {
@@ -32,7 +32,7 @@ const TotalEarningCard = () => {
     };
 
     fetchWorker();
-  }, []);
+  }, [user]);
 
   return (
     <div className="flex justify-center flex-col items-center lg:items-start ">
