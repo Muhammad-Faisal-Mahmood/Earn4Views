@@ -43,24 +43,44 @@ const YoutubeWatchTimeEarning = () => {
       setVideoData(data);
       seturlKey(getYouTubeID(data?.URL))
       let url=getYouTubeID(data?.URL)
+      // playerRef.current = new YT.Player('youtube-player', {
+      //   height: '360',
+      //   width: '640',
+      //   videoId: url,
+      //   playerVars: {
+      //     autoplay: 1,    // Autoplay
+      //     controls: 0,    // Hide controls
+      //     showinfo: 0     // Hide video title and player actions
+      // },
+      //   events: {
+      //     'onReady': onPlayerReady,
+      //     'onStateChange': onPlayerStateChange
+      //   }
+      // });
+    } catch (error) {
+      console.error("Error fetching YouTube video:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (urlKey && user.ip) {
       playerRef.current = new YT.Player('youtube-player', {
         height: '360',
         width: '640',
-        videoId: url,
+        videoId: urlKey,
         playerVars: {
-          autoplay: 1,    // Autoplay
-          // controls: 0,    // Hide controls
-          // showinfo: 0     // Hide video title and player actions
-      },
+          autoplay: 1,
+          controls: 0,
+          showinfo: 0
+        },
         events: {
           'onReady': onPlayerReady,
           'onStateChange': onPlayerStateChange
         }
       });
-    } catch (error) {
-      console.error("Error fetching YouTube video:", error);
     }
-  };
+  }, [urlKey, user.ip]);
+  
 
   const destroyPlayer = () => {
     if (playerRef.current) {
@@ -156,7 +176,7 @@ const YoutubeWatchTimeEarning = () => {
           Instructions={YoutubeWatchTimeEarningInstructions}
         />
         {urlKey && (
-          <div className="w-full h-[50vh] bg-[#E3E1E1] rounded-lg flex items-center justify-center">
+          <div className="w-full h-[50vh] bg-[#E3E1E1] rounded-lg flex items-center pointer-events-none justify-center">
             <div id="youtube-player"></div>
             {/* <iframe
               width={"100%"}

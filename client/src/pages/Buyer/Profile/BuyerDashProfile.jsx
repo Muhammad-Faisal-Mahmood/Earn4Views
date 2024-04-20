@@ -12,7 +12,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { ValidateUserUpdateData } from "../../../utils/UpdateUserInputValidation";
 
 const BuyerDashProfile = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser, getUserByToken } = useContext(UserContext);
 
   const [enabledFields, setEnabledFields] = useState({});
   const [focusedIndex, setfocusedIndex] = useState(null);
@@ -21,7 +21,7 @@ const BuyerDashProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const focusedInputs = useRef([]);
 
-  console.log("user data:",user)
+  console.log("user data:", user)
 
   const [fields, setFields] = useState({
     Name: user?.Name || "",
@@ -79,7 +79,7 @@ const BuyerDashProfile = () => {
       return;
     }
 
-    if(profileImage){
+    if (profileImage) {
       handleProfileImageUpload();
     }
 
@@ -176,6 +176,7 @@ const BuyerDashProfile = () => {
       );
 
       const data = await response.json();
+      getUserByToken()
       setCNICFrontImage(null);
       setCNICBackImage(null);
       if (data?.success) {
@@ -192,7 +193,7 @@ const BuyerDashProfile = () => {
   //updating profile img
   const handleProfileImageUpload = async () => {
     const formData = new FormData();
-    
+
     formData.append("Proimg", profileImage);
     try {
       const response = await fetch(
@@ -221,10 +222,10 @@ const BuyerDashProfile = () => {
   };
 
   const getProfileImage = async () => {
-    if(!user) return;
+    if (!user) return;
     try {
       const response = await fetch(
-          `${Base_Api}api/userAuth/getProImg`,
+        `${Base_Api}api/userAuth/getProImg`,
         {
           method: "GET",
           headers: {
@@ -252,10 +253,10 @@ const BuyerDashProfile = () => {
 
   useEffect(() => {
     getProfileImage()
-  }, [user])
-  
-console.log("profile photo url",`${Base_Api + "uploads/"+ user?.ProfilePhoto}`)
-console.log("cnic url",`${Base_Api + "uploads/"+ user?.CNIC_Front}`)
+  }, [])
+
+  console.log("profile photo url", `${Base_Api + "uploads/" + user?.ProfilePhoto}`)
+  console.log("cnic url", `${Base_Api + "uploads/" + user?.CNIC_Front}`)
   return (
     <>
       <ToastContainer />
@@ -272,7 +273,7 @@ console.log("cnic url",`${Base_Api + "uploads/"+ user?.CNIC_Front}`)
         <div className="flex flex-col items-center justify-center py-4">
           <div className="relative rounded-full w-20 h-20 md:w-40 md:h-40 flex justify-center items-center">
             {!user?.ProfilePhoto && <FaUserCircle size={120} className="text-slate-400" />}
-           {user?.ProfilePhoto && <img src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`} className="md:size-36 rounded-full size-20" />}
+            {user?.ProfilePhoto && <img src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`} className="md:size-36 rounded-full size-20" />}
 
             <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute  -bottom-2 -right-2 md:bottom-3 md:right-6 ">
               <label htmlFor="profile-image">
@@ -349,7 +350,7 @@ console.log("cnic url",`${Base_Api + "uploads/"+ user?.CNIC_Front}`)
                 </label>
                 <div className="w-full flex justify-center ">
                   <div className="relative">
-                    <img src={user?.CNIC_Front ? `${Base_Api +  "uploads/"+ user?.CNIC_Front}` :DummyCnic} className={user?.CNIC_Front? "size-48" : " "}/>
+                    <img src={user?.CNIC_Front ? `${Base_Api + "uploads/" + user?.CNIC_Front}` : DummyCnic} className={user?.CNIC_Front ? "size-48" : " "} />
                     <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute -bottom-2 -right-2 ">
                       <label htmlFor="cnic-front">
                         <FaCamera className="text-white cursor-pointer" />
@@ -372,7 +373,7 @@ console.log("cnic url",`${Base_Api + "uploads/"+ user?.CNIC_Front}`)
                 </label>
                 <div className="w-full flex justify-center ">
                   <div className="relative">
-                  <img src={user?.CNIC_Back ? `${Base_Api+ "uploads/"+ user?.CNIC_Back}` :DummyCnic} className={user?.CNIC_Back? "size-48" : " "} />
+                    <img src={user?.CNIC_Back ? `${Base_Api + "uploads/" + user?.CNIC_Back}` : DummyCnic} className={user?.CNIC_Back ? "size-48" : " "} />
                     <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute -bottom-2 -right-2 ">
                       <label htmlFor="cnic-back">
                         <FaCamera className="text-white cursor-pointer" />

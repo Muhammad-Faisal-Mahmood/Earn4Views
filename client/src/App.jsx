@@ -36,7 +36,7 @@ function App() {
   }, []);
 
   const getUserByToken = async () => {
-    if (!user && token) {
+    if (token) {
       const data = await getUser(token);
       setUser({
         authToken: token,
@@ -46,7 +46,7 @@ function App() {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, getUserByToken }}>
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
