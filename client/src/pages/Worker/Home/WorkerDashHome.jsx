@@ -93,12 +93,12 @@ const WorkerDashHome = () => {
               );
           })}
 
-          <WorkerYoutubePlatformCard
+          {/* <WorkerYoutubePlatformCard
             key={"id"}
             Title={"Title"}
             Earning={"earnign"}
             EarningType={"Per View"}
-          />
+          /> */}
         </div>
 
         <div>

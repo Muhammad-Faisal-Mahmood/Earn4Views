@@ -49,8 +49,8 @@ const YoutubeWatchTimeEarning = () => {
         videoId: url,
         playerVars: {
           autoplay: 1,    // Autoplay
-          controls: 0,    // Hide controls
-          showinfo: 0     // Hide video title and player actions
+          // controls: 0,    // Hide controls
+          // showinfo: 0     // Hide video title and player actions
       },
         events: {
           'onReady': onPlayerReady,
