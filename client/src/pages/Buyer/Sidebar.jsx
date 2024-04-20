@@ -7,16 +7,23 @@ import { FaChevronDown } from "react-icons/fa";
 import { UserContext } from "../../App";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../../utils/getUser";
 
 const Sidebar = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const token = localStorage.getItem("e4vToken");
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!user) {
+      if(!token){
+        navigate("/");
+      }
+      else{
+        getUser(token,setUser);
+      }
+    }
+  }, []);
 
   console.log("user from buyer sidebar", user);
   // w-[16vw] md:w-[15vw]

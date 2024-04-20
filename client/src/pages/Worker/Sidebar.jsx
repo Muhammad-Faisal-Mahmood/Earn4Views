@@ -7,16 +7,25 @@ import { FaChevronDown } from "react-icons/fa";
 import { UserContext } from "../../App";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUser } from "../../utils/getUser";
 
 const Sidebar = () => {
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const token = localStorage.getItem("e4vToken");
 
   useEffect(() => {
     if (!user) {
-      navigate("/");
+      if(!token){
+        navigate("/");
+      }
+      else{
+        getUser(token,setUser);
+      }
     }
   }, []);
+
+
 
   return (
     <div className="flex flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 py-4">

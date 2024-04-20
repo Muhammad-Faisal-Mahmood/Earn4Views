@@ -54,7 +54,7 @@ const BuyerHomeEarningsTable = ({ TableHeadings, TableRowData }) => {
                             : "text-[#E2B102]")
                         }
                       >
-                        {RowData.Status === "Complete" ? "Complete" : "Pending"}
+                        {RowData.Status === "Complete" ? "Complete" : "Pending (within 2-3 days)"}
                       </h1>
                     </div>
                   )}
