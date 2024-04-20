@@ -5,7 +5,6 @@ import React from "react";
 const SidebarItem = ({ icon, text, link }) => {
   const location = useLocation();
   const isActive = location.pathname === link;
-  console.log(isActive);
   return (
     <Link
       to={link}

@@ -86,6 +86,7 @@ const Header = () => {
             <Link to={"/login"}>
               <h1
                 onClick={() => {
+                  localStorage.removeItem("e4vToken");
                   setUser(null);
                 }}
                 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer"

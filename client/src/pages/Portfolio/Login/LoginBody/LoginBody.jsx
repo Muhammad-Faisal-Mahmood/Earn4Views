@@ -52,10 +52,10 @@ const LoginBody = () => {
       if (response.ok) {
         try {
           const responseData = await response.json();
-          console.log("User created successfully, data: ", responseData);
 
           if (responseData.AuthToken) {
             // If AuthToken exists, navigate to 'otp-verification' route
+            localStorage.setItem("e4vToken", responseData.AuthToken);
             setUser({
               authToken: responseData.AuthToken,
             });
@@ -97,6 +97,7 @@ const LoginBody = () => {
           console.log("User loggedin successfully, data: ", responseData);
 
           if (responseData.AuthToken) {
+            localStorage.setItem("e4vToken", responseData.AuthToken);
             console.log("logged in user auth token: ", responseData.AuthToken);
             const userData = await fetch(Base_Api + "api/userAuth/getuser", {
               method: "GET",

@@ -16,7 +16,12 @@ const BuyerDashProfile = () => {
 
   const [enabledFields, setEnabledFields] = useState({});
   const [focusedIndex, setfocusedIndex] = useState(null);
+  const [CNICFrontImage, setCNICFrontImage] = useState(null);
+  const [CNICBackImage, setCNICBackImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
   const focusedInputs = useRef([]);
+
+  console.log("user data:",user)
 
   const [fields, setFields] = useState({
     Name: user?.Name || "",
@@ -26,7 +31,6 @@ const BuyerDashProfile = () => {
     Email: user?.Email || "",
     CNIC: user?.CNIC || "",
   });
-  console.log("buyer profile user:", user);
 
   const ProfileFields = [
     { label: "user name", placeholder: "Codyfisher", fieldName: "Name" },
@@ -125,6 +129,125 @@ const BuyerDashProfile = () => {
     console.log("updated fields: ", updatedFields);
   };
 
+  //adding files to useState for updating cnic and profile img
+  const handleImageUpload = (event, imageType) => {
+    const file = event.target.files[0];
+    if (!file || !file.type.match("image/*")) {
+      toast.warning("Please select a valid image file.");
+      return;
+    }
+
+    if (imageType === "front") {
+      setCNICFrontImage(file);
+    } else if (imageType === "back") {
+      setCNICBackImage(file);
+    } else if (imageType === "profile") {
+      setProfileImage(file);
+      handleProfileImageUpload();
+    }
+  };
+
+  //updating cnic
+  const handleCnicUpdate = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+
+    if (CNICFrontImage) {
+      formData.append("CNIC_Front", CNICFrontImage);
+    }
+    if (CNICBackImage) {
+      formData.append("CNIC_Back", CNICBackImage);
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/userAuth/UpdateCNIC",
+        {
+          method: "PUT",
+          body: formData, // Send FormData for image uploads
+          headers: {
+            "auth-token": user.authToken,
+          },
+        }
+      );
+
+      const data = await response.json();
+      setCNICFrontImage(null);
+      setCNICBackImage(null);
+      if (data?.success) {
+        toast.success("CNIC updated successfully");
+      } else {
+        toast.message(data.message);
+      }
+    } catch (error) {
+      // Handle network or other errors
+      toast.error(error.message);
+    }
+  };
+
+  //updating profile img
+  const handleProfileImageUpload = async () => {
+    const formData = new FormData();
+
+    if (profileImage) {
+      formData.append("Proimg", profileImage);
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/userAuth/UpProImg",
+        {
+          method: "PUT",
+          body: formData,
+          headers: {
+            "auth-token": user.authToken,
+          },
+        }
+      );
+
+      const data = await response.json();
+      if (data?.success) {
+        getProfileImage();
+        toast.success("Profile photo updated successfully");
+
+      } else {
+        toast.message(data.message);
+      }
+    } catch (error) {
+      // Handle network or other errors
+      toast.error(error.message);
+    }
+  };
+
+  const getProfileImage = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/userAuth/getProImg",
+        {
+          method: "GET",
+          headers: {
+            "auth-token": user.authToken,
+          },
+        }
+      );
+
+      const data = await response.json();
+      if (data?.success) {
+        if (data?.user?.ProfilePhoto) {
+          setUser((prevUser) => ({
+            ...prevUser,
+            ProfilePhoto: data.user.ProfilePhoto,
+          }));
+        }
+      } else {
+        toast.message(data.message);
+      }
+    } catch (error) {
+      // Handle network or other errors
+      toast.error(error.message);
+    }
+  };
+
   return (
     <>
       <ToastContainer />
@@ -139,14 +262,26 @@ const BuyerDashProfile = () => {
           </p>
         </div>
         <div className="flex flex-col items-center justify-center py-4">
-          <div className="rounded-full w-20 h-20 md:w-40 md:h-40 flex justify-center items-center">
+          <div className="relative rounded-full w-20 h-20 md:w-40 md:h-40 flex justify-center items-center">
             <FaUserCircle size={120} className="text-slate-400" />
+            <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute  -bottom-2 -right-2 md:bottom-3 md:right-6 ">
+              <label htmlFor="profile-image">
+                <FaCamera className="text-white cursor-pointer" />
+              </label>
+              <input
+                id="profile-image"
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => handleImageUpload(e, "profile")}
+              />
+            </div>
 
             {/* if the image is dynamically fetched:  */}
             {/* <img src={userProfile} className="size-36" /> */}
           </div>
           <h1 className="font-bold text-[#1A1A1A] text-2xl lg:text-4xl capitalize">
-            {`${user?.Name.split(" ")[0]}`}
+            {`${user?.Name}`}
           </h1>
         </div>
 
@@ -207,7 +342,17 @@ const BuyerDashProfile = () => {
                   <div className="relative">
                     <img src={DummyCnic} />
                     <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute -bottom-2 -right-2 ">
-                      <FaCamera className="text-white" />
+                      <label htmlFor="cnic-front">
+                        <FaCamera className="text-white cursor-pointer" />
+                      </label>
+                      <input
+                        id="cnic-front"
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        onChange={(e) => handleImageUpload(e, "front")}
+                      />
+                      {/* <FaCamera className="text-white" /> */}
                     </div>
                   </div>
                 </div>
@@ -220,18 +365,30 @@ const BuyerDashProfile = () => {
                   <div className="relative">
                     <img src={DummyCnic} />
                     <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute -bottom-2 -right-2 ">
-                      <FaCamera className="text-white" />
+                      <label htmlFor="cnic-back">
+                        <FaCamera className="text-white cursor-pointer" />
+                      </label>
+                      <input
+                        id="cnic-back"
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        onChange={(e) => handleImageUpload(e, "back")}
+                      />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </form>
-          {/* <div className="col-span-2 my-6 flex items-center justify-center">
-            <button className=" py-4 px-12 font-bold text-2xl text-white rounded-lg button-gradient-background">
+          <div className="col-span-2 my-6 flex items-center justify-center">
+            <button
+              onClick={handleCnicUpdate}
+              className=" py-2 px-4  md:py-4 md:px-12 font-bold text-lg md:text-2xl text-white rounded-lg button-gradient-background"
+            >
               Update CNIC
             </button>
-          </div> */}
+          </div>
         </div>
       </div>
     </>
