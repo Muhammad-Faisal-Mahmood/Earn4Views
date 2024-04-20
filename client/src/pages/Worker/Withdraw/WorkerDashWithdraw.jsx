@@ -19,6 +19,7 @@ const WorkerDashWithdraw = () => {
 
   useEffect(() => {
     const fetchWithdraws = async () => {
+      if(!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/withdaws", {
           headers: {
@@ -40,6 +41,7 @@ const WorkerDashWithdraw = () => {
     };
 
     const getWorkerPaymentMethod = async () => {
+      if(!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/getaccount", {
           headers: {
