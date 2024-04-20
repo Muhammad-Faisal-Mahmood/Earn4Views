@@ -8,19 +8,19 @@ import Facebook from "../../../../../assets/svg/FacebookPlatformImg.svg";
 const HomeWorkers = () => {
   const Data=[
     {
-      "name": "Sohaib Shoukat",
+      "name": "Ahmed Naeem",
       "channel": "Youtube",
       "earning": "550",
       img:Youtube
     },
     {
-      "name": "Inzamam Yousaf",
+      "name": "Farooq Afzal",
       "channel": "Google",
       "earning": "200",
       img:Google
     },
     {
-      "name": "Afaf Kainat",
+      "name": "Kashif Ashar",
       "channel": "Instagram",
       "earning": "640",
       img:Instagram
@@ -38,7 +38,7 @@ const HomeWorkers = () => {
       img:Facebook
     },
     {
-      "name": "Ahmed Ali",
+      "name": "Awais Kashif",
       "channel": "TikTok",
       "earning": "230",
       img:TikTok

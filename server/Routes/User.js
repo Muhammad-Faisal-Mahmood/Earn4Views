@@ -24,8 +24,7 @@ const JWT_KEY = "EarnFarooqWithViews";
 const PhotosStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         console.log(9)
-        let usersPath = path.join(process.cwd(), '/uploads/UserProfile');
-        return cb(null, usersPath);
+        return cb(null, './uploads/UserProfile');
         console.log(8)
     },
     filename: function (req, file, cb) {
@@ -337,6 +336,7 @@ router.put("/UpProImg", fetchuser, PhotosUploader.single('Proimg'), async (req, 
         try {
             let userid = req.user.id;
             console.log(1)
+            console.log(req.file)
             let path = req.file.path;
             console.log(2)
             let remainingUrl = path.replace('uploads/', '')

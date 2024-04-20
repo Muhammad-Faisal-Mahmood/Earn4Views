@@ -4,7 +4,7 @@ import { FaPencil } from "react-icons/fa6";
 import DummyCnic from "../../../assets/svg/WorkerProfileCnic.svg";
 import { FaCamera } from "react-icons/fa";
 import { UserContext } from "../../../App";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaCheck } from "react-icons/fa";
 import { Base_Api } from "../../../utils/BaseApi";
 import { ToastContainer, toast } from "react-toastify";
@@ -161,7 +161,7 @@ const BuyerDashProfile = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/userAuth/UpdateCNIC",
+        `${Base_Api}api/userAuth/UpdateCNIC`,
         {
           method: "PUT",
           body: formData, // Send FormData for image uploads
@@ -188,20 +188,17 @@ const BuyerDashProfile = () => {
   //updating profile img
   const handleProfileImageUpload = async () => {
     const formData = new FormData();
-
-    if (profileImage) {
-      formData.append("Proimg", profileImage);
-    }
-
+    
+    formData.append("Proimg", profileImage);
     try {
       const response = await fetch(
-        "http://localhost:5000/api/userAuth/UpProImg",
+        `${Base_Api}api/userAuth/UpProImg`,
         {
           method: "PUT",
-          body: formData,
           headers: {
             "auth-token": user.authToken,
           },
+          body: formData,
         }
       );
 
@@ -222,7 +219,7 @@ const BuyerDashProfile = () => {
   const getProfileImage = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/userAuth/getProImg",
+          `${Base_Api}api/userAuth/getProImg`,
         {
           method: "GET",
           headers: {
@@ -248,6 +245,11 @@ const BuyerDashProfile = () => {
     }
   };
 
+  useEffect(() => {
+    getProfileImage()
+  }, [])
+  
+
   return (
     <>
       <ToastContainer />
@@ -263,7 +265,9 @@ const BuyerDashProfile = () => {
         </div>
         <div className="flex flex-col items-center justify-center py-4">
           <div className="relative rounded-full w-20 h-20 md:w-40 md:h-40 flex justify-center items-center">
-            <FaUserCircle size={120} className="text-slate-400" />
+            {/* <FaUserCircle size={120} className="text-slate-400" /> */}
+            <img src={`${Base_Api + user?.ProfilePhoto}`} className="size-36" />
+
             <div className=" two-color-gradient-background-vertical flex p-2 rounded-full absolute  -bottom-2 -right-2 md:bottom-3 md:right-6 ">
               <label htmlFor="profile-image">
                 <FaCamera className="text-white cursor-pointer" />
@@ -278,7 +282,6 @@ const BuyerDashProfile = () => {
             </div>
 
             {/* if the image is dynamically fetched:  */}
-            {/* <img src={userProfile} className="size-36" /> */}
           </div>
           <h1 className="font-bold text-[#1A1A1A] text-2xl lg:text-4xl capitalize">
             {`${user?.Name}`}
