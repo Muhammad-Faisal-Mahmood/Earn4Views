@@ -23,11 +23,16 @@ import { createContext, useState } from "react";
 import ForgotPassword from "./pages/Portfolio/ForgotPassword/ForgotPassword.jsx";
 import Earning from "./pages/Worker/Earning";
 import YoutubeSubscribeEarning from "./pages/Worker/Earning/YoutubeSubscriber";
+import { getUser } from "./utils/getUser.js";
 
 export const UserContext = createContext();
 
 function App() {
   const [user, setUser] = useState(null);
+  const token = localStorage.getItem("e4vToken");
+  if(!user && token){
+    getUser(token,setUser);
+  }
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <BrowserRouter>

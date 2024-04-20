@@ -10,6 +10,7 @@ const TotalEarningCard = () => {
 
   useEffect(() => {
     const fetchWorker = async () => {
+      if(!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/getworker", {
           headers: {

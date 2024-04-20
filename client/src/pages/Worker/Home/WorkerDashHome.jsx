@@ -15,6 +15,7 @@ const WorkerDashHome = () => {
 
   useEffect(() => {
     const fetchEarningPlans = async () => {
+      if(!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/getEarningPlans");
         if (!response.ok) {
@@ -33,6 +34,7 @@ const WorkerDashHome = () => {
     };
 
     const fetchWithdraws = async () => {
+      if(!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/withdaws", {
           headers: {
@@ -92,13 +94,6 @@ const WorkerDashHome = () => {
                 />
               );
           })}
-
-          {/* <WorkerYoutubePlatformCard
-            key={"id"}
-            Title={"Title"}
-            Earning={"earnign"}
-            EarningType={"Per View"}
-          /> */}
         </div>
 
         <div>
