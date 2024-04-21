@@ -8,6 +8,7 @@ import { UserContext } from "../../App";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Base_Api } from "../../utils/BaseApi";
+import LogoMain from "../../components/LogoMain";
 
 const Sidebar = () => {
   const { user } = useContext(UserContext);
@@ -18,7 +19,7 @@ const Sidebar = () => {
     if (!user) {
       if (!token) {
         navigate("/");
-      } 
+      }
     }
   }, [user]);
 
@@ -27,7 +28,7 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 py-4">
       <div className="flex flex-col items-center">
-        <img src={logo} className="size-12 md:size-20" />
+        <LogoMain />
         <div className="mt-8 md:mt-16 flex flex-col gap-4">
           <SidebarItem
             icon={<FaHome size={20} />}

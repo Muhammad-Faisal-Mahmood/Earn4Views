@@ -70,7 +70,9 @@ const WinningPlatformCard = ({ Title, Icon, Price }) => {
         {/* <p className="py-4 text-lg ">
           You can earn from youtube by just watching videos.
         </p> */}
-        <h1 className="text-2xl font-semibold pb-10">{Price}</h1>
+        <h1 className="text-2xl font-semibold pb-10">
+          ${Number(Price).toFixed(4)}
+        </h1>
       </div>
     </div>
   );

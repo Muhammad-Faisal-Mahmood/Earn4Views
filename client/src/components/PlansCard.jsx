@@ -13,7 +13,7 @@ const PlansCard = ({ title, price, features }) => {
   return (
     <div className="border-2 p-8 rounded-lg w-full">
       <h1 className="text-center text-2xl font-bold">{title}</h1>
-      <h1 className="font-bold text-4xl my-8">{price}</h1>
+      <h1 className="font-bold text-4xl my-8">${Number(price).toFixed(4)}</h1>
       <p className="font-bold text-xs my-6">FEATURES:</p>
       {features.map((feature, index) => (
         <div className="flex items-center gap-1" key={index}>

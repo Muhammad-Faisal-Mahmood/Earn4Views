@@ -40,7 +40,7 @@ const WinningPlatforms = () => {
             key={index}
             Title={card.Service}
             Icon={card.Channel.toLowerCase()}
-            Price={card.Price * 100 + "$"}
+            Price={card.Price * 100}
             // ConnectionName={"Alex Adamatz"}
             // ConnectionJobTitle={"Youtuber"}
             // ConnectionFollowerCount={"500k"}

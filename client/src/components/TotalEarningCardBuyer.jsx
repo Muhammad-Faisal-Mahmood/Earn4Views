@@ -3,13 +3,14 @@ import { IoCardOutline } from "react-icons/io5";
 import { Base_Api } from "../utils/BaseApi";
 import { UserContext } from "../App";
 import { ToastContainer, toast } from "react-toastify";
+import { FourDecimalPoints } from "../utils/FourDecimalPoints";
 
 const TotalEarningCardBuyer = () => {
   const [buyer, setBuyer] = useState(null);
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    if(!user) return
+    if (!user) return;
     const fetchBuyer = async () => {
       try {
         const response = await fetch(Base_Api + "api/buyer/getBuyer", {
@@ -44,7 +45,7 @@ const TotalEarningCardBuyer = () => {
 
         <h1 className="text-[#425166] text-xl">Your Balance</h1>
         <h1 className="text-[#151D48] font-bold text-2xl">
-          ${buyer?.Funds.toFixed(3)}
+          ${FourDecimalPoints(buyer?.Funds)}
         </h1>
       </div>
     </div>

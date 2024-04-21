@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import logo from "../../assets/svg/main-logo.svg";
 import { FaUserCircle } from "react-icons/fa";
 import { IoMenu } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import LogoMain from "../../components/LogoMain";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -13,7 +13,7 @@ const Header = () => {
       <div className="flex justify-between items-center px-4 md:px-8 md:py-2">
         <div>
           <Link to={"/"}>
-          <img src={logo} className="size-14 md:size-16" />
+            <LogoMain />
           </Link>
         </div>
         <div className="md:gap-12 font-bold text-white text-lg hidden md:flex">

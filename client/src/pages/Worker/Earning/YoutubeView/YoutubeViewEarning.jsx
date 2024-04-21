@@ -10,7 +10,7 @@ const YoutubeViewEarning = () => {
   const { user, setUser } = useContext(UserContext);
   const [videoData, setVideoData] = useState(null);
   const [noServicesAvailable, setNoServicesAvailable] = useState(false);
-  const [VideoPlayed, setVideoPlayed] = useState(false)
+  const [VideoPlayed, setVideoPlayed] = useState(false);
 
   useEffect(() => {
     fetchYoutubeVideo();
@@ -21,7 +21,7 @@ const YoutubeViewEarning = () => {
     if (!user.ip) {
       fetchUserIpAddress(setUser);
     }
-    setVideoPlayed(false)
+    setVideoPlayed(false);
     try {
       const response = await fetch(Base_Api + "api/worker/YoutubeView", {
         method: "POST",
@@ -39,7 +39,7 @@ const YoutubeViewEarning = () => {
       }
       setVideoData(data);
       setTimeout(() => {
-        setVideoPlayed(true)
+        setVideoPlayed(true);
       }, 180000);
     } catch (error) {
       console.error("Error fetching YouTube video:", error);
@@ -67,8 +67,7 @@ const YoutubeViewEarning = () => {
       if (data.success) {
         toast.success(data.message);
         fetchYoutubeVideo();
-      }
-      else {
+      } else {
         toast.error(data.message);
       }
     } catch (error) {
@@ -80,6 +79,7 @@ const YoutubeViewEarning = () => {
     { text: "3 Minute Watch video" },
     { text: "Click Next" },
     { text: "Earning will add" },
+    { text: "Do not close the tab or minimize it" },
   ];
 
   return (
@@ -105,7 +105,9 @@ const YoutubeViewEarning = () => {
             <button
               onClick={HandleYoutubeViewEarning}
               disabled={!VideoPlayed}
-              className={`two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl ${!VideoPlayed && 'opacity-30'}`}
+              className={`two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl ${
+                !VideoPlayed && "opacity-30"
+              }`}
             >
               Next
             </button>
@@ -124,60 +126,6 @@ const YoutubeViewEarning = () => {
 };
 
 export default YoutubeViewEarning;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, { useContext, useEffect, useRef, useState } from "react";
 // import EarningInstructions from "../../../../components/EarningInstructions";
@@ -253,7 +201,6 @@ export default YoutubeViewEarning;
 //       console.error("Error adding earning:", error);
 //     }
 //   };
-
 
 //   const playerRef = useRef(null);
 
@@ -337,11 +284,3 @@ export default YoutubeViewEarning;
 // };
 
 // export default YoutubeViewEarning;
-
-
-
-
-
-
-
-

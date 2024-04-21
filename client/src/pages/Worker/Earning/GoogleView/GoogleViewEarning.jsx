@@ -44,7 +44,6 @@ const GoogleViewEarning = () => {
     }
   };
 
-
   const HandleGoogleViewEarning = async () => {
     if (!user.ip) {
       fetchUserIpAddress(setUser);
@@ -95,6 +94,7 @@ const GoogleViewEarning = () => {
     { text: "Click button" },
     { text: "See website for 1 minute" },
     { text: "Earning will add" },
+    { text: "Do not close the tab or minimize it" },
   ];
   return (
     <>
@@ -102,11 +102,16 @@ const GoogleViewEarning = () => {
       <div className="mx-[7vw] flex flex-col gap-10 py-10 h-[100vh]">
         <EarningInstructions Instructions={GoogleViewEarningInstructions} />
         {websiteData && (
-          <Link onClick={() => {
-            if (!timerStarted) {
-              startTimer(); // Start timer only if not already running
-            }
-          }} to={websiteData.URL} target="_blank" className="text-white two-color-gradient-background w-full  text-center font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl">
+          <Link
+            onClick={() => {
+              if (!timerStarted) {
+                startTimer(); // Start timer only if not already running
+              }
+            }}
+            to={websiteData.URL}
+            target="_blank"
+            className="text-white two-color-gradient-background w-full  text-center font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl"
+          >
             Visit Website
           </Link>
         )}
@@ -114,7 +119,9 @@ const GoogleViewEarning = () => {
           <button
             disabled={!nextButtonState}
             onClick={HandleGoogleViewEarning}
-            className={`text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl ${!nextButtonState && "opacity-20"}`}
+            className={`text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl ${
+              !nextButtonState && "opacity-20"
+            }`}
           >
             Next
           </button>

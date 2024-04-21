@@ -3,6 +3,7 @@ import { IoCardOutline } from "react-icons/io5";
 import { Base_Api } from "../utils/BaseApi";
 import { UserContext } from "../App";
 import { ToastContainer, toast } from "react-toastify";
+import { FourDecimalPoints } from "../utils/FourDecimalPoints";
 
 const TotalEarningCard = () => {
   const [worker, setWorker] = useState(null);
@@ -10,7 +11,7 @@ const TotalEarningCard = () => {
 
   useEffect(() => {
     const fetchWorker = async () => {
-      if(!user) return;
+      if (!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/getworker", {
           headers: {
@@ -44,7 +45,7 @@ const TotalEarningCard = () => {
 
         <h1 className="text-[#425166] text-xl">Total Earning</h1>
         <h1 className="text-[#151D48] font-bold text-2xl">
-          ${worker?.Earning.toFixed(3)}
+          ${FourDecimalPoints(worker?.Earning)}
         </h1>
       </div>
     </div>

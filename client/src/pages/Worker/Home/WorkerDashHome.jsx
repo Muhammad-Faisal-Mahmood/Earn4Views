@@ -15,7 +15,7 @@ const WorkerDashHome = () => {
 
   useEffect(() => {
     const fetchEarningPlans = async () => {
-      if(!user) return;
+      if (!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/getEarningPlans");
         if (!response.ok) {
@@ -34,7 +34,7 @@ const WorkerDashHome = () => {
     };
 
     const fetchWithdraws = async () => {
-      if(!user) return;
+      if (!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/withdaws", {
           headers: {
@@ -47,9 +47,10 @@ const WorkerDashHome = () => {
         const data = await response.json();
         if (data.success) {
           setWithdraws(data.withdraw);
-        } else {
-          toast.error(data.message);
         }
+        //  else {
+        //   toast.error(data.message);
+        // }
       } catch (error) {
         toast.error(error.message);
       }
@@ -80,7 +81,7 @@ const WorkerDashHome = () => {
                 <WorkerYoutubePlatformCard
                   key={plan._id}
                   Title={plan.Service}
-                  Earning={`$${plan.Price}`}
+                  Earning={plan.Price}
                   EarningType={"Per View"}
                 />
               );
@@ -89,7 +90,7 @@ const WorkerDashHome = () => {
                 <WorkerGooglePlatformCard
                   key={plan._id}
                   Title={plan.Service}
-                  Earning={`$${plan.Price}`}
+                  Earning={plan.Price}
                   EarningType={"Per View"}
                 />
               );

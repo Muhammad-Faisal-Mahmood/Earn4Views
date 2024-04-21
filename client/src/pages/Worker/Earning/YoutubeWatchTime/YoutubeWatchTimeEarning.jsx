@@ -9,22 +9,21 @@ import { ToastContainer, toast } from "react-toastify";
 const YoutubeWatchTimeEarning = () => {
   const { user, setUser } = useContext(UserContext);
   const [videoData, setVideoData] = useState(null);
-  const [VideoPlayed, setVideoPlayed] = useState(false)
+  const [VideoPlayed, setVideoPlayed] = useState(false);
   const [noServicesAvailable, setNoServicesAvailable] = useState(false);
 
-  const [urlKey, seturlKey] = useState(null)
+  const [urlKey, seturlKey] = useState(null);
 
   useEffect(() => {
     fetchYoutubeVideo();
     fetchUserIpAddress(setUser);
   }, []);
 
-
   const fetchYoutubeVideo = async () => {
     if (!user.ip) {
       fetchUserIpAddress(setUser);
     }
-    setVideoPlayed(false)
+    setVideoPlayed(false);
     try {
       const response = await fetch(Base_Api + "api/worker/YoutubeWatchTime", {
         method: "POST",
@@ -41,8 +40,8 @@ const YoutubeWatchTimeEarning = () => {
         return;
       }
       setVideoData(data);
-      seturlKey(getYouTubeID(data?.URL))
-      let url=getYouTubeID(data?.URL)
+      seturlKey(getYouTubeID(data?.URL));
+      let url = getYouTubeID(data?.URL);
       // playerRef.current = new YT.Player('youtube-player', {
       //   height: '360',
       //   width: '640',
@@ -64,23 +63,22 @@ const YoutubeWatchTimeEarning = () => {
 
   useEffect(() => {
     if (urlKey && user.ip) {
-      playerRef.current = new YT.Player('youtube-player', {
-        height: '360',
-        width: '640',
+      playerRef.current = new YT.Player("youtube-player", {
+        height: "360",
+        width: "640",
         videoId: urlKey,
         playerVars: {
           autoplay: 1,
           controls: 0,
-          showinfo: 0
+          showinfo: 0,
         },
         events: {
-          'onReady': onPlayerReady,
-          'onStateChange': onPlayerStateChange
-        }
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange,
+        },
       });
     }
   }, [urlKey, user.ip]);
-  
 
   const destroyPlayer = () => {
     if (playerRef.current) {
@@ -108,9 +106,9 @@ const YoutubeWatchTimeEarning = () => {
       const data = await response.json();
       if (data.success) {
         toast.success(data.message);
-        const play= document.getElementById("youtube-player");
-        play.innerHTML=''
-        destroyPlayer()
+        const play = document.getElementById("youtube-player");
+        play.innerHTML = "";
+        destroyPlayer();
         fetchYoutubeVideo();
       } else {
         toast.error(data.message);
@@ -120,10 +118,7 @@ const YoutubeWatchTimeEarning = () => {
     }
   };
 
-
   const playerRef = useRef(null);
-
-
 
   const onPlayerReady = (event) => {
     // You can do something when the player is ready
@@ -149,24 +144,24 @@ const YoutubeWatchTimeEarning = () => {
         const player = playerRef.current;
         const currentTime = player.getCurrentTime();
         const duration = player.getDuration();
-  
-        console.log('Current time:', currentTime);
-        console.log(duration)
-  
-        if (currentTime >= duration-10) {
-          console.log('Video has been played to full duration');
+
+        console.log("Current time:", currentTime);
+        console.log(duration);
+
+        if (currentTime >= duration - 10) {
+          console.log("Video has been played to full duration");
           setVideoPlayed(true);
           clearInterval(intervalId); // Stop the interval once video is played to full duration
         }
       }, 1000); // Update every second
     }
   };
-  
 
   const YoutubeWatchTimeEarningInstructions = [
     { text: "Watch full video" },
     { text: "Click Next" },
     { text: "Earning will add" },
+    { text: "Do not close the tab or minimize it" },
   ];
   return (
     <>
@@ -194,7 +189,10 @@ const YoutubeWatchTimeEarning = () => {
             <button
               disabled={!VideoPlayed}
               onClick={HandleWatchTimeEarning}
-              className={`two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl ${!VideoPlayed && "opacity-30"}`}>
+              className={`two-color-gradient-background-vertical text-white px-16  font-bold py-4 rounded-md text-xl md:text-2xl lg:text-3xl ${
+                !VideoPlayed && "opacity-30"
+              }`}
+            >
               Next
             </button>
           </div>

@@ -8,6 +8,7 @@ import { UserContext } from "../../App";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Base_Api } from "../../utils/BaseApi";
+import LogoMain from "../../components/LogoMain";
 
 const Sidebar = () => {
   const { user } = useContext(UserContext);
@@ -16,18 +17,16 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (!user) {
-      if(!token){
+      if (!token) {
         navigate("/");
       }
     }
   }, []);
 
-
-
   return (
     <div className="flex flex-col h-[100vh] justify-between two-color-gradient-background-vertical px-2 py-4">
       <div className="flex flex-col items-center">
-        <img src={logo} className="size-12 md:size-20" />
+        <LogoMain />
         <div className="mt-8 md:mt-16 flex flex-col gap-4">
           <SidebarItem
             icon={<FaHome size={20} />}
@@ -53,8 +52,15 @@ const Sidebar = () => {
       </div>
       <div className="hidden lg:flex gap-2  my-4 ">
         <div>
-          {!user?.ProfilePhoto && <FaUserCircle size={45} className="text-slate-400" />}
-          {user?.ProfilePhoto && <img src={`${Base_Api + "uploads/"+ user?.ProfilePhoto}`} className="size-12 rounded-full" />}
+          {!user?.ProfilePhoto && (
+            <FaUserCircle size={45} className="text-slate-400" />
+          )}
+          {user?.ProfilePhoto && (
+            <img
+              src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
+              className="size-12 rounded-full"
+            />
+          )}
         </div>
         <div>
           <div className="flex items-center gap-2">

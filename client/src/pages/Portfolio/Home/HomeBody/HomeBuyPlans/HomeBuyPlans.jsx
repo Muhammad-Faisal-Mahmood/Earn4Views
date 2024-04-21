@@ -8,10 +8,7 @@ const HomeBuyPlans = () => {
   useEffect(() => {
     const fetchPlans = async () => {
       try {
-        const response = await fetch(
-          Base_Api +
-          "api/userAuth/getPlans"
-        );
+        const response = await fetch(Base_Api + "api/userAuth/getPlans");
         const data = await response.json();
         console.log(data?.plan);
         setbuyPlanData(data?.plan);
@@ -33,7 +30,7 @@ const HomeBuyPlans = () => {
           <PlansCard
             key={index}
             title={plan.Service}
-            price={"$ " + plan.Price * 100}
+            price={plan.Price * 100}
             features={["100 Subscribers"]}
           />
         ))}

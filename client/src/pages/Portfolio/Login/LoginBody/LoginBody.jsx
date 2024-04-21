@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../../App";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchUserIpAddress } from "../../../../utils/FetchUsersIp";
 
 const LoginBody = () => {
   const { user, setUser } = useContext(UserContext);
@@ -35,6 +36,8 @@ const LoginBody = () => {
       return;
     }
 
+    fetchUserIpAddress(setUser);
+
     try {
       const response = await fetch(Base_Api + "api/userAuth/createuser", {
         method: "POST",
@@ -46,13 +49,13 @@ const LoginBody = () => {
           Email: emailRef.current.value,
           Role: userRole,
           Password: passwordRef.current.value,
+          IPAddress: user.ip,
         }),
       });
 
-      if (response.ok) {
+      const responseData = await response.json();
+      if (responseData.success) {
         try {
-          const responseData = await response.json();
-
           if (responseData.AuthToken) {
             // If AuthToken exists, navigate to 'otp-verification' route
             localStorage.setItem("e4vToken", responseData.AuthToken);
@@ -67,7 +70,6 @@ const LoginBody = () => {
         }
       } else {
         // Handle errors
-        const responseData = await response.json();
         toast.error(responseData.error);
         console.error("Error creating user:", responseData.error);
       }
@@ -91,37 +93,50 @@ const LoginBody = () => {
         }),
       });
 
-      if (response.ok) {
-        try {
-          const responseData = await response.json();
-          console.log("User loggedin successfully, data: ", responseData);
+      const responseData = await response.json();
+      if (responseData.success) {
+        if (responseData.Email === false) {
+          toast.error(`${responseData.Message}`);
 
-          if (responseData.AuthToken) {
-            localStorage.setItem("e4vToken", responseData.AuthToken);
-            console.log("logged in user auth token: ", responseData.AuthToken);
-            const userData = await fetch(Base_Api + "api/userAuth/getuser", {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                "auth-token": responseData.AuthToken,
-              },
-            });
-            if (userData.ok) {
-              try {
-                const userDataJson = await userData.json();
-                console.log("userData :", userDataJson);
-                setUser({
-                  authToken: responseData.AuthToken,
-                  ...userDataJson.userData,
-                });
-              } catch (e) {
-                console.log("Error fetching user data: ", e);
+          toast.info(`Redirecting to OTP verification page...`);
+
+          setTimeout(() => {
+            navigate("/otp-verification");
+          }, 6000);
+        } else {
+          try {
+            console.log("User loggedin successfully, data: ", responseData);
+
+            if (responseData.AuthToken) {
+              localStorage.setItem("e4vToken", responseData.AuthToken);
+              console.log(
+                "logged in user auth token: ",
+                responseData.AuthToken
+              );
+              const userData = await fetch(Base_Api + "api/userAuth/getuser", {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  "auth-token": responseData.AuthToken,
+                },
+              });
+              if (userData.ok) {
+                try {
+                  const userDataJson = await userData.json();
+                  console.log("userData :", userDataJson);
+                  setUser({
+                    authToken: responseData.AuthToken,
+                    ...userDataJson.userData,
+                  });
+                } catch (e) {
+                  console.log("Error fetching user data: ", e);
+                }
               }
             }
+            // Handle success, maybe redirect user or show a success message
+          } catch (error) {
+            console.error("Error parsing JSON response:", error.message);
           }
-          // Handle success, maybe redirect user or show a success message
-        } catch (error) {
-          console.error("Error parsing JSON response:", error.message);
         }
       } else {
         const responseData = await response.json();

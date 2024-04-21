@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { Link, Navigate } from "react-router-dom";
 import { Base_Api } from "../../utils/BaseApi";
+import { FourDecimalPoints } from "../../utils/FourDecimalPoints";
 
 const Header = () => {
   const [openDropDown, setOpenDropDown] = useState(false);
@@ -89,14 +90,14 @@ const Header = () => {
           )}
         </div>
         {openDropDown && (
-          <div className="absolute top-14 right-0 two-color-gradient-background text-neutral-200 p-2 rounded-md flex flex-col gap-2 ">
+          <div className="absolute top-14 right-0 two-color-gradient-background text-neutral-200 p-2 rounded-md w-52  flex flex-col gap-2 ">
             <Link to={"/dashboard/worker/profile"}>
               <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
                 Profile
               </h1>
             </Link>
             <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
-              Balance: ${worker?.Earning.toFixed(3)}
+              Balance: ${FourDecimalPoints(worker?.Earning) || 0.0}
             </h1>
             <Link to={"/login"}>
               <h1

@@ -19,7 +19,7 @@ const WorkerDashWithdraw = () => {
 
   useEffect(() => {
     const fetchWithdraws = async () => {
-      if(!user) return;
+      if (!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/withdaws", {
           headers: {
@@ -32,16 +32,17 @@ const WorkerDashWithdraw = () => {
         const data = await response.json();
         if (data.success) {
           setWithdraws(data.withdraw);
-        } else {
-          toast.error(data.message);
         }
+        //  else {
+        //   toast.error(data.message);
+        // }
       } catch (error) {
         toast.error(error.message);
       }
     };
 
     const getWorkerPaymentMethod = async () => {
-      if(!user) return;
+      if (!user) return;
       try {
         const response = await fetch(Base_Api + "api/worker/getaccount", {
           headers: {

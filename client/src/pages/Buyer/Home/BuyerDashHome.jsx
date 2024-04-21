@@ -41,20 +41,21 @@ const BuyerDashHome = () => {
         console.log("data received: ", data);
         if (data.success) {
           setServices(data.services);
-        } else {
-          toast.error(data.message);
         }
+        //  else {
+        //   toast.error(data.message);
+        // }
       } catch (error) {
-        toast.error("Error fetching services:", error);
+        // toast.error("Error fetching services:", error);
       }
     };
 
     fetchPlans();
     fetchServices();
-  }, []);
+  }, [user]);
 
-  console.log("buyer plans: ", plans);
-  console.log("buyer taken services: ", services);
+  // console.log("buyer plans: ", plans);
+  // console.log("buyer taken services: ", services);
 
   return (
     <>
@@ -117,7 +118,7 @@ const BuyerDashHome = () => {
             <PlansCardBuyer
               key={index}
               title={plan.Service}
-              price={"$" + plan.Price * 100}
+              price={plan.Price * 100}
               features={["100 subscribers"]}
             />
           ))}

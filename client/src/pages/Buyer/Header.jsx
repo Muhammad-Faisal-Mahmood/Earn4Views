@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import { Link, Navigate } from "react-router-dom";
 import { Base_Api } from "../../utils/BaseApi";
+import { FourDecimalPoints } from "../../utils/FourDecimalPoints";
 // import { ToastContainer, toast } from "react-toastify";
 
 const Header = () => {
@@ -61,26 +62,26 @@ const Header = () => {
           <IoIosNotificationsOutline size={22} className="text-neutral-500" />
         </div> */}
           <div className="hidden md:flex">
-          {!user?.ProfilePhoto && (
-            <FaUserCircle size={45} className="text-slate-400" />
-          )}
-          {user?.ProfilePhoto && (
-            <img
-              src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
-              className="size-12 rounded-full"
-            />
-          )}
+            {!user?.ProfilePhoto && (
+              <FaUserCircle size={45} className="text-slate-400" />
+            )}
+            {user?.ProfilePhoto && (
+              <img
+                src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
+                className="size-12 rounded-full"
+              />
+            )}
           </div>
           <div className="md:hidden">
-          {!user?.ProfilePhoto && (
-            <FaUserCircle size={45} className="text-slate-400" />
-          )}
-          {user?.ProfilePhoto && (
-            <img
-              src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
-              className="size-12 rounded-full"
-            />
-          )}
+            {!user?.ProfilePhoto && (
+              <FaUserCircle size={45} className="text-slate-400" />
+            )}
+            {user?.ProfilePhoto && (
+              <img
+                src={`${Base_Api + "uploads/" + user?.ProfilePhoto}`}
+                className="size-12 rounded-full"
+              />
+            )}
           </div>
           <div
             className="cursor-pointer"
@@ -93,14 +94,14 @@ const Header = () => {
             )}
           </div>
           {openDropDown && (
-            <div className="absolute top-14 right-0 two-color-gradient-background text-neutral-200 p-2 rounded-md flex flex-col gap-2 w-40">
+            <div className="absolute top-14 right-0 w-52 two-color-gradient-background text-neutral-200 p-2 rounded-md flex flex-col gap-2">
               <Link to={"/dashboard/buyer/profile"}>
                 <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
                   Profile
                 </h1>
               </Link>
               <h1 className="hover:text-white px-2 py-1 rounded-md hover:bg-neutral-100 hover:bg-opacity-20 cursor-pointer">
-                Balance: ${buyer?.Funds.toFixed(3) || 0.000}
+                Balance: ${FourDecimalPoints(buyer?.Funds) || 0.0}
               </h1>
               <Link to={"/login"}>
                 <h1

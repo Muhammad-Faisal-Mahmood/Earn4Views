@@ -46,8 +46,8 @@ const GoogleAdViewEarning = () => {
   };
 
   const HandleGoogleViewEarning = async () => {
-    if(WebsiteCode.current.value == ""){
-      toast.warning('Please Enter the copied code');
+    if (WebsiteCode.current.value == "") {
+      toast.warning("Please Enter the copied code");
       return;
     }
     if (!user.ip) {
@@ -98,6 +98,7 @@ const GoogleAdViewEarning = () => {
     { text: "See website till end" },
     // { text: "Add code in input field" },
     { text: "Earning will add" },
+    { text: "Do not close the tab or minimize it" },
   ];
   return (
     <>
@@ -132,7 +133,9 @@ const GoogleAdViewEarning = () => {
           <button
             disabled={!nextButtonState}
             onClick={HandleGoogleViewEarning}
-            className={`text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl ${!nextButtonState && "opacity-20"}`}
+            className={`text-[#532283] border-2 border-[#521E5B] w-full  font-bold rounded-md py-5 text-xl md:text-2xl lg:text-3xl ${
+              !nextButtonState && "opacity-20"
+            }`}
           >
             Next
           </button>
