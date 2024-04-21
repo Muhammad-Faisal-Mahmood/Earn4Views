@@ -114,6 +114,11 @@ router.post("/createuser", async (req, res) => {
             return res.status(404).json({ success, error: "This Email already exist" })
         }
 
+        user = await User.findOne({ IPAddress: req.body.IPAddress })
+        if (user) {
+            return res.status(404).json({ success, error: "This Email already exist" })
+        }
+
 
         const Salt = await bcrypt.genSalt(10);
         const SecPassword = await bcrypt.hash(req.body.Password, Salt)
@@ -122,15 +127,16 @@ router.post("/createuser", async (req, res) => {
             Name: req.body.Name,
             Email: req.body.Email,
             Role: req.body.Role,
+            IPAddress: req.body.IPAddress,
             Password: SecPassword
         })
 
-        if(req.body.Role=='Buyer'){
+        if (req.body.Role == 'Buyer') {
             let buyer = await Buyer.create({
                 User_id: user.id,
                 Funds: 0,
             })
-        }else if(req.body.Role=='Worker'){
+        } else if (req.body.Role == 'Worker') {
             let worker = await Worker.create({
                 User_id: user.id,
                 Earning: 0,
@@ -317,7 +323,7 @@ router.post("/loginuser", async (req, res) => {
 
         const AuthToken = jwt.sign(Payload, JWT_KEY);
         success = true;
-        
+
         if (!user.Is_Verfied) {
             await sendOTPEmail(user._id, user.Email);
             return res.json({ success: true, Email: false, Message: "Email Verification Required", AuthToken });
@@ -333,30 +339,30 @@ router.post("/loginuser", async (req, res) => {
 
 //Upload Profile Image
 router.put("/UpProImg", fetchuser, PhotosUploader.single('Proimg'), async (req, res) => {
-        try {
-            let userid = req.user.id;
-            console.log(1)
-            console.log(req.file)
-            let path = req.file.path;
-            console.log(2)
-            let remainingUrl = path.replace('uploads/', '')
-            console.log(3)
-            
-            const user = await User.findById({ _id: userid }).select("ProfilePhoto");
-            if (!user) {
-                return res.status(404).json({ success: false, message: "User not found" });
-            }
+    try {
+        let userid = req.user.id;
+        console.log(1)
+        console.log(req.file)
+        let path = req.file.path;
+        console.log(2)
+        let remainingUrl = path.replace('uploads/', '')
+        console.log(3)
 
-            await User.findOneAndUpdate(
-                { _id: userid },
-                { ProfilePhoto: remainingUrl }
-            );
-            res.json({ success: true });
-        } catch (error) {
-            console.error(error);
-            console.log(error);
-            res.status(500).send('Error occurred');
+        const user = await User.findById({ _id: userid }).select("ProfilePhoto");
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
         }
+
+        await User.findOneAndUpdate(
+            { _id: userid },
+            { ProfilePhoto: remainingUrl }
+        );
+        res.json({ success: true });
+    } catch (error) {
+        console.error(error);
+        console.log(error);
+        res.status(500).send('Error occurred');
+    }
 });
 
 //Get User Data
@@ -437,7 +443,7 @@ router.put("/UpdateUser",
             console.error(error);
             res.status(500).json({ success: false, message: 'Error occurred' });
         }
-});
+    });
 
 //Update CNIC
 router.put("/UpdateCNIC", fetchuser,
@@ -487,7 +493,7 @@ router.put("/UpdateCNIC", fetchuser,
 
             res.status(500).json({ success: false, message: 'Error occurred' });
         }
-});
+    });
 
 //Change Password
 router.put("/ChangePassword", fetchuser, async (req, res) => {

@@ -50,7 +50,7 @@ const Earning = () => {
                 <WorkerYoutubePlatformCard
                   key={plan._id}
                   Title={plan.Service}
-                  Earning={`$${plan.Price * 100}`}
+                  Earning={`$${plan.Price}`}
                   EarningType={"Per View"}
                 />
               );
@@ -59,7 +59,7 @@ const Earning = () => {
                 <WorkerGooglePlatformCard
                   key={plan._id}
                   Title={plan.Service}
-                  Earning={`$${plan.Price * 100}`}
+                  Earning={`$${plan.Price}`}
                   EarningType={"Per View"}
                 />
               );

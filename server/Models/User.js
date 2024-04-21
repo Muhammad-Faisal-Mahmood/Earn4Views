@@ -42,6 +42,10 @@ const userSchema = new Schema({
         type: String,
         enum: ["Male", "Female"]
     },
+    IPAddress:{
+        type:String,
+        unique: true
+    },
     Date: {
         type: Date,
         default: new Date
