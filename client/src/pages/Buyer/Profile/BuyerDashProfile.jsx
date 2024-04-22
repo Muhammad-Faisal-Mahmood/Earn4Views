@@ -10,6 +10,7 @@ import { Base_Api } from "../../../utils/BaseApi";
 import { ToastContainer, toast } from "react-toastify";
 import { FaUserCircle } from "react-icons/fa";
 import { ValidateUserUpdateData } from "../../../utils/UpdateUserInputValidation";
+import { getUser } from "../../../utils/getUser";
 
 const BuyerDashProfile = () => {
   const { user, setUser, getUserByToken } = useContext(UserContext);
@@ -22,6 +23,18 @@ const BuyerDashProfile = () => {
   const focusedInputs = useRef([]);
 
   console.log("user data:", user)
+
+  useEffect(() => {
+    setFields({
+      Name: user?.Name || "",
+      Phone: user?.Phone || "",
+      Age: user?.Age || "",
+      Gender: user?.Gender || "",
+      Email: user?.Email || "",
+      CNIC: user?.CNIC || "",
+    })
+  }, [user])
+  
 
   const [fields, setFields] = useState({
     Name: user?.Name || "",
@@ -182,7 +195,7 @@ const BuyerDashProfile = () => {
       if (data?.success) {
         toast.success("CNIC updated successfully");
       } else {
-        toast.message(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
       // Handle network or other errors
@@ -211,9 +224,10 @@ const BuyerDashProfile = () => {
       if (data?.success) {
         getProfileImage();
         toast.success("Profile photo updated successfully");
+        setProfileImage(null);
 
       } else {
-        toast.message(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
       // Handle network or other errors
@@ -243,7 +257,7 @@ const BuyerDashProfile = () => {
           }));
         }
       } else {
-        toast.message(data.message);
+        toast.error(data.message);
       }
     } catch (error) {
       // Handle network or other errors

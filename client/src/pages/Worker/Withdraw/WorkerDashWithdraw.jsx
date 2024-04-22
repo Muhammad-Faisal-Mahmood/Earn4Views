@@ -26,9 +26,6 @@ const WorkerDashWithdraw = () => {
             "auth-token": user.authToken,
           },
         });
-        if (!response.ok) {
-          throw new Error("Failed to fetch withdraws");
-        }
         const data = await response.json();
         if (data.success) {
           setWithdraws(data.withdraw);

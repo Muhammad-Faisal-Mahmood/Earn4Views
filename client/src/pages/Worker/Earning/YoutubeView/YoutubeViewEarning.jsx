@@ -15,7 +15,7 @@ const YoutubeViewEarning = () => {
   useEffect(() => {
     fetchYoutubeVideo();
     fetchUserIpAddress(setUser);
-  }, []);
+  }, [user]);
 
   const fetchYoutubeVideo = async () => {
     if (!user.ip) {
