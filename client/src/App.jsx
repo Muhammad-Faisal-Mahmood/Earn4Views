@@ -33,7 +33,6 @@ function App() {
 
   useEffect(() => {
     getUserByToken();
-    return localStorage.removeItem("e4vToken");
   }, []);
 
   const getUserByToken = async () => {

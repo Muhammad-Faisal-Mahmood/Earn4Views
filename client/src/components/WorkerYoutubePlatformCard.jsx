@@ -24,7 +24,7 @@ const WorkerYoutubePlatformCard = ({ Title, EarningType, Earning }) => {
         <div className="absolute bottom-5 rounded-b-md flex flex-col w-full items-center justify-center text-center text-2xl font-semibold text-white">
           <h1 className=" font-semibold text-[12px]">
             {EarningType}
-            <span className="ml-2">{FourDecimalPoints(Earning)}</span>
+            <span className="ml-2">${FourDecimalPoints(Earning)}</span>
           </h1>
           <Link
             to={"/dashboard/worker/earning/youtube/" + route}
