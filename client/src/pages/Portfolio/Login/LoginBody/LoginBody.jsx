@@ -1,4 +1,4 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState, useContext, useEffect } from "react";
 import circle from "../../../../assets/svg/circle1.svg";
 import polygon from "../../../../assets/svg/polygon1.svg";
 import Polygonrev from "../../../../assets/svg/polygon2.svg";
@@ -22,6 +22,13 @@ const LoginBody = () => {
   const loginPasswordRef = useRef("");
   console.log("user context: ", user);
 
+  useEffect(() => {
+    if(!isSignIn) gettingIp();
+  }, [isSignIn])
+  
+  const gettingIp = async() => await fetchUserIpAddress(setUser);
+  
+
   const handleSignUp = async (e) => {
     e.preventDefault();
 
@@ -36,7 +43,7 @@ const LoginBody = () => {
       return;
     }
 
-    fetchUserIpAddress(setUser);
+    
 
     try {
       const response = await fetch(Base_Api + "api/userAuth/createuser", {
@@ -96,6 +103,10 @@ const LoginBody = () => {
       const responseData = await response.json();
       if (responseData.success) {
         if (responseData.Email === false) {
+          setUser((prevUser) => ({
+            ...prevUser,
+            authToken: responseData.AuthToken,
+          }))
           toast.error(`${responseData.Message}`);
 
           toast.info(`Redirecting to OTP verification page...`);

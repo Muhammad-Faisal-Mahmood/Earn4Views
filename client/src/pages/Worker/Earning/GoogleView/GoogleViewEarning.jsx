@@ -17,7 +17,7 @@ const GoogleViewEarning = () => {
   useEffect(() => {
     fetchWebsite();
     fetchUserIpAddress(setUser);
-  }, []);
+  }, [user]);
 
   const fetchWebsite = async () => {
     if (!user.ip) {
