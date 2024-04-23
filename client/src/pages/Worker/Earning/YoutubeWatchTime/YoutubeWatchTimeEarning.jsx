@@ -12,6 +12,8 @@ const YoutubeWatchTimeEarning = () => {
   const [VideoPlayed, setVideoPlayed] = useState(false);
   const [noServicesAvailable, setNoServicesAvailable] = useState(false);
 
+  const [VideoPlay, setVideoPlay] = useState(false)
+
   const [urlKey, seturlKey] = useState(null);
 
   useEffect(() => {
@@ -20,6 +22,7 @@ const YoutubeWatchTimeEarning = () => {
   }, []);
 
   const fetchYoutubeVideo = async () => {
+    setVideoPlay(false)
     if (!user.ip) {
       fetchUserIpAddress(setUser);
     }
@@ -68,9 +71,9 @@ const YoutubeWatchTimeEarning = () => {
         width: "640",
         videoId: urlKey,
         playerVars: {
-          autoplay: 1,
+          // autoplay: 1,
           controls: 0,
-          showinfo: 0,
+          // showinfo: 0,
         },
         events: {
           onReady: onPlayerReady,
@@ -124,19 +127,6 @@ const YoutubeWatchTimeEarning = () => {
     // You can do something when the player is ready
   };
 
-  // Callback function to track video time
-  // const onPlayerStateChange = (event) => {
-  //   if (event.data === YT.PlayerState.PLAYING) {
-  //     setInterval(() => {
-  //       console.log('Current time:', playerRef.current.getCurrentTime());
-  //       const currentTime = playerRef.current.getCurrentTime();
-  //       if (currentTime >= 10) {
-  //         console.log('Video has been playing for 3 minutes');
-  //         setVideoPlayed(true)
-  //       }
-  //     }, 1000); // Update every second
-  //   }
-  // };
 
   const onPlayerStateChange = (event) => {
     if (event.data === YT.PlayerState.PLAYING) {
@@ -163,6 +153,16 @@ const YoutubeWatchTimeEarning = () => {
     { text: "Earning will add" },
     { text: "Do not close the tab or minimize it" },
   ];
+
+
+  const startVideoPlayback = () => {
+    if (playerRef.current) {
+      setVideoPlay(true)
+      playerRef.current.playVideo();
+    }
+  };
+  
+
   return (
     <>
       <ToastContainer />
@@ -171,8 +171,12 @@ const YoutubeWatchTimeEarning = () => {
           Instructions={YoutubeWatchTimeEarningInstructions}
         />
         {urlKey && (
-          <div className="w-full h-[50vh] bg-[#E3E1E1] rounded-lg flex items-center pointer-events-none justify-center">
-            <div id="youtube-player"></div>
+          <div 
+            className={`w-full h-[50vh] bg-[#E3E1E1] rounded-lg flex items-center ${VideoPlay && "pointer-events-none"} justify-center`} 
+            id="YoutubeSection" 
+            onClick={startVideoPlayback}
+          >
+            <div id="youtube-player" className="pointer-events-none"></div>
             {/* <iframe
               width={"100%"}
               height={"100%"}
