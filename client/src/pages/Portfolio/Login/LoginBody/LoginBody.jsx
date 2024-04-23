@@ -113,7 +113,7 @@ const LoginBody = () => {
 
           setTimeout(() => {
             navigate("/otp-verification");
-          }, 6000);
+          }, 2000);
         } else {
           try {
             console.log("User loggedin successfully, data: ", responseData);
