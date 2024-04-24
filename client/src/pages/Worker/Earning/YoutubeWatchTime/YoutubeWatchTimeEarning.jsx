@@ -17,9 +17,11 @@ const YoutubeWatchTimeEarning = () => {
   const [urlKey, seturlKey] = useState(null);
 
   useEffect(() => {
-    fetchYoutubeVideo();
-    fetchUserIpAddress(setUser);
-  }, [user]);
+    if(user){
+      fetchYoutubeVideo();
+      fetchUserIpAddress(setUser);
+    }
+  }, []);
 
   const fetchYoutubeVideo = async () => {
     setVideoPlay(false)
@@ -157,8 +159,8 @@ const YoutubeWatchTimeEarning = () => {
 
   const startVideoPlayback = () => {
     if (playerRef.current) {
-      setVideoPlay(true)
       playerRef.current.playVideo();
+      setVideoPlay(true)
     }
   };
   
