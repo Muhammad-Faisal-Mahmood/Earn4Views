@@ -47,22 +47,25 @@ const CNICStorage = multer.diskStorage({
 const CNICUploader = multer({ storage: CNICStorage });
 
 
-let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+const transporter = nodemailer.createTransport({
+    host: "smtp.hostinger.com",
     port: 465,
-    secure: true, // true for 465, false for other ports
+    secure: true,
     auth: {
-        user: 'ipocryptos@gmail.com', // Your Gmail email address
-        pass: 'ixbw rudr efft hedl', // Your Gmail app password or an app-specific password
+      user: "no-reply@earn4views.com",
+      pass: "ZXCVBNM8j@",
     },
-})
+    tls: {
+      rejectUnauthorized: false,
+    },
+  });
 
 const sendOTPEmail = async (id, email, res) => {
     try {
         const otp = `${Math.floor(1000 + Math.random() * 9000)}`
 
         const mailOptions = {
-            from: "ipocryptos@gmail.com",
+            from: "no-reply@earn4views.com",
             to: email,
             subject: `Verify Your Email`,
             html: `<p>Enter <b>${otp}</b> in the app to verify your email address and complete the proccess of Signup</p>

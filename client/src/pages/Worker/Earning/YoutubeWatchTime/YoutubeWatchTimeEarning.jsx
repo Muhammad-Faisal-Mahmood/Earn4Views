@@ -5,6 +5,7 @@ import { fetchUserIpAddress } from "../../../../utils/FetchUsersIp";
 import { Base_Api } from "../../../../utils/BaseApi";
 import getYouTubeID from "get-youtube-id";
 import { ToastContainer, toast } from "react-toastify";
+import { secondsToMinutes } from "../../../../utils/SecondMintue";
 
 const YoutubeWatchTimeEarning = () => {
   const { user, setUser } = useContext(UserContext);
@@ -13,6 +14,7 @@ const YoutubeWatchTimeEarning = () => {
   const [noServicesAvailable, setNoServicesAvailable] = useState(false);
 
   const [VideoPlay, setVideoPlay] = useState(false)
+  const [WatchedTime, setWatchedTime] = useState(null)
 
   const [urlKey, seturlKey] = useState(null);
 
@@ -96,6 +98,7 @@ const YoutubeWatchTimeEarning = () => {
       fetchUserIpAddress(setUser);
     }
     try {
+      const Minutes=await secondsToMinutes(WatchedTime)
       const response = await fetch(Base_Api + "api/worker/YoutubeWatchEarn", {
         method: "POST",
         headers: {
@@ -105,6 +108,7 @@ const YoutubeWatchTimeEarning = () => {
         body: JSON.stringify({
           IP_Address: user.ip,
           service_id: videoData._id,
+          Minutes:Minutes
         }),
       });
 
@@ -137,11 +141,8 @@ const YoutubeWatchTimeEarning = () => {
         const currentTime = player.getCurrentTime();
         const duration = player.getDuration();
 
-        console.log("Current time:", currentTime);
-        console.log(duration);
-
         if (currentTime >= duration - 10) {
-          console.log("Video has been played to full duration");
+          setWatchedTime(currentTime)
           setVideoPlayed(true);
           clearInterval(intervalId); // Stop the interval once video is played to full duration
         }

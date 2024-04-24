@@ -19,7 +19,18 @@ const Service = require("../Models/ServiceTaken");
 const WorkerAccount = require("../Models/WorkerPay");
 const WithdrawAccount = require("../Models/Withdraw");
 const WorkerTrack = require("../Models/WorkerTrack");
+const WorkerWatchTimeTrack = require("../Models/WorkerWatchTimeTrack");
+const mongoose = require("mongoose");
 
+
+
+function minutesToHours(minutes) {
+    // Convert minutes to hours
+    var hours = Math.floor(minutes / 60);
+    var result = hours ;
+
+    return result;
+}
 
 
 
@@ -193,7 +204,8 @@ router.post("/YoutubeView", fetchuser, async (req, res) => {
         const unusedServices = await Service.find({
             _id: { $nin: [...userServices, ...ipServices] },
             Channel: "Youtube",
-            Service: "Youtube View"
+            Service: "Youtube View",
+            Status: "Approved"
         });
 
         if (!unusedServices.length) {
@@ -264,16 +276,17 @@ router.post("/YoutubeWatchTime", fetchuser, async (req, res) => {
         }
 
         // Find services not used by the user
-        const userServices = await WorkerTrack.find({ User_id: userId }).distinct('Service_id');
+        const userServices = await WorkerWatchTimeTrack.find({ User_id: userId }).distinct('Service_id');
 
         // Find services used by the IP address
-        const ipServices = await WorkerTrack.find({ IP_Address: IP_Address }).distinct('Service_id');
+        const ipServices = await WorkerWatchTimeTrack.find({ IP_Address: IP_Address }).distinct('Service_id');
 
         // Find services not used by the user or the IP address
         const unusedServices = await Service.find({
             _id: { $nin: [...userServices, ...ipServices] },
             Channel: "Youtube",
-            Service: "Youtube Watch Time"
+            Service: "Youtube Watch Time",
+            Status: "Approved"
         });
 
         if (!unusedServices.length) {
@@ -293,7 +306,7 @@ router.post("/YoutubeWatchTime", fetchuser, async (req, res) => {
 
 router.post('/YoutubeWatchEarn', fetchuser, async (req, res) => {
     try {
-        const { IP_Address, service_id } = req.body
+        const { IP_Address, service_id, Minutes } = req.body
         const userId = req.user.id;
         let user = await User.findById(req.user.id);
 
@@ -303,18 +316,31 @@ router.post('/YoutubeWatchEarn', fetchuser, async (req, res) => {
 
         let service = await Service.findById(service_id);
 
-        let workertrack = await WorkerTrack.create({
+        let workertrack = await WorkerWatchTimeTrack.create({
             User_id: userId,
             Service_id: service_id,
-            IP_Address: IP_Address
+            IP_Address: IP_Address,
+            WatchTimeCount: Minutes
         })
 
-        let trackcount = await WorkerTrack.find({ Service_id: service_id }).countDocuments();
+        let trackdoccount = await WorkerWatchTimeTrack.find({ Service_id: service_id })
 
-        if (trackcount == service.Amount) {
-            await Service.findByIdAndUpdate(service_id, { Status: "Completed" })
-            await WorkerTrack.deleteMany({ Service_id: service_id })
+        if (trackdoccount.length > 0) {
+            let trackcount = 0
+            await trackdoccount.map((item) => {
+                trackcount += item.WatchTimeCount
+            })
+
+            
+            let trackcountHour = minutesToHours(trackcount)
+            if (trackcountHour >= service.Amount) {
+                await Service.findByIdAndUpdate(service_id, { Status: "Completed" })
+                await WorkerTrack.deleteMany({ Service_id: service_id })
+            }
         }
+
+
+
 
         let ServiceEarning = await Earning.findOne({ Service: "Youtube Watch Time" });
 
@@ -352,7 +378,8 @@ router.post("/YoutubeSubscriber", fetchuser, async (req, res) => {
         const unusedServices = await Service.find({
             _id: { $nin: [...userServices, ...ipServices] },
             Channel: "Youtube",
-            Service: "Youtube Subscriber"
+            Service: "Youtube Subscriber",
+            Status: "Approved"
         });
 
         if (!unusedServices.length) {
@@ -431,7 +458,8 @@ router.post("/GoogleViews", fetchuser, async (req, res) => {
         const unusedServices = await Service.find({
             _id: { $nin: [...userServices, ...ipServices] },
             Channel: "Google",
-            Service: "Google View"
+            Service: "Google View",
+            Status: "Approved"
         });
 
         if (!unusedServices.length) {
@@ -510,7 +538,8 @@ router.post("/GoogleAddViews", fetchuser, async (req, res) => {
         const unusedServices = await Service.find({
             _id: { $nin: [...userServices, ...ipServices] },
             Channel: "Google",
-            Service: "Google Add View"
+            Service: "Google Add View",
+            Status: "Approved"
         });
 
         if (!unusedServices.length) {
